@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home">
+    android:background="#A4A8A4"
+    tools:context=".main_package.home">
 
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:layout_constraintTop_toTopOf="parent"
-      android:layout_marginTop="30dp"
-      />
+    <TextView
+        android:id="@+id/BS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:gravity="center"
+        android:text="Best Score"
+        android:textColor="@color/teal_700"
+        android:textSize="32sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/BestScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/BS"
+        android:layout_marginTop="10dp"
+        android:textSize="28sp"
+        tools:text="0.00001 ms"
+        android:textColor="#BF1212"
+        android:gravity="center"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/StartTest"
+        android:layout_marginTop="170dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="  start  "
+        android:padding="28dp"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:background="@drawable/start_game_button"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
