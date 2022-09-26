@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Click"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4031659564383807~2855492659"/>
+
         <activity
             android:name=".info"
             android:parentActivityName=".main_package.MainActivity"
