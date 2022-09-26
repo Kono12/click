@@ -191,6 +191,9 @@ class the_game : Fragment() {
             if (i<score){
                 editor.putInt("high",score).commit()
             }
+
+            var money = sharedPreferencee.getLong("UserMoney",0)
+            editor.putLong("UserMoney", money + score).commit()
             try {
                 if (mInterstitialAd != null) {
                     mInterstitialAd?.show(requireActivity())

@@ -8,6 +8,31 @@
     tools:context=".main_package.home">
 
     <TextView
+        android:id="@+id/money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/Green"
+        android:text="Money : "
+        />
+
+    <TextView
+        android:id="@+id/userMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/money"
+        android:layout_margin="6dp"
+        android:textSize="24sp"
+        android:textColor="@color/Gold"
+        android:text="30 $"
+        />
+
+    <TextView
         android:id="@+id/BS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

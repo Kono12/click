@@ -36,6 +36,5 @@ class info : AppCompatActivity() {
             onBackPressed()
         }
 
-
     }
 }

@@ -24,6 +24,7 @@ class home : Fragment() {
 
     private var mInterstitialAd: InterstitialAd? = null
     private var TAG = "Moha"
+    private var UserMoney : Long? = null
 
 
     lateinit var sharedPreference: SharedPreferences
@@ -63,8 +64,12 @@ class home : Fragment() {
         )
         editor = sharedPreference.edit()
 
+        UserMoney = sharedPreference.getLong("UserMoney",0)
+        binding.userMoney.text=UserMoney.toString() + " $"
+        Constants.UserMoney= UserMoney as Long
 
         var score = sharedPreference.getInt("high", 0)
+
         var txt = score.toString() + " $"
         binding.BestScore.text = txt
 
