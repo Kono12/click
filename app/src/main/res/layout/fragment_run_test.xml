@@ -39,7 +39,7 @@
         android:id="@+id/Timer"
         android:textColor="#DEAC16"
         android:textSize="38dp"
-        android:text="60"
+        tools:text="60"
 
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

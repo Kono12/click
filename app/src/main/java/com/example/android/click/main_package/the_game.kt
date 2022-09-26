@@ -40,7 +40,8 @@ class the_game : Fragment() {
         lateinit var editor: SharedPreferences.Editor
         private lateinit var binding: FragmentRunTestBinding
         var score = 0
-        var timer = 15
+        var timer = Constants.time
+        var time = Constants.time
         var BreakLoop = false
 
         override fun onCreateView(
@@ -48,6 +49,7 @@ class the_game : Fragment() {
             savedInstanceState: Bundle?
         ): View? {
             binding = FragmentRunTestBinding.inflate(layoutInflater)
+
             return binding.root
         }
 
@@ -69,7 +71,7 @@ class the_game : Fragment() {
                     }
                 })
 
-
+           binding.Timer.text=time.toString()
             sharedPreferencee = requireActivity().getSharedPreferences(
                 getString(R.string.highscore),
                 Context.MODE_PRIVATE
@@ -80,7 +82,7 @@ class the_game : Fragment() {
 
                 withContext(Dispatchers.Main) {
                     GlobalScope.launch {
-                        repeat(60) {
+                        repeat(time) {
                             delay(1000)
                             withContext(Dispatchers.Main) {
                                 timer--
@@ -143,7 +145,7 @@ class the_game : Fragment() {
                         // TODO: listener for random view get score to our data base
                         val set = AnimatorSet()
                         set.playTogether(mover, rotator)
-                        set.duration = (Math.random() * 1900 + 800).toLong()
+                        set.duration = (Math.random() * 1900 + 600).toLong()
 
 
                         set.addListener(object : AnimatorListenerAdapter() {
@@ -157,10 +159,14 @@ class the_game : Fragment() {
                             // TODO: make score change
                             GlobalScope.launch {
                                 withContext(Dispatchers.Main) {
-                                    score++
-                                    binding.txt.setTextColor(resources.getColor(R.color.Green))
-                                    binding.txt.text = score.toString()
-                                    newStar.visibility = View.GONE
+                                    if (timer==0){
+                                        newStar.visibility = View.GONE
+                                    }else {
+                                        score++
+                                        binding.txt.setTextColor(resources.getColor(R.color.Green))
+                                        binding.txt.text = score.toString()
+                                        newStar.visibility = View.GONE
+                                    }
                                 }
                             }
                         }
@@ -172,7 +178,7 @@ class the_game : Fragment() {
                         break
 
                     }
-                    delay(400)
+                    delay(90)
                 }
             }
         }

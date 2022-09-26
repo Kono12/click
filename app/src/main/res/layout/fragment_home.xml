@@ -11,43 +11,105 @@
         android:id="@+id/BS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/alfa_slab_one"
         android:gravity="center"
         android:text="Best Score"
         android:textColor="#D2DADA"
         android:textSize="32sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/BestScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/BS"
         android:layout_marginTop="10dp"
-        android:textSize="28sp"
-        tools:text="0.00001 ms"
-        android:textColor="@color/Green"
         android:gravity="center"
-        />
+        android:textColor="@color/Green"
+        android:textSize="28sp"
+        app:layout_constraintTop_toBottomOf="@id/BS"
+        tools:text="0.00001 ms" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/StartTest"
-        android:layout_marginTop="170dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="170dp"
+        android:background="@drawable/start_game_button"
+        android:paddingLeft="26dp"
+        android:paddingTop="18dp"
+        android:paddingRight="26dp"
+        android:paddingBottom="18dp"
+        android:text="  start  "
+        android:textColor="@color/white"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="  start  "
-        android:paddingTop="18dp"
-        android:paddingLeft="26dp"
-        android:paddingBottom="18dp"
-        android:paddingRight="26dp"
-        android:textColor="@color/white"
-        android:textSize="28sp"
-        android:background="@drawable/start_game_button"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.687" />
 
+    <TextView
+        android:id="@+id/timetxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="170dp"
+        android:layout_marginRight="20dp"
+        android:text="Time"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/time1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/time"
+        android:text="60"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintRight_toRightOf="@id/timetxt"
+        app:layout_constraintTop_toBottomOf="@id/timetxt" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/time2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/time"
+        android:text="30"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintRight_toRightOf="@id/timetxt"
+        app:layout_constraintTop_toBottomOf="@id/time1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/time3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/time"
+        android:text="15"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintRight_toRightOf="@id/timetxt"
+        app:layout_constraintTop_toBottomOf="@id/time2" />
+
+
+    <TextView
+        android:background="@drawable/time"
+        android:padding="16dp"
+        android:id="@+id/timeScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/StartTest"
+        android:textSize="45sp"
+        app:layout_constraintTop_toBottomOf="@id/BestScore"
+        android:text=" 60 s "
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,6 +81,21 @@ class home : Fragment() {
             Navigation.findNavController(requireActivity(), R.id.my_nav_host_fragment)
                 .navigate(R.id.action_home_to_the_game)
         }
+
+        binding.time1.setOnClickListener {
+            Constants.time=60
+            binding.timeScreen.text=" 60 s "
+        }
+        binding.time2.setOnClickListener {
+                Constants.time=30
+                binding.timeScreen.text=" 30 s "
+
+        }
+        binding.time3.setOnClickListener {
+            Constants.time=15
+            binding.timeScreen.text=" 15 s "
+        }
+
     }
 }
 
