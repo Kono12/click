@@ -29,7 +29,6 @@ class info : AppCompatActivity() {
             binding.text1.text = "Good Job"
             binding.text2.text = "But you can Break your record"
             binding.text3.text = "Try to Break it"
-
         }
 
         binding.button.setOnClickListener {

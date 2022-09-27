@@ -3,18 +3,16 @@
 
     <gradient
         android:centerColor="#E5C250"
-        android:angle="180"
         android:endColor="#B99622"
         android:startColor="#947719" />
-
     <stroke
         android:width="2dp"
         android:color="@color/white" />
     <corners
-        android:bottomRightRadius="16dp"
-        android:bottomLeftRadius="40dp"
-        android:topRightRadius="40dp"
-        android:topLeftRadius="16dp" />
+        android:bottomLeftRadius="16dp"
+        android:bottomRightRadius="40dp"
+        android:topLeftRadius="40dp"
+        android:topRightRadius="16dp" />
 
 
 </shape>
