@@ -40,10 +40,16 @@ class the_game : Fragment() {
     lateinit var sharedPreferencee: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
     private lateinit var binding: FragmentRunTestBinding
+
+    //Control the game from here
+    var BreakLoop = false
     var score = 0
     var timer = Constants.time
     var time = Constants.time
-    var BreakLoop = false
+    var timeBetweenMoney : Long= 90
+    var minSpeed = 900
+    var maxSpeed = 1900
+    var hitBox =110
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -131,7 +137,7 @@ class the_game : Fragment() {
                         FrameLayout.LayoutParams.WRAP_CONTENT
                     )
                     container.addView(newStar)
-                    newStar.setPadding(100, 100, 100, 100)
+                    newStar.setPadding(hitBox, hitBox, hitBox, hitBox)
 
                     newStar.translationX = Math.random().toFloat() *
                             containerW - starW / 2
@@ -149,7 +155,7 @@ class the_game : Fragment() {
 
                     val set = AnimatorSet()
                     set.playTogether(mover, rotator)
-                    set.duration = (Math.random() * 1900 + 800).toLong()
+                    set.duration = (Math.random() * maxSpeed + minSpeed).toLong()
 
 
                     set.addListener(object : AnimatorListenerAdapter() {
@@ -181,7 +187,7 @@ class the_game : Fragment() {
                 break
 
             }
-            delay(90)
+            delay(timeBetweenMoney)
 
 
         }

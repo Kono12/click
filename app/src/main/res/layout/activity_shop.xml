@@ -44,6 +44,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/money">
 
+
+
+
+
+
+<!--        Abilities-->
+
+
+
+
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -65,12 +77,77 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginBottom="8dp"
                 android:backgroundTint="@color/Gold"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="16dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="196dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:backgroundTint="@color/purple_700"
+                    app:cardCornerRadius="15dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!--                todo: recyclerView Horizontal-->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            />
+
+<!--                        todo:List of CustomView (Abilities)-->
+
+                    </HorizontalScrollView>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+<!--            Skins-->
+
+
+
+
+
+
+            <TextView
+                android:id="@+id/txtSkins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="Skins"
+                android:textColor="@color/Gold"
+                android:textSize="28sp"
+                app:layout_constraintTop_toBottomOf="@id/goldCard" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/goldCard2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/Gold"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="16dp"
+                app:layout_constraintTop_toBottomOf="@id/txtSkins">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -87,6 +164,17 @@
                 </androidx.cardview.widget.CardView>
 
             </androidx.cardview.widget.CardView>
+
+
+
+
+
+<!--            later-->
+
+
+
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
