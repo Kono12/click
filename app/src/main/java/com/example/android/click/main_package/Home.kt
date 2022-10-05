@@ -76,24 +76,6 @@ class home : Fragment() {
         var txt = score.toString() + " $"
         binding.BestScore.text = txt
 
-
-        binding.time1.setOnClickListener {
-            AllWhite()
-            setAsGreen(binding.time1)
-            Constants.time = binding.time1.text.toString().toInt()
-        }
-        binding.time2.setOnClickListener {
-            AllWhite()
-            setAsGreen(binding.time2)
-            Constants.time = binding.time2.text.toString().toInt()
-
-        }
-        binding.time3.setOnClickListener {
-            AllWhite()
-            setAsGreen(binding.time3)
-            Constants.time = binding.time3.text.toString().toInt()
-
-        }
         binding.StartTest.setOnClickListener {
             GlobalScope.launch {
 
@@ -113,16 +95,6 @@ class home : Fragment() {
 
     }
 
-    private fun AllWhite() {
-        binding.time1.setTextColor(resources.getColor(R.color.white))
-        binding.time2.setTextColor(resources.getColor(R.color.white))
-        binding.time3.setTextColor(resources.getColor(R.color.white))
-    }
-
-    private fun setAsGreen(view: View) {
-        view as Button
-        view.setTextColor(resources.getColor(R.color.Green))
-    }
 }
 
 

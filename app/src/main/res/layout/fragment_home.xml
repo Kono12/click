@@ -8,10 +8,56 @@
     tools:context=".main_package.home">
 
     <TextView
+        android:id="@+id/upperText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fascinate_inline"
+        android:gravity="center"
+        android:text="Money"
+        android:textColor="#E07DA0"
+        android:textSize="72sp"
+        app:layout_constraintBottom_toTopOf="@id/LowerText"
+        app:layout_constraintTop_toBottomOf="@id/upperView" />
+
+
+    <TextView
+        android:id="@+id/LowerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alfa_slab_one"
+        android:gravity="center"
+        android:text="Falls"
+        android:textColor="#33CD09"
+        android:textSize="72sp"
+        app:layout_constraintBottom_toBottomOf="@id/lowerView"
+        app:layout_constraintTop_toBottomOf="@id/upperText"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/upperView"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/Gold"
+        app:layout_constraintTop_toBottomOf="@id/userMoney" />
+
+    <View
+        android:id="@+id/lowerView"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="45dp"
+        android:background="@color/Gold"
+        app:layout_constraintBottom_toTopOf="@id/StartTest" />
+
+    <TextView
         android:id="@+id/money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="Money : "
         android:textColor="@color/Green"
@@ -34,110 +80,68 @@
         android:id="@+id/BS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="Best Score"
         android:textColor="#D2DADA"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Settings_Btn" />
 
     <TextView
         android:id="@+id/BestScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
-        app:layout_constraintLeft_toLeftOf="@id/BS"
-        app:layout_constraintRight_toRightOf="@id/BS"
         android:layout_marginTop="4dp"
         android:textColor="@color/Green"
         android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/BS"
+        app:layout_constraintRight_toRightOf="@id/BS"
         app:layout_constraintTop_toBottomOf="@id/BS"
         tools:text="0.00001 ms" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/StartTest"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/start_game_button"
-        android:padding="15dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/shop_button"
         android:text="  start  "
         android:textColor="@color/white"
-        app:layout_constraintLeft_toRightOf="@id/ShopButton"
         android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/time3" />
+        app:layout_constraintBottom_toTopOf="@id/ShopButton" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ShopButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="40dp"
         android:background="@drawable/shop_button"
-        android:padding="15dp"
         android:text="  Shop  "
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/StartTest"
-        app:layout_constraintTop_toBottomOf="@id/time3" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/timetxt"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Settings_Btn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="25dp"
-        android:text="Time"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/shop_button"
+        android:text="  Settings  "
         android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/BestScore" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/time1"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/time"
-        android:text="60"
-        android:textColor="@color/Green"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/timetxt"
-        app:layout_constraintRight_toRightOf="@id/timetxt"
-        app:layout_constraintTop_toBottomOf="@id/timetxt" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/time2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/time"
-
-        android:text="30"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/timetxt"
-        app:layout_constraintRight_toRightOf="@id/timetxt"
-        app:layout_constraintTop_toBottomOf="@id/time1" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/time3"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/time"
-        android:text="15"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/timetxt"
-        app:layout_constraintRight_toRightOf="@id/timetxt"
-        app:layout_constraintTop_toBottomOf="@id/time2" />
+        android:textSize="22sp"
+        app:layout_constraintTop_toBottomOf="@id/ShopButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

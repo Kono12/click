@@ -5,7 +5,6 @@ object Constants {
     var scoree : Int =0
     var time : Int = 60
     var UserMoney : Long =0
-
-
-
+    var skin ="default"
+    // Todo : make variables for abilities
 }
