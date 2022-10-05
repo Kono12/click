@@ -41,15 +41,27 @@ class the_game : Fragment() {
     lateinit var editor: SharedPreferences.Editor
     private lateinit var binding: FragmentRunTestBinding
 
+
+    var GoldenLevel=5
+    var MagnetLevel=5
+    var slowLevel =5
+    var moreMoneyLevel=5
+    var bigHitLevel=5
+
+
     //Control the game from here
     var BreakLoop = false
     var score = 0
     var timer = Constants.time
     var time = Constants.time
     var timeBetweenMoney: Long = 90
-    var minSpeed = 900
-    var maxSpeed = 1900
+    var minSpeed = 1000
+    var maxSpeed = 2000
     var hitBox = 110
+    var delayer : Long = 300
+
+
+    var magn=false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,10 +127,19 @@ class the_game : Fragment() {
     fun MakeItRain(view: View) {
         GlobalScope.launch {
             while (true) {
+                val num = ((0..100).random()) // generated random from 0 to 10 included
 
+                val isSpecialAbility = ((0..100).random()) % 5 == 0
+
+                //Abilities
+                var isGolden = false
+                var isMagnet = false
+                var isSlow = false
+                var isMoreMoney = false
+                var isBigHit = false
 
                 if (timer < 2) continue
-                delay(300)
+                delay(delayer)
                 withContext(Dispatchers.Main) {
                     try {
 
@@ -130,8 +151,31 @@ class the_game : Fragment() {
                         var starH: Float = star.height.toFloat()
 
 
+
+
+
                         val newStar = AppCompatImageView(requireActivity())
-                        newStar.setImageResource(R.drawable.ic_baseline_attach_money_24)
+                        if (isSpecialAbility) {
+                            if (num<=40){
+                                    newStar.setImageResource(R.drawable.ic_golden_dollar)
+                                    isGolden = true
+                                }else if(num == 60){
+                                    newStar.setImageResource(R.drawable.ic_magnet)
+                                    isMagnet=true
+                                }else if (num<=70 && num >60){
+                                    newStar.setImageResource(R.drawable.ic_slow)
+                                    isSlow=true
+                                }else if (num==80){
+                                    newStar.setImageResource(R.drawable.ic_more_money)
+                                    isMoreMoney=true
+                                }else if (num==90 ){
+                                    newStar.setImageResource(R.drawable.ic_best)
+                                    isBigHit=true
+                                }
+                            } else {
+                            newStar.setImageResource(R.drawable.ic_baseline_attach_money_24)
+                        }
+
                         newStar.layoutParams = FrameLayout.LayoutParams(
                             FrameLayout.LayoutParams.WRAP_CONTENT,
                             FrameLayout.LayoutParams.WRAP_CONTENT
@@ -155,11 +199,22 @@ class the_game : Fragment() {
 
                         val set = AnimatorSet()
                         set.playTogether(mover, rotator)
+
                         set.duration = (Math.random() * maxSpeed + minSpeed).toLong()
 
 
                         set.addListener(object : AnimatorListenerAdapter() {
                             override fun onAnimationEnd(animation: Animator?) {
+                                if (magn){
+                                    if (isGolden){
+                                        score+=GoldenLevel
+                                        isGolden=false
+                                    }else
+                                    score++
+
+                                    binding.txt.setTextColor(resources.getColor(R.color.Green))
+                                    binding.txt.text = score.toString()
+                                }
                                 container.removeView(newStar)
                             }
                         })
@@ -168,14 +223,70 @@ class the_game : Fragment() {
                         newStar.setOnClickListener {
                             lifecycleScope.launch {
                                 withContext(Dispatchers.Main) {
-                                    if (timer == 0) {
-                                        newStar.visibility = View.GONE
-                                    } else {
+                                    if (timer == 0) { newStar.visibility = View.GONE }
+
+                                    if (isSpecialAbility){
+                                        if (isGolden){
+                                            score+=GoldenLevel
+                                            isGolden=false
+                                        }else if (isSlow){
+                                            minSpeed=2000
+                                            maxSpeed=2900
+                                            //todo : start timer for 5 seconds then restore them to 900-1900
+                                            GlobalScope.launch(){
+                                                var slowLeveltimer=slowLevel
+                                                repeat(slowLeveltimer){
+                                                    delay(1000)
+                                                    slowLeveltimer--
+                                                }
+                                                minSpeed=1000
+                                                maxSpeed=2000
+                                                isSlow=false
+                                            }
+                                        }
+                                        else if(isBigHit){
+                                            hitBox=220
+                                            GlobalScope.launch(){
+                                                var BigHittimer=bigHitLevel
+                                                repeat(BigHittimer){
+                                                    delay(1000)
+                                                    BigHittimer--
+                                                }
+                                                hitBox=110
+                                                isBigHit = false
+                                            }
+                                        }else if (isMoreMoney){
+                                            delayer=100
+                                            GlobalScope.launch(){
+                                                var BigHittimer=moreMoneyLevel
+                                                repeat(BigHittimer){
+                                                    delay(1000)
+                                                    BigHittimer--
+                                                }
+                                                delayer=300
+                                                isMoreMoney=false
+                                            }                                           }
+                                        else if(isMagnet){
+                                            //todo: show all timers
+                                            GlobalScope.launch(){
+                                                magn=true
+                                                var BigHittimer=MagnetLevel
+                                                repeat(BigHittimer){
+                                                    delay(1000)
+                                                    BigHittimer--
+                                                }
+                                                isMagnet=false
+                                                magn=false
+                                            }
+                                        }
+
+
+                                    }else {
                                         score++
-                                        binding.txt.setTextColor(resources.getColor(R.color.Green))
-                                        binding.txt.text = score.toString()
-                                        newStar.visibility = View.GONE
                                     }
+                                    binding.txt.setTextColor(resources.getColor(R.color.Green))
+                                    binding.txt.text = score.toString()
+                                    newStar.visibility = View.GONE
                                 }
                             }
                         }
@@ -194,6 +305,7 @@ class the_game : Fragment() {
             }
         }
     }
+
 
     private fun GameEnd() {
         var i = sharedPreferencee.getInt("high", 0)
