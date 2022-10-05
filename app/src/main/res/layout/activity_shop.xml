@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#29358E"
+    android:background="@color/DarkGreen"
     tools:context=".Shop.ShopActivity">
 
     <TextView
@@ -81,7 +81,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:backgroundTint="@color/purple_700"
+                    android:backgroundTint="#105B3C"
                     app:cardCornerRadius="15dp"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -139,7 +139,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:backgroundTint="@color/purple_700"
+                    android:backgroundTint="#105B3C"
                     app:cardCornerRadius="15dp"
                     app:layout_constraintTop_toTopOf="parent">
 

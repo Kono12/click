@@ -56,7 +56,6 @@ class the_game : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRunTestBinding.inflate(layoutInflater)
-
         return binding.root
     }
 
@@ -65,6 +64,7 @@ class the_game : Fragment() {
 
 
         var adRequest = AdRequest.Builder().build()
+        // remember to put yours
         InterstitialAd.load(requireActivity(), "ca-app-pub-3940256099942544/1033173712", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -108,13 +108,12 @@ class the_game : Fragment() {
 
                 MakeItRain(view)
             }
-            //todo: Start timer
         }
 
     }
 
     fun MakeItRain(view: View) {
-        lifecycleScope.launch {
+        GlobalScope.launch {
             while (true) {
 
 
@@ -196,7 +195,6 @@ class the_game : Fragment() {
         }
     }
 
-
     private fun GameEnd() {
         var i = sharedPreferencee.getInt("high", 0)
         Constants.HighScore = i
@@ -215,6 +213,9 @@ class the_game : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        GameEnd()
+        super.onDestroy()
+    }
 
 }
-

@@ -16,7 +16,7 @@ class info : AppCompatActivity() {
 
         val score = Constants.scoree.toInt()
         val highScore = Constants.HighScore.toInt()
-
+        binding.score.text=score.toString()
         //  Toast.makeText(this,"score"+ Constants.scoree + " h "+ Constants.HighScore,Toast.LENGTH_SHORT).show()
 
         if (score > highScore) {

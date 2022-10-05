@@ -12,6 +12,7 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Click"
+
         tools:targetApi="31">
 
 

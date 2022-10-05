@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.android.click.Constants
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -78,7 +80,6 @@ class home : Fragment() {
 
         binding.StartTest.setOnClickListener {
             GlobalScope.launch {
-
             }
             try {
                 if (mInterstitialAd != null) {
@@ -93,6 +94,26 @@ class home : Fragment() {
             startActivity(Intent(activity, ShopActivity::class.java))
         }
 
+        binding.SettingsBtn.setOnClickListener {
+            Toast.makeText(activity,"TODO",Toast.LENGTH_SHORT).show()
+
+        }
+
+    }
+
+    override fun onResume() {
+
+
+        UserMoney = sharedPreference.getLong("UserMoney", 0)
+        binding.userMoney.text = UserMoney.toString() + " $"
+        Constants.UserMoney = UserMoney as Long
+
+        var score = sharedPreference.getInt("high", 0)
+
+        var txt = score.toString() + " $"
+        binding.BestScore.text = txt
+
+        super.onResume()
     }
 
 }
