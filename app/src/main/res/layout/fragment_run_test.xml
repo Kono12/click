@@ -30,16 +30,113 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/Timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
-        android:id="@+id/Timer"
         android:textColor="#DEAC16"
         android:textSize="38dp"
-        tools:text="60"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="60" />
 
+
+    <ImageView
+        android:id="@+id/moreMoney"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_more_money"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+         />
+
+    <TextView
+        android:id="@+id/moreMoneyTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/moreMoney"
+        app:layout_constraintLeft_toLeftOf="@id/moreMoney"
+        app:layout_constraintRight_toRightOf="@id/moreMoney"
+        android:layout_marginBottom="4dp"
         />
+
+
+    <ImageView
+        android:id="@+id/bigHit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/ic_best"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/moreMoney" />
+
+    <TextView
+        android:id="@+id/bigHitTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/bigHit"
+        app:layout_constraintLeft_toLeftOf="@id/bigHit"
+        app:layout_constraintRight_toRightOf="@id/bigHit"
+        android:layout_marginBottom="4dp"
+        />
+
+
+
+    <ImageView
+        android:id="@+id/magnet"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_magnet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/magnetTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/magnet"
+        app:layout_constraintLeft_toLeftOf="@id/magnet"
+        app:layout_constraintRight_toRightOf="@id/magnet"
+        android:layout_marginBottom="4dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/slow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/ic_slow"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/magnet" />
+
+    <TextView
+        android:id="@+id/slowTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/slow"
+        app:layout_constraintLeft_toLeftOf="@id/slow"
+        app:layout_constraintRight_toRightOf="@id/slow"
+        android:layout_marginBottom="4dp"
+        />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

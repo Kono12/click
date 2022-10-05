@@ -42,11 +42,11 @@ class the_game : Fragment() {
     private lateinit var binding: FragmentRunTestBinding
 
 
-    var GoldenLevel=5
-    var MagnetLevel=5
-    var slowLevel =5
-    var moreMoneyLevel=5
-    var bigHitLevel=5
+    var GoldenLevel = 5
+    var MagnetLevel = 5
+    var slowLevel = 5
+    var moreMoneyLevel = 5
+    var bigHitLevel = 5
 
 
     //Control the game from here
@@ -55,13 +55,13 @@ class the_game : Fragment() {
     var timer = Constants.time
     var time = Constants.time
     var timeBetweenMoney: Long = 90
-    var minSpeed = 1000
-    var maxSpeed = 2000
+    var minSpeed = 1600
+    var maxSpeed = 2500
     var hitBox = 110
-    var delayer : Long = 300
+    var delayer: Long = 300
 
 
-    var magn=false
+    var magn = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +90,7 @@ class the_game : Fragment() {
                 }
             })
 
+        hideTimers()
         binding.Timer.text = time.toString()
         sharedPreferencee = requireActivity().getSharedPreferences(
             getString(R.string.highscore),
@@ -124,6 +125,22 @@ class the_game : Fragment() {
 
     }
 
+    private fun hideTimers() {
+
+        binding.bigHitTimer.visibility=View.GONE
+        binding.bigHit.visibility=View.GONE
+
+        binding.magnet.visibility=View.GONE
+        binding.magnetTimer.visibility=View.GONE
+
+        binding.slow.visibility=View.GONE
+        binding.slowTimer.visibility=View.GONE
+
+        binding.moreMoney.visibility=View.GONE
+        binding.moreMoneyTimer.visibility=View.GONE
+
+    }
+
     fun MakeItRain(view: View) {
         GlobalScope.launch {
             while (true) {
@@ -151,28 +168,25 @@ class the_game : Fragment() {
                         var starH: Float = star.height.toFloat()
 
 
-
-
-
                         val newStar = AppCompatImageView(requireActivity())
                         if (isSpecialAbility) {
-                            if (num<=40){
-                                    newStar.setImageResource(R.drawable.ic_golden_dollar)
-                                    isGolden = true
-                                }else if(num == 60){
-                                    newStar.setImageResource(R.drawable.ic_magnet)
-                                    isMagnet=true
-                                }else if (num<=70 && num >60){
-                                    newStar.setImageResource(R.drawable.ic_slow)
-                                    isSlow=true
-                                }else if (num==80){
-                                    newStar.setImageResource(R.drawable.ic_more_money)
-                                    isMoreMoney=true
-                                }else if (num==90 ){
-                                    newStar.setImageResource(R.drawable.ic_best)
-                                    isBigHit=true
-                                }
-                            } else {
+                            if (num <= 40) {
+                                newStar.setImageResource(R.drawable.ic_golden_dollar)
+                                isGolden = true
+                            } else if (num == 45 || num==50 || num == 65) {
+                                newStar.setImageResource(R.drawable.ic_magnet)
+                                isMagnet = true
+                            } else if (num == 70 || num == 65 || num == 85 || num == 55 || num==60) {
+                                newStar.setImageResource(R.drawable.ic_slow)
+                                isSlow = true
+                            } else if (num == 80) {
+                                newStar.setImageResource(R.drawable.ic_more_money)
+                                isMoreMoney = true
+                            } else if (num == 90) {
+                                newStar.setImageResource(R.drawable.ic_best)
+                                isBigHit = true
+                            }
+                        } else {
                             newStar.setImageResource(R.drawable.ic_baseline_attach_money_24)
                         }
 
@@ -200,17 +214,17 @@ class the_game : Fragment() {
                         val set = AnimatorSet()
                         set.playTogether(mover, rotator)
 
-                        set.duration = (Math.random() * maxSpeed + minSpeed).toLong()
+                        set.duration = ((minSpeed..maxSpeed).random()).toLong()
 
 
                         set.addListener(object : AnimatorListenerAdapter() {
                             override fun onAnimationEnd(animation: Animator?) {
-                                if (magn){
-                                    if (isGolden){
-                                        score+=GoldenLevel
-                                        isGolden=false
-                                    }else
-                                    score++
+                                if (magn) {
+                                    if (isGolden) {
+                                        score += GoldenLevel
+                                        isGolden = false
+                                    } else
+                                        score++
 
                                     binding.txt.setTextColor(resources.getColor(R.color.Green))
                                     binding.txt.text = score.toString()
@@ -223,65 +237,115 @@ class the_game : Fragment() {
                         newStar.setOnClickListener {
                             lifecycleScope.launch {
                                 withContext(Dispatchers.Main) {
-                                    if (timer == 0) { newStar.visibility = View.GONE }
+                                    if (timer == 0) {
+                                        newStar.visibility = View.GONE
+                                    }
 
-                                    if (isSpecialAbility){
-                                        if (isGolden){
-                                            score+=GoldenLevel
-                                            isGolden=false
-                                        }else if (isSlow){
-                                            minSpeed=2000
-                                            maxSpeed=2900
+                                    if (isSpecialAbility) {
+                                        if (isGolden) {
+                                            score += GoldenLevel
+                                            isGolden = false
+                                        } else if (isSlow) {
+                                            minSpeed = 2400
+                                            maxSpeed = 3500
+                                            delayer=200
                                             //todo : start timer for 5 seconds then restore them to 900-1900
-                                            GlobalScope.launch(){
-                                                var slowLeveltimer=slowLevel
-                                                repeat(slowLeveltimer){
+                                            GlobalScope.launch() {
+                                                withContext(Dispatchers.Main) {
+                                                    binding.slow.visibility = View.VISIBLE
+                                                    binding.slowTimer.visibility = View.VISIBLE
+                                                }
+                                                var slowLeveltimer = slowLevel
+                                                repeat(slowLeveltimer) {
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.slowTimer.text =
+                                                            slowLeveltimer.toString()
+                                                    }
                                                     delay(1000)
                                                     slowLeveltimer--
                                                 }
-                                                minSpeed=1000
-                                                maxSpeed=2000
-                                                isSlow=false
-                                            }
-                                        }
-                                        else if(isBigHit){
-                                            hitBox=220
-                                            GlobalScope.launch(){
-                                                var BigHittimer=bigHitLevel
-                                                repeat(BigHittimer){
-                                                    delay(1000)
-                                                    BigHittimer--
-                                                }
-                                                hitBox=110
-                                                isBigHit = false
-                                            }
-                                        }else if (isMoreMoney){
-                                            delayer=100
-                                            GlobalScope.launch(){
-                                                var BigHittimer=moreMoneyLevel
-                                                repeat(BigHittimer){
-                                                    delay(1000)
-                                                    BigHittimer--
+                                                withContext(Dispatchers.Main) {
+                                                    binding.slowTimer.visibility = View.GONE
+                                                    binding.slow.visibility = View.GONE
                                                 }
                                                 delayer=300
-                                                isMoreMoney=false
-                                            }                                           }
-                                        else if(isMagnet){
-                                            //todo: show all timers
-                                            GlobalScope.launch(){
-                                                magn=true
-                                                var BigHittimer=MagnetLevel
-                                                repeat(BigHittimer){
+                                                minSpeed = 1600
+                                                maxSpeed = 2500
+                                                isSlow = false
+                                            }
+                                        } else if (isBigHit) {
+                                            hitBox = 220
+                                            GlobalScope.launch() {
+                                                withContext(Dispatchers.Main) {
+                                                    binding.bigHit.visibility = View.VISIBLE
+                                                    binding.bigHitTimer.visibility = View.VISIBLE
+                                                }
+                                                var BigHittimer = bigHitLevel
+                                                repeat(BigHittimer) {
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.bigHitTimer.text =
+                                                            BigHittimer.toString()
+                                                    }
                                                     delay(1000)
                                                     BigHittimer--
                                                 }
-                                                isMagnet=false
-                                                magn=false
+                                                withContext(Dispatchers.Main) {
+                                                    binding.bigHit.visibility = View.GONE
+                                                    binding.bigHitTimer.visibility = View.GONE
+                                                }
+                                                hitBox = 110
+                                                isBigHit = false
+                                            }
+                                        } else if (isMoreMoney) {
+                                            delayer = 100
+                                            GlobalScope.launch() {
+                                                withContext(Dispatchers.Main) {
+                                                    binding.moreMoney.visibility = View.VISIBLE
+                                                    binding.moreMoneyTimer.visibility = View.VISIBLE
+                                                }
+                                                var BigHittimer = moreMoneyLevel
+                                                repeat(BigHittimer) {
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.moreMoneyTimer.text =
+                                                            BigHittimer.toString()
+                                                    }
+                                                    delay(1000)
+                                                    BigHittimer--
+                                                }
+                                                withContext(Dispatchers.Main) {
+                                                    binding.moreMoney.visibility = View.GONE
+                                                    binding.moreMoneyTimer.visibility = View.GONE
+                                                }
+                                                delayer = 300
+                                                isMoreMoney = false
+                                            }
+                                        } else if (isMagnet) {
+                                            GlobalScope.launch() {
+                                                withContext(Dispatchers.Main) {
+                                                    binding.magnet.visibility = View.VISIBLE
+                                                    binding.magnetTimer.visibility = View.VISIBLE
+                                                }
+                                                magn = true
+                                                var BigHittimer = MagnetLevel
+                                                repeat(BigHittimer) {
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.magnetTimer.text =
+                                                            BigHittimer.toString()
+                                                    }
+                                                    delay(1000)
+                                                    BigHittimer--
+                                                }
+                                                withContext(Dispatchers.Main) {
+                                                    binding.magnet.visibility = View.GONE
+                                                    binding.magnetTimer.visibility = View.GONE
+                                                }
+                                                isMagnet = false
+                                                magn = false
                                             }
                                         }
 
 
-                                    }else {
+                                    } else {
                                         score++
                                     }
                                     binding.txt.setTextColor(resources.getColor(R.color.Green))
