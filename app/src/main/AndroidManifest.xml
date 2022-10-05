@@ -24,15 +24,18 @@
             android:name=".info"
             android:exported="false"
             android:label="Game is Over"
+            android:screenOrientation="portrait"
             android:parentActivityName=".main_package.MainActivity" />
 
         <activity
             android:name=".Shop.ShopActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="Shop"
             android:parentActivityName=".main_package.MainActivity" />
         <activity
             android:name=".main_package.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

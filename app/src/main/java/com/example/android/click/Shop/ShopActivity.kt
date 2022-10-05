@@ -12,12 +12,17 @@ class ShopActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShopBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        changeWallPaper()
         binding = ActivityShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.userMoney.text = Constants.UserMoney.toString() + " $"
 
 
         // TODO: make on Click listener to all Shop items
+    }
+
+    private fun changeWallPaper() {
+        TODO("Not yet implemented")
     }
 
     private fun buy(money: Long, skin: String) {
