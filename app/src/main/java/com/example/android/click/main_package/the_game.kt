@@ -17,7 +17,6 @@ import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -37,6 +36,7 @@ class the_game : Fragment() {
     private var mInterstitialAd: InterstitialAd? = null
     private var TAG = "Moha"
 
+    var cancelIt = false
     lateinit var sharedPreferencee: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
     private lateinit var binding: FragmentRunTestBinding
@@ -46,10 +46,10 @@ class the_game : Fragment() {
     var score = 0
     var timer = Constants.time
     var time = Constants.time
-    var timeBetweenMoney : Long= 90
+    var timeBetweenMoney: Long = 90
     var minSpeed = 900
     var maxSpeed = 1900
-    var hitBox =110
+    var hitBox = 110
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,11 +84,11 @@ class the_game : Fragment() {
             Context.MODE_PRIVATE
         )
         editor = sharedPreferencee.edit()
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay((Math.random() * 800 + 200).toLong())
 
             withContext(Dispatchers.Main) {
-                GlobalScope.launch {
+                lifecycleScope.launch {
                     repeat(time) {
                         delay(1000)
                         withContext(Dispatchers.Main) {
@@ -99,6 +99,7 @@ class the_game : Fragment() {
                                 GameEnd()
                                 startActivity(Intent(activity, info::class.java))
                                 findNavController().popBackStack()
+                                cancelIt = true
                                 this.cancel()
                             }
                         }
@@ -113,7 +114,7 @@ class the_game : Fragment() {
     }
 
     fun MakeItRain(view: View) {
-        GlobalScope.launch {
+        lifecycleScope.launch {
             while (true) {
 
 
@@ -122,96 +123,97 @@ class the_game : Fragment() {
                 withContext(Dispatchers.Main) {
                     try {
 
-                    val star: ImageView = view.findViewById(R.id.star)
-                    val container = star.parent as ViewGroup
-                    val containerW = container.width
-                    val containerH = container.height
-                    var starW: Float = star.width.toFloat()
-                    var starH: Float = star.height.toFloat()
+                        val star: ImageView = view.findViewById(R.id.star)
+                        val container = star.parent as ViewGroup
+                        val containerW = container.width
+                        val containerH = container.height
+                        var starW: Float = star.width.toFloat()
+                        var starH: Float = star.height.toFloat()
 
 
-                    val newStar = AppCompatImageView(requireActivity())
-                    newStar.setImageResource(R.drawable.ic_baseline_attach_money_24)
-                    newStar.layoutParams = FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.WRAP_CONTENT,
-                        FrameLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    container.addView(newStar)
-                    newStar.setPadding(hitBox, hitBox, hitBox, hitBox)
+                        val newStar = AppCompatImageView(requireActivity())
+                        newStar.setImageResource(R.drawable.ic_baseline_attach_money_24)
+                        newStar.layoutParams = FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.WRAP_CONTENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        container.addView(newStar)
+                        newStar.setPadding(hitBox, hitBox, hitBox, hitBox)
 
-                    newStar.translationX = Math.random().toFloat() *
-                            containerW - starW / 2
+                        newStar.translationX = Math.random().toFloat() *
+                                containerW - starW / 2
 
-                    val mover = ObjectAnimator.ofFloat(
-                        newStar, View.TRANSLATION_Y,
-                        -starH, containerH + starH
-                    )
-                    mover.interpolator = AccelerateInterpolator(1f)
-                    val rotator = ObjectAnimator.ofFloat(
-                        newStar, View.ROTATION,
-                        (Math.random() * 1080).toFloat()
-                    )
-                    rotator.interpolator = LinearInterpolator()
+                        val mover = ObjectAnimator.ofFloat(
+                            newStar, View.TRANSLATION_Y,
+                            -starH, containerH + starH
+                        )
+                        mover.interpolator = AccelerateInterpolator(1f)
+                        val rotator = ObjectAnimator.ofFloat(
+                            newStar, View.ROTATION,
+                            (Math.random() * 1080).toFloat()
+                        )
+                        rotator.interpolator = LinearInterpolator()
 
-                    val set = AnimatorSet()
-                    set.playTogether(mover, rotator)
-                    set.duration = (Math.random() * maxSpeed + minSpeed).toLong()
+                        val set = AnimatorSet()
+                        set.playTogether(mover, rotator)
+                        set.duration = (Math.random() * maxSpeed + minSpeed).toLong()
 
 
-                    set.addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            container.removeView(newStar)
-                        }
-                    })
-                    set.start()
+                        set.addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                container.removeView(newStar)
+                            }
+                        })
+                        set.start()
 
-                    newStar.setOnClickListener {
-                        GlobalScope.launch {
-                            withContext(Dispatchers.Main) {
-                                if (timer == 0) {
-                                    newStar.visibility = View.GONE
-                                } else {
-                                    score++
-                                    binding.txt.setTextColor(resources.getColor(R.color.Green))
-                                    binding.txt.text = score.toString()
-                                    newStar.visibility = View.GONE
+                        newStar.setOnClickListener {
+                            lifecycleScope.launch {
+                                withContext(Dispatchers.Main) {
+                                    if (timer == 0) {
+                                        newStar.visibility = View.GONE
+                                    } else {
+                                        score++
+                                        binding.txt.setTextColor(resources.getColor(R.color.Green))
+                                        binding.txt.text = score.toString()
+                                        newStar.visibility = View.GONE
+                                    }
                                 }
                             }
                         }
+                    } catch (e: Exception) {
                     }
-                }catch (e:Exception){}
+                }
+
+
+                if (BreakLoop) {
+                    break
+
+                }
+                delay(timeBetweenMoney)
+
+
             }
-
-
-            if (BreakLoop) {
-                break
-
-            }
-            delay(timeBetweenMoney)
-
-
         }
     }
-}
 
 
-private fun GameEnd() {
-    var i = sharedPreferencee.getInt("high", 0)
-    Constants.HighScore = i
-    Constants.scoree = score
-    if (i < score) {
-        editor.putInt("high", score).commit()
-    }
-
-    var money = sharedPreferencee.getLong("UserMoney", 0)
-    editor.putLong("UserMoney", money + score).commit()
-    try {
-        if (mInterstitialAd != null) {
-            mInterstitialAd?.show(requireActivity())
+    private fun GameEnd() {
+        var i = sharedPreferencee.getInt("high", 0)
+        Constants.HighScore = i
+        Constants.scoree = score
+        if (i < score) {
+            editor.putInt("high", score).commit()
         }
-    } catch (e: Exception) {
+
+        var money = sharedPreferencee.getLong("UserMoney", 0)
+        editor.putLong("UserMoney", money + score).commit()
+        try {
+            if (mInterstitialAd != null) {
+                mInterstitialAd?.show(requireActivity())
+            }
+        } catch (e: Exception) {
+        }
     }
-}
 
 
 }
