@@ -55,8 +55,8 @@ class the_game : Fragment() {
     var timer = Constants.time
     var time = Constants.time
     var timeBetweenMoney: Long = 90
-    var minSpeed = 1600
-    var maxSpeed = 2500
+    var minSpeed = 1200
+    var maxSpeed = 2200
     var hitBox = 110
     var delayer: Long = 300
 
@@ -246,8 +246,8 @@ class the_game : Fragment() {
                                             score += GoldenLevel
                                             isGolden = false
                                         } else if (isSlow) {
-                                            minSpeed = 2400
-                                            maxSpeed = 3500
+                                            minSpeed = 2200
+                                            maxSpeed = 3000
                                             delayer=200
                                             //todo : start timer for 5 seconds then restore them to 900-1900
                                             GlobalScope.launch() {
@@ -269,8 +269,8 @@ class the_game : Fragment() {
                                                     binding.slow.visibility = View.GONE
                                                 }
                                                 delayer=300
-                                                minSpeed = 1600
-                                                maxSpeed = 2500
+                                                minSpeed = 1200
+                                                maxSpeed = 2200
                                                 isSlow = false
                                             }
                                         } else if (isBigHit) {
@@ -321,6 +321,7 @@ class the_game : Fragment() {
                                             }
                                         } else if (isMagnet) {
                                             GlobalScope.launch() {
+                                                delayer=200
                                                 withContext(Dispatchers.Main) {
                                                     binding.magnet.visibility = View.VISIBLE
                                                     binding.magnetTimer.visibility = View.VISIBLE
@@ -341,6 +342,7 @@ class the_game : Fragment() {
                                                 }
                                                 isMagnet = false
                                                 magn = false
+                                                delayer=300
                                             }
                                         }
 
@@ -369,7 +371,6 @@ class the_game : Fragment() {
             }
         }
     }
-
 
     private fun GameEnd() {
         var i = sharedPreferencee.getInt("high", 0)
