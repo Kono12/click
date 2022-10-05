@@ -29,6 +29,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import kotlinx.coroutines.*
+import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 
 class the_game : Fragment() {
 
@@ -40,8 +42,9 @@ class the_game : Fragment() {
     lateinit var sharedPreferencee: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
     private lateinit var binding: FragmentRunTestBinding
+    var arr = Array(100,{i-> i + 1})
 
-
+    //Ability level
     var GoldenLevel = 5
     var MagnetLevel = 5
     var slowLevel = 5
@@ -73,7 +76,6 @@ class the_game : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         var adRequest = AdRequest.Builder().build()
         // remember to put yours
@@ -144,8 +146,8 @@ class the_game : Fragment() {
     fun MakeItRain(view: View) {
         GlobalScope.launch {
             while (true) {
-                val num = ((0..100).random()) // generated random from 0 to 10 included
-
+                //val num = ((0..100).random()) // generated random from 0 to 100 included
+                val num = generateRandom()
                 val isSpecialAbility = ((0..100).random()) % 5 == 0
 
                 //Abilities
@@ -185,8 +187,7 @@ class the_game : Fragment() {
                             } else if (num == 90) {
                                 newStar.setImageResource(R.drawable.ic_best)
                                 isBigHit = true
-                            }
-                        } else {
+                            } } else {
                             newStar.setImageResource(R.drawable.ic_baseline_attach_money_24)
                         }
 
@@ -214,7 +215,7 @@ class the_game : Fragment() {
                         val set = AnimatorSet()
                         set.playTogether(mover, rotator)
 
-                        set.duration = ((minSpeed..maxSpeed).random()).toLong()
+                        set.duration = (Math.random() * maxSpeed + minSpeed).toLong()
 
 
                         set.addListener(object : AnimatorListenerAdapter() {
@@ -372,6 +373,15 @@ class the_game : Fragment() {
         }
     }
 
+    private fun generateRandom(): Int {
+        shuffleArray(arr)
+        try {
+            return arr[((Math.random() * 99 + 0).toInt())]
+        }catch (E:java.lang.Exception){
+            return arr[64]
+        }
+    }
+
     private fun GameEnd() {
         var i = sharedPreferencee.getInt("high", 0)
         Constants.HighScore = i
@@ -395,4 +405,21 @@ class the_game : Fragment() {
         super.onDestroy()
     }
 
+
+    // Implementing Fisher–Yates shuffle
+    fun shuffleArray(ar: Array<Int>) {
+        // If running on Java 6 or older, use `new Random()` on RHS here
+        try {
+        val rnd: Random = ThreadLocalRandom.current()
+        for (i in ar.size - 1 downTo 1) {
+            val index: Int = rnd.nextInt(i + 1)
+            // Simple swap
+            val a = ar[index]
+            ar[index] = ar[i]
+            ar[i] = a
+        }
+        }catch (E:java.lang.Exception){
+
+        }
+    }
 }
