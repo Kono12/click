@@ -1,12 +1,11 @@
-package com.example.android.click.main_package
+package com.kono_click.android.click.main_package
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.example.android.click.R
+import com.kono_click.android.click.R
 
 
 

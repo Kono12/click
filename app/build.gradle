@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.android.click"
+        applicationId "com.kono_click.android.click"
         minSdk 26
         targetSdk 32
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.android.click.main_package
+package com.kono_click.android.click.main_package
 
 import android.content.Context
 import android.content.Intent
@@ -8,19 +8,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.example.android.click.Constants
-import com.example.android.click.R
-import com.example.android.click.Shop.ShopActivity
-import com.example.android.click.databinding.FragmentHomeBinding
+import com.kono_click.android.click.Constants
+import com.kono_click.android.click.R
+import com.kono_click.android.click.Shop.ShopActivity
+import com.kono_click.android.click.databinding.FragmentHomeBinding
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

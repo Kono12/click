@@ -1,10 +1,9 @@
-package com.example.android.click.Shop
+package com.kono_click.android.click.Shop
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.android.click.Constants
-import com.example.android.click.R
-import com.example.android.click.databinding.ActivityShopBinding
+import com.kono_click.android.click.Constants
+import com.kono_click.android.click.databinding.ActivityShopBinding
 import com.google.android.material.snackbar.Snackbar
 
 class ShopActivity : AppCompatActivity() {

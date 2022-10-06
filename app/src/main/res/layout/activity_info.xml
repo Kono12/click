@@ -22,12 +22,13 @@
 
     <ImageView
         android:id="@+id/recordimg"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toRightOf="@id/Linear2"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/Linear1"
+        app:layout_constraintBottom_toBottomOf="@id/Linear1"
         tools:src="@drawable/new_record"
 
         />
@@ -37,33 +38,11 @@
         android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@id/recordimg"
-        tools:text="Great Job" />
-
-    <TextView
-        android:id="@+id/text2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/text1"
-        tools:text="Great Job" />
-
-    <TextView
-        android:id="@+id/text3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/text2"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Great Job" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -71,7 +50,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="40dp"
         android:layout_marginRight="50dp"
         android:background="@drawable/shop_button"
         android:paddingLeft="26dp"
@@ -83,6 +61,231 @@
         android:textSize="28sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text3" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp"/>
+
+
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/imgLinear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button"
+        android:layout_marginLeft="8dp"
+        >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/new_record"
+            />
+        <ImageView
+            android:id="@+id/dollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_attach_money_24"
+            />
+        <ImageView
+            android:id="@+id/golddolalr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_golden_dollar"
+            />
+        <ImageView
+            android:id="@+id/magnetinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_magnet2"
+            />
+        <ImageView
+            android:id="@+id/slowinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_slow"
+            />
+        <ImageView
+            android:id="@+id/moremoneyinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_more_money"
+            />
+        <ImageView
+            android:id="@+id/biginfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_best"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/Linear1"
+        app:layout_constraintLeft_toRightOf="@id/imgLinear"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button"
+        android:layout_marginLeft="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Gold"
+            android:textSize="18sp"
+            android:text="Amount"
+            />
+        <TextView
+            android:id="@+id/moneyAmount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/goldAmount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/magnetAmount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/slowAmount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/moreMoneyAmount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/bigHitAmount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Linear2"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/Linear1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button"
+        android:layout_marginLeft="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Gold"
+            android:textSize="18sp"
+            android:text="Money"
+
+            />
+        <TextView
+            android:id="@+id/normalMoney"
+            android:layout_width="58dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/goldMoney"
+            android:layout_width="58dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/magnetMoney"
+            android:layout_width="58dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="5"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/slowMoney"
+            android:layout_width="58dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text=""
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/moreMoneyMoney"
+            android:layout_width="58dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text=""
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/bigHitMoney"
+            android:layout_width="58dp"
+            android:layout_height="48dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text=""
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+ />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

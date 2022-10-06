@@ -1,4 +1,4 @@
-package com.example.android.click.main_package
+package com.kono_click.android.click.main_package
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -20,10 +20,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.android.click.Constants
-import com.example.android.click.R
-import com.example.android.click.databinding.FragmentRunTestBinding
-import com.example.android.click.info
+import com.kono_click.android.click.Constants
+import com.kono_click.android.click.R
+import com.kono_click.android.click.databinding.FragmentRunTestBinding
+import com.kono_click.android.click.info
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -31,6 +31,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
+import kotlin.math.max
 
 class the_game : Fragment() {
 
@@ -172,16 +173,16 @@ class the_game : Fragment() {
 
                         val newStar = AppCompatImageView(requireActivity())
                         if (isSpecialAbility) {
-                            if (num <= 40) {
+                            if (num <= 25) {
                                 newStar.setImageResource(R.drawable.ic_golden_dollar)
                                 isGolden = true
-                            } else if (num == 45 || num==50 || num == 65) {
+                            } else if (num==35 ||num == 45 || num==50 || num == 65) {
                                 newStar.setImageResource(R.drawable.ic_magnet)
                                 isMagnet = true
-                            } else if (num == 70 || num == 65 || num == 85 || num == 55 || num==60) {
+                            } else if (num == 70 || num == 75 || num == 85 || num == 55 || num==60) {
                                 newStar.setImageResource(R.drawable.ic_slow)
                                 isSlow = true
-                            } else if (num == 80) {
+                            } else if (num==40 || num == 80 || num==85 || num == 95) {
                                 newStar.setImageResource(R.drawable.ic_more_money)
                                 isMoreMoney = true
                             } else if (num == 90) {
@@ -224,7 +225,12 @@ class the_game : Fragment() {
                                     if (isGolden) {
                                         score += GoldenLevel
                                         isGolden = false
+                                        Constants.GoldenAmount++
+                                        Constants.GoldenMoney+=GoldenLevel
+                                        Constants.MagnetMoney+=GoldenLevel
                                     } else
+                                        Constants.normalMoey++
+                                        Constants.MagnetMoney++
                                         score++
 
                                     binding.txt.setTextColor(resources.getColor(R.color.Green))
@@ -236,6 +242,9 @@ class the_game : Fragment() {
                         set.start()
 
                         newStar.setOnClickListener {
+
+
+
                             if (newStar.visibility == View.GONE) {
                             } else {
                                 lifecycleScope.launch {
@@ -246,10 +255,24 @@ class the_game : Fragment() {
 
                                         if (isSpecialAbility) {
                                             if (isGolden) {
+
+
+                                                if (isBigHit)
+                                                    Constants.BigHitMoney+=GoldenLevel
+                                                if (isMagnet)
+                                                    Constants.MagnetMoney+=GoldenLevel
+                                                if (isSlow)
+                                                    Constants.SlowMoney+=GoldenLevel
+                                                if(isMoreMoney)
+                                                    Constants.moreMoneyMoney+=GoldenLevel
+
                                                 score += GoldenLevel
+                                                Constants.GoldenMoney+=GoldenLevel
                                                 isGolden = false
+                                                Constants.GoldenAmount++
                                             } else if (isSlow) {
-                                                minSpeed = 2200
+                                                Constants.SlowAmount++
+                                                minSpeed = 2600
                                                 maxSpeed = 3000
                                                 delayer = 200
                                                 //todo : start timer for 5 seconds then restore them to 900-1900
@@ -270,19 +293,24 @@ class the_game : Fragment() {
                                                     withContext(Dispatchers.Main) {
                                                         binding.slowTimer.visibility = View.GONE
                                                         binding.slow.visibility = View.GONE
+
                                                     }
                                                     delayer = 300
                                                     minSpeed = 1200
                                                     maxSpeed = 2200
                                                     isSlow = false
+
                                                 }
                                             } else if (isBigHit) {
-                                                hitBox = 440
+
+                                                Constants.BigHitAmount++
+                                                delayer=20
+                                                minSpeed=2200
+                                                maxSpeed=4000
                                                 GlobalScope.launch() {
                                                     withContext(Dispatchers.Main) {
                                                         binding.bigHit.visibility = View.VISIBLE
-                                                        binding.bigHitTimer.visibility =
-                                                            View.VISIBLE
+                                                        binding.bigHitTimer.visibility = View.VISIBLE
                                                     }
                                                     var BigHittimer = bigHitLevel
                                                     repeat(BigHittimer) {
@@ -296,12 +324,18 @@ class the_game : Fragment() {
                                                     withContext(Dispatchers.Main) {
                                                         binding.bigHit.visibility = View.GONE
                                                         binding.bigHitTimer.visibility = View.GONE
+                                                        isBigHit = false
+
                                                     }
-                                                    hitBox = 110
-                                                    isBigHit = false
+                                                    delayer=300
+                                                    minSpeed = 1200
+                                                    maxSpeed = 2200
                                                 }
+
+
                                             } else if (isMoreMoney) {
-                                                delayer = 100
+                                                Constants.MoreMoneyAmount++
+                                                delayer = 50
                                                 GlobalScope.launch() {
                                                     withContext(Dispatchers.Main) {
                                                         binding.moreMoney.visibility = View.VISIBLE
@@ -321,11 +355,13 @@ class the_game : Fragment() {
                                                         binding.moreMoney.visibility = View.GONE
                                                         binding.moreMoneyTimer.visibility =
                                                             View.GONE
+                                                        isMoreMoney = false
+
                                                     }
                                                     delayer = 300
-                                                    isMoreMoney = false
                                                 }
                                             } else if (isMagnet) {
+                                                Constants.MagnetAmount++
                                                 GlobalScope.launch() {
                                                     delayer = 200
                                                     withContext(Dispatchers.Main) {
@@ -346,23 +382,34 @@ class the_game : Fragment() {
                                                     withContext(Dispatchers.Main) {
                                                         binding.magnet.visibility = View.GONE
                                                         binding.magnetTimer.visibility = View.GONE
+                                                        isMagnet = false
                                                     }
-                                                    isMagnet = false
                                                     magn = false
                                                     delayer = 300
                                                 }
                                             }
-
-
                                         } else {
+
+                                            Constants.normalMoey++
                                             score++
+                                            if (isBigHit)
+                                                Constants.BigHitMoney++
+                                            if (isMagnet)
+                                                Constants.MagnetMoney++
+                                            if (isSlow)
+                                                Constants.SlowMoney++
+                                            if(isMoreMoney)
+                                                Constants.moreMoneyMoney++
+
+
                                         }
+
                                         binding.txt.setTextColor(resources.getColor(R.color.Green))
                                         binding.txt.text = score.toString()
                                         newStar.visibility = View.GONE
-                                    }
                                 }
                             }
+                        }
                         }
                     } catch (e: Exception) {
                     }

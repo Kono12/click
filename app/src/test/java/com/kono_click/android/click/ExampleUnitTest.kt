@@ -1,4 +1,4 @@
-package com.example.android.click
+package com.kono_click.android.click
 
 import org.junit.Test
 

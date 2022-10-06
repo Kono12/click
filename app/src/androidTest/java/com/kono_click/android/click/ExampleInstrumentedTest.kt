@@ -1,4 +1,4 @@
-package com.example.android.click
+package com.kono_click.android.click
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
