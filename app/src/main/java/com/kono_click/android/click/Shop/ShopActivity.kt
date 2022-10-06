@@ -11,7 +11,7 @@ class ShopActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShopBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        changeWallPaper()
+//        changeWallPaper()
         binding = ActivityShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.userMoney.text = Constants.UserMoney.toString() + " $"

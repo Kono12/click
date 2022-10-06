@@ -16,7 +16,7 @@ class info : AppCompatActivity() {
         Constants.resetData()
         val score = Constants.scoree.toInt()
         val highScore = Constants.HighScore.toInt()
-        binding.score.text=score.toString()
+        binding.score.text=score.toString()+" $"
         //  Toast.makeText(this,"score"+ Constants.scoree + " h "+ Constants.HighScore,Toast.LENGTH_SHORT).show()
 
         if (score > highScore) {
@@ -47,8 +47,8 @@ class info : AppCompatActivity() {
         binding.moneyAmount.text=Constants.normalMoey.toString()
         binding.goldAmount.text=Constants.GoldenAmount.toString()
         binding.magnetAmount.text=Constants.MagnetAmount.toString()
-//        binding.slowAmount.text=Constants.SlowAmount.toString()
-//        binding.moreMoneyAmount.text=Constants.MoreMoneyAmount.toString()
-//        binding.bigHitAmount.text=Constants.BigHitAmount.toString()
+        binding.slowAmount.text=Constants.SlowAmount.toString()
+        binding.moreMoneyAmount.text=Constants.MoreMoneyAmount.toString()
+        binding.bigHitAmount.text=Constants.BigHitAmount.toString()
     }
 }
