@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@id/button"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="70dp"
         tools:src="@drawable/new_record"
 
         />
