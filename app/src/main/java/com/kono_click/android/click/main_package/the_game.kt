@@ -53,6 +53,17 @@ class the_game : Fragment() {
     var moreMoneyLevel = Constants.MoreMoneyLevel
     var bigHitLevel = Constants.BigHitLevel
 
+    //time phases
+    //60 -> 30
+    var phaseone = true
+
+    //30 -> 20
+    var phaseTwo = false
+
+    //20 -> 0
+    var phaseThree = false
+
+
     //timers
     var Timer1 = false
     var Timer2 = false
@@ -67,7 +78,7 @@ class the_game : Fragment() {
     var timeBetweenMoney: Long = 90
     var minSpeed = 1200
     var maxSpeed = 2200
-    var hitBox = 110
+    var hitBox = 100
     var defauldDelayer = 300
     var delayer: Long = 280
 
@@ -86,6 +97,8 @@ class the_game : Fragment() {
 
 
     var magn = false
+
+    var methods = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -128,12 +141,25 @@ class the_game : Fragment() {
                     repeat(time) {
                         delay(1000)
                         withContext(Dispatchers.Main) {
+                            if (timer == 46) {
+                                phaseThree = false
+                                phaseone = false
+                                phaseTwo = true
+                            }
+
+                            if (timer == 20) {
+                                phaseThree = true
+                                phaseone = false
+                                phaseTwo = false
+                            }
                             timer--
                             binding.Timer.text = timer.toString()
                             if (timer == 0) {
                                 BreakLoop = true
-                                GameEnded = true
-                                GameEnd()
+                                if (!GameEnded) {
+                                    GameEnd()
+                                    GameEnded = true
+                                }
                                 startActivity(Intent(activity, info::class.java))
                                 findNavController().popBackStack()
                                 cancelIt = true
@@ -166,9 +192,11 @@ class the_game : Fragment() {
     }
 
     fun MakeItRain(view: View) {
+
+
         GlobalScope.launch {
             while (true) {
-                if(tim1==0 && tim2==0 && tim3 ==0 &&tim4==0) delayer=300
+                if (tim1 == 0 && tim2 == 0 && tim3 == 0 && tim4 == 0) delayer = 300
                 //val num = ((0..100).random()) // generated random from 0 to 100 included
                 val num = generateRandom()
                 val isSpecialAbility = ((0..100).random()) % 5 == 0
@@ -189,6 +217,7 @@ class the_game : Fragment() {
                         val container = star.parent as ViewGroup
                         val containerW = container.width
                         val containerH = container.height
+
                         var starW: Float = star.width.toFloat()
                         var starH: Float = star.height.toFloat()
 
@@ -219,45 +248,107 @@ class the_game : Fragment() {
                             FrameLayout.LayoutParams.WRAP_CONTENT,
                             FrameLayout.LayoutParams.WRAP_CONTENT
                         )
-                        container.addView(newStar)
-                        newStar.setPadding(hitBox, hitBox, hitBox, hitBox)
+                    container.addView(newStar)
+                    newStar.setPadding(hitBox, hitBox, hitBox, hitBox)
 
-                        newStar.translationX = Math.random().toFloat() *
-                                containerW - starW / 2
+                    newStar.translationX = Math.random().toFloat() *
+                            containerW - starW / 2
 
-                        val mover = ObjectAnimator.ofFloat(
-                            newStar, View.TRANSLATION_Y,
-                            -starH, containerH + starH
-                        )
-                        mover.interpolator = AccelerateInterpolator(1f)
-                        val rotator = ObjectAnimator.ofFloat(
-                            newStar, View.ROTATION,
-                            (Math.random() * 1080).toFloat()
-                        )
-                        rotator.interpolator = LinearInterpolator()
+                    val mover = ObjectAnimator.ofFloat(
+                        newStar, View.TRANSLATION_Y,
+                        -starH, containerH + starH
+                    )
+                    var numm: Float = 1f
+                    mover.interpolator = AccelerateInterpolator(numm)
 
-                        val set = AnimatorSet()
-                        set.playTogether(mover, rotator)
+                    val rotator = ObjectAnimator.ofFloat(
+                        newStar, View.ROTATION,
+                        (Math.random() * 1080).toFloat()
+                    )
+                    rotator.interpolator = LinearInterpolator()
 
-                        set.duration = (Math.random() * maxSpeed + minSpeed).toLong()
+                    val set = AnimatorSet()
+                    set.playTogether(mover, rotator)
+
+                    var speed: Long = 2000
+                    if (phaseone) {
+                        if (isBigHit || isMoreMoney || isSlow) {
+                            if (isSlow) {
+                                delayer = 200
+                                speed = (Math.random() * 3000 + 3500).toLong()
+                            }
+                            if (isMoreMoney) {
+                                delayer = 180
+                                speed = (Math.random() * 2500 + 3500).toLong()
+
+                            }
+                            if (isBigHit) {
+                                delayer = 100
+                                speed = (Math.random() * 3000 + 3500).toLong()
+                            }
+                        } else {
+                            delayer = 200
+                            speed = (Math.random() * 2500 + 3500).toLong()
+                        }
+                    } else if (phaseTwo) {
+                        if (isBigHit || isMoreMoney || isSlow) {
+                            if (isSlow) {
+                                delayer = 150
+                                speed = (Math.random() * 2500 + 3000).toLong()
+                            }
+                            if (isMoreMoney) {
+                                delayer = 150
+                                speed = (Math.random() * 2100 + 2500).toLong()
+
+                            }
+                            if (isBigHit) {
+                                delayer = 130
+                                speed = (Math.random() * 2000 + 2800).toLong()
+                            }
+                        } else {
+                            delayer = 150
+                            speed = (Math.random() * 2000 + 2500).toLong()
+                        }
+                    } else if (phaseThree) {
+                        if (isBigHit || isMoreMoney || isSlow) {
+                            if (isSlow) {
+                                delayer = 150
+                                speed = (Math.random() * 2500 + 3500).toLong()
+                            }
+                            if (isMoreMoney) {
+                                delayer = 80
+                                speed = (Math.random() * 1900 + 2300).toLong()
+
+                            }
+                            if (isBigHit) {
+                                delayer = 70
+                                speed = (Math.random() * 1700 + 2300).toLong()
+                            }
+                        } else {
+                            delayer = 80
+                            speed = (Math.random() * 2000 + 2600).toLong()
+                        }
+                    }
+                    set.duration = speed
 
 
-                        set.addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                if (magn) {
-                                    if (isGolden) {
-                                        score += GoldenLevel
-                                        isGolden = false
-                                        Constants.GoldenAmount++
-                                        Constants.GoldenMoney += GoldenLevel
+                    set.addListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            if (magn) {
+                                if (isGolden) {
+                                    score += GoldenLevel
+                                    isGolden = false
+                                    Constants.GoldenAmount++
+                                    Constants.GoldenMoney += GoldenLevel
                                         Constants.MagnetMoney += GoldenLevel
                                     } else
                                         Constants.normalMoey++
                                     Constants.MagnetMoney++
                                     score++
-
-                                    binding.txt.setTextColor(resources.getColor(R.color.Green))
-                                    binding.txt.text = score.toString()
+                                 try {
+                                     binding.txt.setTextColor(resources.getColor(R.color.Green))
+                                     binding.txt.text = score.toString()
+                                 }catch (E:Exception){}
                                 }
                                 container.removeView(newStar)
                             }
@@ -269,31 +360,17 @@ class the_game : Fragment() {
                             lifecycleScope.launch {
                                 try {
                                     withContext(Dispatchers.Main) {
-                                        if (timer == 0) {
-                                            newStar.visibility = View.GONE
-                                        }
-
                                         if (isSpecialAbility) {
                                             if (isGolden) {
-
                                                 score += GoldenLevel
                                                 Constants.GoldenMoney += GoldenLevel
                                                 isGolden = false
                                                 Constants.GoldenAmount++
-                                            } else if (isSlow) {
 
-//                                            if (Timer1) {
-//                                            }else
+                                            } else if (isSlow) {
+                                                Constants.SlowAmount++
                                                 if (tim1 > 0) tim1 = slowLevel
                                                 else {
-                                                    minSpeed = 2800
-                                                    maxSpeed = 3400
-                                                    var delayer1 = false
-                                                    var delayer2 =0
-                                                    if (delayer > 180) {
-                                                        delayer -= 100
-                                                        delayer1 = true
-                                                    }
                                                     GlobalScope.launch() {
                                                         Timer1 = true
                                                         withContext(Dispatchers.Main) {
@@ -323,34 +400,16 @@ class the_game : Fragment() {
                                                             }
 
                                                         }
-                                                        if (delayer1) {
-                                                            delayer += 100
-                                                            delayer1 = false
-                                                        }
-                                                        minSpeed = 1200
-                                                        maxSpeed = 2200
                                                         isSlow = false
-                                                        Constants.SlowAmount++
                                                         Timer1 = false
                                                     }
                                                 }
                                             } else if (isBigHit) {
-//                                            if (Timer2) {
-//                                            } else
+                                                Constants.BigHitAmount++
                                                 if (tim2 > 0) {
                                                     tim2 = bigHitLevel
                                                 } else {
                                                     Timer2 = true
-                                                    Constants.BigHitAmount++
-                                                    var delayer2 = 0
-                                                    var delayer1 =false
-                                                    if (delayer > 100) {
-                                                        delayer1=true
-                                                        delayer2 = (delayer - 60).toInt()
-                                                        delayer -= delayer2
-                                                    }
-                                                    minSpeed = 2200
-                                                    maxSpeed = 4000
                                                     GlobalScope.launch() {
                                                         withContext(Dispatchers.Main) {
                                                             try {
@@ -381,25 +440,14 @@ class the_game : Fragment() {
 
                                                         }
                                                         isBigHit = false
-                                                        if (delayer1) {
-                                                            delayer += delayer2
-                                                        }
-                                                        delayer2 = 0
-                                                        minSpeed = 1200
-                                                        maxSpeed = 2200
                                                         Timer2 = false
                                                     }
-
                                                 }
                                             } else if (isMoreMoney) {
-//                                            if (Timer3) {
-//                                            }else
+                                                Constants.MoreMoneyAmount++
                                                 if (tim3 > 0) tim3 = moreMoneyLevel
                                                 else {
                                                     Timer3 = true
-                                                    Constants.MoreMoneyAmount++
-                                                    var delayer2=delayer-100>50
-                                                    if(delayer2) delayer-=100
 
                                                     GlobalScope.launch() {
                                                         withContext(Dispatchers.Main) {
@@ -429,18 +477,14 @@ class the_game : Fragment() {
                                                             } catch (E: Exception) {
                                                             }
                                                         }
-                                                        if (delayer2)
-                                                        delayer+=100
                                                         Timer3 = false
                                                     }
                                                 }
                                             } else if (isMagnet) {
-                                                //if (Timer4) {
-                                                // }else
+                                                Constants.MagnetAmount++
                                                 if (tim4 > 0) tim4 = MagnetLevel
                                                 else {
                                                     Timer4 = true
-                                                    Constants.MagnetAmount++
                                                     GlobalScope.launch() {
 
                                                         withContext(Dispatchers.Main) {
@@ -487,13 +531,14 @@ class the_game : Fragment() {
                                         binding.txt.text = score.toString()
                                         newStar.visibility = View.GONE
                                     }
+
                                 } catch (E: Exception) {
                                 }
                             }
-
                         }
-                    } catch (e: Exception) {
-                    }
+                      }
+                    catch (e: Exception) {
+                      }
                 }
 
 

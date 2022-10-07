@@ -40,6 +40,5 @@ object Constants {
          SlowAmount=0
          BigHitAmount=0
          MoreMoneyAmount=0
-
     }
 }
