@@ -146,7 +146,7 @@
                                         android:background="@drawable/buybutton"
                                         android:text="upgrade 250"
                                         android:textColor="@color/Gold"
-                                        android:textSize="11sp"
+                                        android:textSize="16sp"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintLeft_toLeftOf="parent"
                                         app:layout_constraintRight_toRightOf="parent"
@@ -207,7 +207,7 @@
                                         android:background="@drawable/buybutton"
                                         android:text="upgrade"
                                         android:textColor="@color/Gold"
-                                        android:textSize="11sp"
+                                        android:textSize="16sp"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintLeft_toLeftOf="parent"
                                         app:layout_constraintRight_toRightOf="parent"
@@ -266,7 +266,7 @@
                                         android:background="@drawable/buybutton"
                                         android:text="upgrade"
                                         android:textColor="@color/Gold"
-                                        android:textSize="11sp"
+                                        android:textSize="16sp"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintLeft_toLeftOf="parent"
                                         app:layout_constraintRight_toRightOf="parent"
@@ -325,7 +325,7 @@
                                         android:background="@drawable/buybutton"
                                         android:text="upgrade"
                                         android:textColor="@color/Gold"
-                                        android:textSize="11sp"
+                                        android:textSize="16sp"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintLeft_toLeftOf="parent"
                                         app:layout_constraintRight_toRightOf="parent"
@@ -381,6 +381,15 @@
                     android:backgroundTint="#105B3C"
                     app:cardCornerRadius="15dp"
                     app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="32sp"
+                        android:textColor="@color/Gold"
+                        android:text="Comming Soon"
+                        />
 
                     <!--                todo: recyclerView-->
 

@@ -20,6 +20,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.kono_click.android.click.Constants.GoldLevel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -61,7 +62,6 @@ class home : Fragment() {
             })
 
 
-
         sharedPreference = requireActivity().getSharedPreferences(
             getString(R.string.highscore),
             Context.MODE_PRIVATE
@@ -71,6 +71,8 @@ class home : Fragment() {
         UserMoney = sharedPreference.getLong("UserMoney", 0)
         binding.userMoney.text = UserMoney.toString() + " $"
         Constants.UserMoney = UserMoney as Long
+
+        setVariables()
 
         var score = sharedPreference.getInt("high", 0)
 
@@ -98,6 +100,12 @@ class home : Fragment() {
 
         }
 
+    }
+    private fun setVariables() {
+        Constants.MagmetLevel = sharedPreference.getInt("Magnet",5)
+        Constants.GoldLevel = sharedPreference.getInt("Gold", 5)
+        Constants.SlowMotionLevel = sharedPreference.getInt("Slow", 5)
+        Constants.MoreMoneyLevel = sharedPreference.getInt("More", 5)
     }
 
     override fun onResume() {

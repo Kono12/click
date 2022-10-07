@@ -45,11 +45,11 @@ class the_game : Fragment() {
     var arr = Array(100, { i -> i + 1 })
 
     //Ability level
-    var GoldenLevel = 5
-    var MagnetLevel = 5
-    var slowLevel = 5
-    var moreMoneyLevel = 5
-    var bigHitLevel = 5
+    var GoldenLevel = Constants.GoldLevel
+    var MagnetLevel = Constants.MagmetLevel
+    var slowLevel = Constants.SlowMotionLevel
+    var moreMoneyLevel = Constants.MoreMoneyLevel
+    var bigHitLevel = Constants.BigHitLevel
 
     //timers
     var Timer1 = false
@@ -104,7 +104,7 @@ class the_game : Fragment() {
             Context.MODE_PRIVATE
         )
         editor = sharedPreferencee.edit()
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay((Math.random() * 500 + 200).toLong())
 
             withContext(Dispatchers.Main) {
@@ -268,7 +268,7 @@ class the_game : Fragment() {
                                                 minSpeed = 2600
                                                 maxSpeed = 3000
                                                 delayer = 200
-                                                lifecycleScope.launch() {
+                                                GlobalScope.launch() {
                                                     Timer1 = true
                                                     withContext(Dispatchers.Main) {
                                                         binding.slow.visibility = View.VISIBLE
@@ -304,7 +304,7 @@ class the_game : Fragment() {
                                                 delayer = 20
                                                 minSpeed = 2200
                                                 maxSpeed = 4000
-                                                lifecycleScope.launch() {
+                                                GlobalScope.launch() {
                                                     withContext(Dispatchers.Main) {
                                                         binding.bigHit.visibility =
                                                             View.VISIBLE
@@ -340,7 +340,7 @@ class the_game : Fragment() {
                                                 Timer3 = true
                                                 Constants.MoreMoneyAmount++
                                                 delayer = 50
-                                                lifecycleScope.launch() {
+                                                GlobalScope.launch() {
                                                     withContext(Dispatchers.Main) {
                                                         binding.moreMoney.visibility = View.VISIBLE
                                                         binding.moreMoneyTimer.visibility =
@@ -371,7 +371,7 @@ class the_game : Fragment() {
                                             } else {
                                                 Timer4 = true
                                                 Constants.MagnetAmount++
-                                                lifecycleScope.launch() {
+                                                GlobalScope.launch() {
                                                     delayer = 200
                                                     withContext(Dispatchers.Main) {
                                                         binding.magnet.visibility = View.VISIBLE
