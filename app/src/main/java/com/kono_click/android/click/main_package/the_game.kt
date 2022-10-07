@@ -20,18 +20,17 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.kono_click.android.click.Constants
-import com.kono_click.android.click.R
-import com.kono_click.android.click.databinding.FragmentRunTestBinding
-import com.kono_click.android.click.info
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.kono_click.android.click.Constants
+import com.kono_click.android.click.R
+import com.kono_click.android.click.databinding.FragmentRunTestBinding
+import com.kono_click.android.click.info
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
-import kotlin.math.max
 
 class the_game : Fragment() {
 
@@ -52,6 +51,11 @@ class the_game : Fragment() {
     var moreMoneyLevel = 5
     var bigHitLevel = 5
 
+    //timers
+    var Timer1 = false
+    var Timer2 = false
+    var Timer3 = false
+    var Timer4 = false
 
     //Control the game from here
     var BreakLoop = false
@@ -258,122 +262,141 @@ class the_game : Fragment() {
                                             isGolden = false
                                             Constants.GoldenAmount++
                                         } else if (isSlow) {
-                                            minSpeed = 2600
-                                            maxSpeed = 3000
-                                            delayer = 200
-                                            //todo : start timer for 5 seconds then restore them to 900-1900
-                                            lifecycleScope.launch() {
-                                                withContext(Dispatchers.Main) {
-                                                    binding.slow.visibility = View.VISIBLE
-                                                    binding.slowTimer.visibility = View.VISIBLE
-                                                }
-                                                var slowLeveltimer = slowLevel
-                                                repeat(slowLeveltimer) {
+
+                                            if (Timer1) {
+                                            } else {
+                                                minSpeed = 2600
+                                                maxSpeed = 3000
+                                                delayer = 200
+                                                lifecycleScope.launch() {
+                                                    Timer1 = true
                                                     withContext(Dispatchers.Main) {
-                                                        binding.slowTimer.text =
-                                                            slowLeveltimer.toString()
+                                                        binding.slow.visibility = View.VISIBLE
+                                                        binding.slowTimer.visibility = View.VISIBLE
                                                     }
-                                                    delay(1000)
-                                                    slowLeveltimer--
-                                                }
-                                                withContext(Dispatchers.Main) {
-                                                    binding.slowTimer.visibility = View.GONE
-                                                    binding.slow.visibility = View.GONE
+                                                    var slowLeveltimer = slowLevel
+                                                    repeat(slowLeveltimer) {
+                                                        withContext(Dispatchers.Main) {
+                                                            binding.slowTimer.text =
+                                                                slowLeveltimer.toString()
+                                                        }
+                                                        delay(1000)
+                                                        slowLeveltimer--
+                                                    }
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.slowTimer.visibility = View.GONE
+                                                        binding.slow.visibility = View.GONE
 
+                                                    }
+                                                    delayer = 300
+                                                    minSpeed = 1200
+                                                    maxSpeed = 2200
+                                                    isSlow = false
+                                                    Constants.SlowAmount++
+                                                    Timer1 = false
                                                 }
-                                                delayer = 300
-                                                minSpeed = 1200
-                                                maxSpeed = 2200
-                                                isSlow = false
-                                                Constants.SlowAmount++
-
                                             }
                                         } else if (isBigHit) {
-
-                                            Constants.BigHitAmount++
-                                            delayer = 20
-                                            minSpeed = 2200
-                                            maxSpeed = 4000
-                                            lifecycleScope.launch() {
-                                                withContext(Dispatchers.Main) {
-                                                    binding.bigHit.visibility = View.VISIBLE
-                                                    binding.bigHitTimer.visibility =
-                                                        View.VISIBLE
-                                                }
-                                                var BigHittimer = bigHitLevel
-                                                repeat(BigHittimer) {
+                                            if (Timer2) {
+                                            } else {
+                                                Timer2 = true
+                                                Constants.BigHitAmount++
+                                                delayer = 20
+                                                minSpeed = 2200
+                                                maxSpeed = 4000
+                                                lifecycleScope.launch() {
                                                     withContext(Dispatchers.Main) {
-                                                        binding.bigHitTimer.text =
-                                                            BigHittimer.toString()
+                                                        binding.bigHit.visibility =
+                                                            View.VISIBLE
+                                                        binding.bigHitTimer.visibility =
+                                                            View.VISIBLE
                                                     }
-                                                    delay(1000)
-                                                    BigHittimer--
-                                                }
-                                                withContext(Dispatchers.Main) {
-                                                    binding.bigHit.visibility = View.GONE
-                                                    binding.bigHitTimer.visibility = View.GONE
+                                                    var BigHittimer = bigHitLevel
+                                                    repeat(BigHittimer) {
+                                                        withContext(Dispatchers.Main) {
+                                                            binding.bigHitTimer.text =
+                                                                BigHittimer.toString()
+                                                        }
+                                                        delay(1000)
+                                                        BigHittimer--
+                                                    }
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.bigHit.visibility = View.GONE
+                                                        binding.bigHitTimer.visibility =
+                                                            View.GONE
 
+                                                    }
+                                                    isBigHit = false
+                                                    delayer = 300
+                                                    minSpeed = 1200
+                                                    maxSpeed = 2200
+                                                    Timer2 = false
                                                 }
-                                                isBigHit = false
-                                                delayer = 300
-                                                minSpeed = 1200
-                                                maxSpeed = 2200
+
                                             }
-
-
                                         } else if (isMoreMoney) {
-                                            Constants.MoreMoneyAmount++
-                                            delayer = 50
-                                            lifecycleScope.launch() {
-                                                withContext(Dispatchers.Main) {
-                                                    binding.moreMoney.visibility = View.VISIBLE
-                                                    binding.moreMoneyTimer.visibility =
-                                                        View.VISIBLE
-                                                }
-                                                var BigHittimer = moreMoneyLevel
-                                                repeat(BigHittimer) {
+                                            if (Timer3) {
+                                            } else {
+                                                Timer3 = true
+                                                Constants.MoreMoneyAmount++
+                                                delayer = 50
+                                                lifecycleScope.launch() {
                                                     withContext(Dispatchers.Main) {
-                                                        binding.moreMoneyTimer.text =
-                                                            BigHittimer.toString()
+                                                        binding.moreMoney.visibility = View.VISIBLE
+                                                        binding.moreMoneyTimer.visibility =
+                                                            View.VISIBLE
                                                     }
-                                                    delay(1000)
-                                                    BigHittimer--
-                                                }
-                                                withContext(Dispatchers.Main) {
-                                                    binding.moreMoney.visibility = View.GONE
-                                                    binding.moreMoneyTimer.visibility =
-                                                        View.GONE
+                                                    var BigHittimer = moreMoneyLevel
+                                                    repeat(BigHittimer) {
+                                                        withContext(Dispatchers.Main) {
+                                                            binding.moreMoneyTimer.text =
+                                                                BigHittimer.toString()
+                                                        }
+                                                        delay(1000)
+                                                        BigHittimer--
+                                                    }
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.moreMoney.visibility = View.GONE
+                                                        binding.moreMoneyTimer.visibility =
+                                                            View.GONE
 
+                                                    }
+                                                    isMoreMoney = false
+                                                    delayer = 300
+                                                    Timer3 = false
                                                 }
-                                                isMoreMoney = false
-                                                delayer = 300
                                             }
                                         } else if (isMagnet) {
-                                            Constants.MagnetAmount++
-                                            lifecycleScope.launch() {
-                                                delayer = 200
-                                                withContext(Dispatchers.Main) {
-                                                    binding.magnet.visibility = View.VISIBLE
-                                                    binding.magnetTimer.visibility =
-                                                        View.VISIBLE
-                                                }
-                                                magn = true
-                                                var BigHittimer = MagnetLevel
-                                                repeat(BigHittimer) {
+                                            if (Timer4) {
+                                            } else {
+                                                Timer4 = true
+                                                Constants.MagnetAmount++
+                                                lifecycleScope.launch() {
+                                                    delayer = 200
                                                     withContext(Dispatchers.Main) {
-                                                        binding.magnetTimer.text =
-                                                            BigHittimer.toString()
+                                                        binding.magnet.visibility = View.VISIBLE
+                                                        binding.magnetTimer.visibility =
+                                                            View.VISIBLE
                                                     }
-                                                    delay(1000)
-                                                    BigHittimer--
+                                                    magn = true
+                                                    var BigHittimer = MagnetLevel
+                                                    repeat(BigHittimer) {
+                                                        withContext(Dispatchers.Main) {
+                                                            binding.magnetTimer.text =
+                                                                BigHittimer.toString()
+                                                        }
+                                                        delay(1000)
+                                                        BigHittimer--
+                                                    }
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.magnet.visibility = View.GONE
+                                                        binding.magnetTimer.visibility = View.GONE
+                                                        isMagnet = false
+                                                    }
+                                                    magn = false
+                                                    delayer = 300
+                                                    Timer4 = false
                                                 }
-                                                withContext(Dispatchers.Main) {
-                                                    binding.magnet.visibility = View.GONE
-                                                    binding.magnetTimer.visibility = View.GONE
-                                                    isMagnet = false
-                                                }
-                                                magn = false
-                                                delayer = 300
                                             }
                                         }
                                     } else {
