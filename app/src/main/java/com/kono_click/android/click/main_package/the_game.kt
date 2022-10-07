@@ -104,8 +104,8 @@ class the_game : Fragment() {
             Context.MODE_PRIVATE
         )
         editor = sharedPreferencee.edit()
-        lifecycleScope.launch {
-            delay((Math.random() * 800 + 200).toLong())
+        GlobalScope.launch {
+            delay((Math.random() * 500 + 200).toLong())
 
             withContext(Dispatchers.Main) {
                 lifecycleScope.launch {

@@ -14,7 +14,7 @@
         android:fontFamily="@font/fascinate_inline"
         android:gravity="center"
         android:text="Money"
-        android:textColor="#E07DA0"
+        android:textColor="@color/Gold"
         android:textSize="62sp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/upperView" />
@@ -27,7 +27,7 @@
         android:fontFamily="@font/alfa_slab_one"
         android:gravity="center"
         android:text="Falls"
-        android:textColor="#33CD09"
+        android:textColor="#CDAF4A"
         android:textSize="57sp"
         app:layout_constraintBottom_toBottomOf="@id/lowerView"
        android:layout_marginBottom="8dp"

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.kono_click.android.click.Constants
 import com.kono_click.android.click.R
@@ -77,7 +78,7 @@ class home : Fragment() {
         binding.BestScore.text = txt
 
         binding.StartTest.setOnClickListener {
-            GlobalScope.launch {
+            lifecycleScope.launch {
             }
             try {
                 if (mInterstitialAd != null) {

@@ -31,7 +31,7 @@ class ShopActivity : AppCompatActivity() {
         setButtons()
 
         binding.magnetButton.setOnClickListener {
-            buy("magnet")
+          //  buy("magnet")
         }
 
         // TODO: make on Click listener to all Shop items
