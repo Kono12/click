@@ -3,24 +3,26 @@ package com.kono_click.android.click.main_package
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.kono_click.android.click.Constants
-import com.kono_click.android.click.R
-import com.kono_click.android.click.Shop.ShopActivity
-import com.kono_click.android.click.databinding.FragmentHomeBinding
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.kono_click.android.click.Constants
 import com.kono_click.android.click.Constants.GoldLevel
+import com.kono_click.android.click.Constants.MagmetLevel
+import com.kono_click.android.click.Constants.sound
+import com.kono_click.android.click.R
+import com.kono_click.android.click.Shop.ShopActivity
+import com.kono_click.android.click.databinding.FragmentHomeBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -31,6 +33,8 @@ class home : Fragment() {
     private var TAG = "Moha"
     private var UserMoney: Long? = null
 
+    private lateinit var clickSound:MediaPlayer
+    private lateinit var soundModeClicked:MediaPlayer
 
     lateinit var sharedPreference: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
@@ -48,7 +52,7 @@ class home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(requireActivity(), "ca-app-pub-3940256099942544/1033173712", adRequest,
+        InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     Log.d(TAG, adError?.toString().toString())
@@ -61,6 +65,9 @@ class home : Fragment() {
                 }
             })
 
+
+        soundModeClicked=MediaPlayer.create(activity,R.raw.mouse_clickmp3)
+        clickSound=MediaPlayer.create(activity,R.raw.touch)
 
         sharedPreference = requireActivity().getSharedPreferences(
             getString(R.string.highscore),
@@ -80,8 +87,9 @@ class home : Fragment() {
         binding.BestScore.text = txt
 
         binding.StartTest.setOnClickListener {
-            lifecycleScope.launch {
-            }
+            if (sound)
+                clickSound.start()
+
             try {
                 if (mInterstitialAd != null) {
                     //    mInterstitialAd?.show(requireActivity())
@@ -91,19 +99,64 @@ class home : Fragment() {
             Navigation.findNavController(requireActivity(), R.id.my_nav_host_fragment)
                 .navigate(R.id.action_home_to_the_game)
         }
+
         binding.ShopButton.setOnClickListener {
+            if (sound)
+            clickSound.start()
             startActivity(Intent(activity, ShopActivity::class.java))
         }
 
-        binding.SettingsBtn.setOnClickListener {
-            Toast.makeText(activity,"TODO",Toast.LENGTH_SHORT).show()
-
+         setSoundAsLastTime()
+        binding.SoundBtn.setOnClickListener {
+            if (Constants.sound) {
+                Constants.sound = false
+                editor.putBoolean("sound",false).commit()
+                binding.SoundBtn.setImageResource(R.drawable.sound_off)
+            } else {
+                soundModeClicked.start()
+                Constants.sound = true
+                editor.putBoolean("sound",true).commit()
+                binding.SoundBtn.setImageResource(R.drawable.sound_on)
+            }
         }
 
     }
+
+    private fun setSoundAsLastTime() {
+        var soundd = sharedPreference.getBoolean("sound", true)
+         if (soundd){
+             Constants.sound = true
+             binding.SoundBtn.setImageResource(R.drawable.sound_on)
+         }else{
+
+             Constants.sound = false
+             binding.SoundBtn.setImageResource(R.drawable.sound_off)
+         }
+    }
+
+
     private fun setVariables() {
-        Constants.MagmetLevel = sharedPreference.getInt("Magnet",5)
-        Constants.GoldLevel = sharedPreference.getInt("Gold", 5)
+        var MagmetLevel1 = sharedPreference.getInt("Magnet",5)
+
+        if (MagmetLevel1 == 7) {
+            MagmetLevel=8
+        } else if (MagmetLevel1 == 8){
+            MagmetLevel=11
+        }
+        else if (MagmetLevel1 == 9){
+            MagmetLevel=15
+        }
+
+        var GoldLevel1 = sharedPreference.getInt("Gold", 5)
+        if (GoldLevel1 == 7) {
+            Constants.GoldLevel=8
+        } else if (GoldLevel1 == 8){
+            Constants.GoldLevel=11
+        }
+        else if (GoldLevel1 == 9){
+            Constants.GoldLevel=15
+        }
+
         Constants.SlowMotionLevel = sharedPreference.getInt("Slow", 5)
         Constants.MoreMoneyLevel = sharedPreference.getInt("More", 5)
     }

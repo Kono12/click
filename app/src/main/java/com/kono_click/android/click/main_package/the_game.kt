@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -25,12 +27,14 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.kono_click.android.click.Constants
+import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.FragmentRunTestBinding
 import com.kono_click.android.click.info
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
+import kotlin.text.Typography.bullet
 
 class the_game : Fragment() {
 
@@ -43,6 +47,16 @@ class the_game : Fragment() {
     lateinit var editor: SharedPreferences.Editor
     private lateinit var binding: FragmentRunTestBinding
     var arr = Array(100, { i -> i + 1 })
+
+
+    private lateinit var ballwall: MediaPlayer
+    private lateinit var beeb: MediaPlayer
+    private lateinit var bullet: MediaPlayer
+    private lateinit var firec: MediaPlayer
+    private lateinit var gun: MediaPlayer
+    private lateinit var notification: MediaPlayer
+    private lateinit var sword: MediaPlayer
+
 
     var GameEnded = false
 
@@ -113,7 +127,7 @@ class the_game : Fragment() {
 
         var adRequest = AdRequest.Builder().build()
         // remember to put yours
-        InterstitialAd.load(requireActivity(), "ca-app-pub-3940256099942544/1033173712", adRequest,
+        InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     Log.d(TAG, adError?.toString().toString())
@@ -125,7 +139,7 @@ class the_game : Fragment() {
                     mInterstitialAd = interstitialAd
                 }
             })
-
+        CreatMedeiaPlayers()
         hideTimers()
         binding.Timer.text = time.toString()
         sharedPreferencee = requireActivity().getSharedPreferences(
@@ -141,16 +155,19 @@ class the_game : Fragment() {
                     repeat(time) {
                         delay(1000)
                         withContext(Dispatchers.Main) {
-                            if (timer == 46) {
+                            if (timer == 48) {
                                 phaseThree = false
                                 phaseone = false
                                 phaseTwo = true
+                               // Toast.makeText(activity,"phase 2" ,Toast.LENGTH_SHORT).show()
                             }
 
-                            if (timer == 20) {
+                            if (timer == 25) {
                                 phaseThree = true
                                 phaseone = false
                                 phaseTwo = false
+                                Toast.makeText(activity,"phase 3" ,Toast.LENGTH_SHORT).show()
+
                             }
                             timer--
                             binding.Timer.text = timer.toString()
@@ -270,72 +287,79 @@ class the_game : Fragment() {
                     val set = AnimatorSet()
                     set.playTogether(mover, rotator)
 
-                    var speed: Long = 2000
+                    var speed: Long
                     if (phaseone) {
+
+                        delayer = 250
+                        speed = (Math.random() * 3400 + 3900).toLong()
+
                         if (isBigHit || isMoreMoney || isSlow) {
                             if (isSlow) {
+                                speed = (Math.random() * 5300 + 5700).toLong()
+                            }
+                            if (isMoreMoney) {
                                 delayer = 200
-                                speed = (Math.random() * 3000 + 3500).toLong()
-                            }
-                            if (isMoreMoney) {
-                                delayer = 180
-                                speed = (Math.random() * 2500 + 3500).toLong()
-
                             }
                             if (isBigHit) {
-                                delayer = 100
-                                speed = (Math.random() * 3000 + 3500).toLong()
+                                delayer = 900
+                                speed = (Math.random() * 2600 + 3100).toLong()
                             }
-                        } else {
-                            delayer = 200
-                            speed = (Math.random() * 2500 + 3500).toLong()
                         }
+                        set.duration = speed
                     } else if (phaseTwo) {
+
+                        delayer = 150
+                        speed = (Math.random() * 2600 + 2900).toLong()
+
                         if (isBigHit || isMoreMoney || isSlow) {
                             if (isSlow) {
-                                delayer = 150
-                                speed = (Math.random() * 2500 + 3000).toLong()
+                                speed = (Math.random() * 3900 + 3999).toLong()
                             }
                             if (isMoreMoney) {
-                                delayer = 150
-                                speed = (Math.random() * 2100 + 2500).toLong()
-
+                                delayer = 120
                             }
                             if (isBigHit) {
-                                delayer = 130
-                                speed = (Math.random() * 2000 + 2800).toLong()
+                                delayer = 60
+                                speed = (Math.random() * 1800 + 2700).toLong()
                             }
-                        } else {
-                            delayer = 150
-                            speed = (Math.random() * 2000 + 2500).toLong()
                         }
+                        set.duration = speed
                     } else if (phaseThree) {
+                        delayer = 80
+                        speed = (Math.random() * 1700 + 2200).toLong()
+
                         if (isBigHit || isMoreMoney || isSlow) {
                             if (isSlow) {
-                                delayer = 150
-                                speed = (Math.random() * 2500 + 3500).toLong()
+                                speed = (Math.random() * 3800 + 4500).toLong()
                             }
                             if (isMoreMoney) {
-                                delayer = 80
-                                speed = (Math.random() * 1900 + 2300).toLong()
+                                delayer = 50
 
                             }
                             if (isBigHit) {
-                                delayer = 70
-                                speed = (Math.random() * 1700 + 2300).toLong()
+                                delayer = 20
+                                speed = (Math.random() * 1700 + 2500).toLong()
                             }
-                        } else {
-                            delayer = 80
-                            speed = (Math.random() * 2000 + 2600).toLong()
                         }
+                        set.duration = speed
                     }
-                    set.duration = speed
 
 
                     set.addListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator?) {
-                            if (magn) {
+                            if (magn && newStar.visibility!=View.GONE && timer>0) {
                                 if (isGolden) {
+                                    if (sound) {
+                                        lifecycleScope.launch {
+                                            try {
+                                                if (bullet.isPlaying())
+                                                    bullet.seekTo(0)
+                                                bullet.start()
+                                            } catch (e: java.lang.Exception) {
+                                                e.printStackTrace()
+                                            }
+                                        }
+                                    }
                                     score += GoldenLevel
                                     isGolden = false
                                     Constants.GoldenAmount++
@@ -346,6 +370,19 @@ class the_game : Fragment() {
                                     Constants.MagnetMoney++
                                     score++
                                  try {
+                                     if(Constants.sound){
+                                         lifecycleScope.launch {
+                                             try {
+                                                 if (sword.isPlaying())
+                                                     sword.seekTo(0)
+//                                                    sword.release()
+//                                                    sword=MediaPlayer.create(activity,R.raw.sword)
+                                                 sword.start()
+                                             } catch (e: java.lang.Exception) {
+                                                 e.printStackTrace()
+                                             }
+                                         }
+                                     }
                                      binding.txt.setTextColor(resources.getColor(R.color.Green))
                                      binding.txt.text = score.toString()
                                  }catch (E:Exception){}
@@ -362,12 +399,39 @@ class the_game : Fragment() {
                                     withContext(Dispatchers.Main) {
                                         if (isSpecialAbility) {
                                             if (isGolden) {
-                                                score += GoldenLevel
-                                                Constants.GoldenMoney += GoldenLevel
-                                                isGolden = false
-                                                Constants.GoldenAmount++
 
-                                            } else if (isSlow) {
+                                                if (sound) {
+                                                    lifecycleScope.launch {
+                                                        try {
+                                                            if (bullet.isPlaying())
+                                                                bullet.seekTo(0)
+                                                            bullet.start()
+                                                        } catch (e: java.lang.Exception) {
+                                                            e.printStackTrace()
+                                                        }
+                                                    }
+                                                }
+
+
+                                            score += GoldenLevel
+                                            Constants.GoldenMoney += GoldenLevel
+                                            isGolden = false
+                                            Constants.GoldenAmount++
+
+                                        } else if (isSlow) {
+
+                                            if (sound) {
+                                                lifecycleScope.launch {
+                                                    try {
+                                                        if (gun.isPlaying())
+                                                            gun.seekTo(0)
+                                                        gun.start()
+                                                    } catch (e: java.lang.Exception) {
+                                                        e.printStackTrace()
+                                                    }
+                                                }
+                                            }
+
                                                 Constants.SlowAmount++
                                                 if (tim1 > 0) tim1 = slowLevel
                                                 else {
@@ -405,6 +469,20 @@ class the_game : Fragment() {
                                                     }
                                                 }
                                             } else if (isBigHit) {
+
+                                                if (sound) {
+                                                    lifecycleScope.launch {
+                                                        try {
+                                                            if (notification.isPlaying())
+                                                                notification.seekTo(0)
+                                                            notification.start()
+                                                        } catch (e: java.lang.Exception) {
+                                                            e.printStackTrace()
+                                                        }
+                                                    }
+                                                }
+
+
                                                 Constants.BigHitAmount++
                                                 if (tim2 > 0) {
                                                     tim2 = bigHitLevel
@@ -444,6 +522,19 @@ class the_game : Fragment() {
                                                     }
                                                 }
                                             } else if (isMoreMoney) {
+
+                                                if(sound){
+                                                lifecycleScope.launch {
+                                                    try {
+                                                        if (beeb.isPlaying())
+                                                            beeb.seekTo(0)
+                                                        beeb.start()
+                                                    } catch (e: java.lang.Exception) {
+                                                        e.printStackTrace()
+                                                    }
+                                                }
+                                            }
+
                                                 Constants.MoreMoneyAmount++
                                                 if (tim3 > 0) tim3 = moreMoneyLevel
                                                 else {
@@ -481,6 +572,20 @@ class the_game : Fragment() {
                                                     }
                                                 }
                                             } else if (isMagnet) {
+
+                                                GlobalScope.launch {
+                                                    try {
+                                                        if(sound) {
+                                                            if (ballwall.isPlaying())
+                                                                ballwall.seekTo(0)
+                                                            ballwall.start()
+                                                        }
+                                                    } catch (e: java.lang.Exception) {
+                                                        e.printStackTrace()
+                                                    }
+                                                }
+
+
                                                 Constants.MagnetAmount++
                                                 if (tim4 > 0) tim4 = MagnetLevel
                                                 else {
@@ -523,6 +628,17 @@ class the_game : Fragment() {
                                             }
                                         } else {
 
+                                            if(Constants.sound){
+                                            lifecycleScope.launch {
+                                                try {
+                                                    if (sword.isPlaying())
+                                                        sword.seekTo(0)
+                                                    sword.start()
+                                                } catch (e: java.lang.Exception) {
+                                                    e.printStackTrace()
+                                                }
+                                            }
+                                            }
                                             Constants.normalMoey++
                                             score++
                                         }
@@ -602,4 +718,15 @@ class the_game : Fragment() {
 
         }
     }
+
+
+private fun CreatMedeiaPlayers() {
+    ballwall = MediaPlayer.create(activity, R.raw.ballwall)
+    beeb = MediaPlayer.create(activity, R.raw.beeb)
+    bullet = MediaPlayer.create(activity, R.raw.bullet)
+    firec = MediaPlayer.create(activity, R.raw.firec)
+    gun = MediaPlayer.create(activity, R.raw.gun)
+    notification = MediaPlayer.create(activity, R.raw.notification)
+    sword = MediaPlayer.create(activity, R.raw.sword)
+}
 }

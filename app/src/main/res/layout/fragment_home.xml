@@ -88,7 +88,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Settings_Btn" />
+        app:layout_constraintTop_toBottomOf="@id/Sound_Btn" />
 
     <TextView
         android:id="@+id/BestScore"
@@ -120,9 +120,9 @@
         android:id="@+id/ShopButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="150dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="60dp"
         android:background="@drawable/shop_button"
         android:text="  Shop  "
         android:textColor="@color/white"
@@ -130,15 +130,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/Settings_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+    <ImageView
+        android:id="@+id/Sound_Btn"
+        android:layout_width="0dp"
+        android:layout_height="47dp"
+        android:src="@drawable/sound_on"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="sound on"
         android:layout_marginTop="35dp"
-        android:layout_marginRight="40dp"
+        app:layout_constraintLeft_toLeftOf="@id/ShopButton"
         android:background="@drawable/shop_button"
-        android:text="  Settings  "
+        app:layout_constraintRight_toRightOf="@id/ShopButton"
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintTop_toBottomOf="@id/ShopButton" />

@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/the_game"
         android:name="com.kono_click.android.click.main_package.the_game"
-        android:label="Making money"
+        android:label="Become Rich"
         tools:layout="@layout/fragment_run_test" >
         <action
             android:id="@+id/action_the_game_to_home"
