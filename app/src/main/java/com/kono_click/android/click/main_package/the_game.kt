@@ -34,7 +34,6 @@ import com.kono_click.android.click.info
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
-import kotlin.text.Typography.bullet
 
 class the_game : Fragment() {
 
@@ -60,6 +59,13 @@ class the_game : Fragment() {
 
     var GameEnded = false
 
+
+    //Abilities
+    var isGoldenG = false
+    var isSlowG = false
+    var isMoreMoneyG = false
+    var isBigHitG = false
+
     //Ability level
     var GoldenLevel = Constants.GoldLevel
     var MagnetLevel = Constants.MagmetLevel
@@ -78,22 +84,17 @@ class the_game : Fragment() {
     var phaseThree = false
 
 
-    //timers
-    var Timer1 = false
-    var Timer2 = false
-    var Timer3 = false
-    var Timer4 = false
-
     //Control the game from here
     var BreakLoop = false
     var score = 0
     var timer = Constants.time
     var time = Constants.time
-    var timeBetweenMoney: Long = 90
-    var minSpeed = 1200
-    var maxSpeed = 2200
-    var hitBox = 100
-    var defauldDelayer = 300
+
+    //    var defminSpeed = 1200
+//    var defmaxSpeed = 2200
+    var minSpeed = 3000
+    var maxSpeed = 3500
+    var hitBox = 105
     var delayer: Long = 280
 
     //Variables used for Timers
@@ -126,7 +127,7 @@ class the_game : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var adRequest = AdRequest.Builder().build()
-        // remember to put yours
+        // ads
         InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -147,43 +148,15 @@ class the_game : Fragment() {
             Context.MODE_PRIVATE
         )
         editor = sharedPreferencee.edit()
+
         lifecycleScope.launch {
-            delay((Math.random() * 500 + 200).toLong())
+            //small delay before start
+            delay((Math.random() * 250 + 150).toLong())
 
             withContext(Dispatchers.Main) {
+
                 lifecycleScope.launch {
-                    repeat(time) {
-                        delay(1000)
-                        withContext(Dispatchers.Main) {
-                            if (timer == 48) {
-                                phaseThree = false
-                                phaseone = false
-                                phaseTwo = true
-                               // Toast.makeText(activity,"phase 2" ,Toast.LENGTH_SHORT).show()
-                            }
-
-                            if (timer == 25) {
-                                phaseThree = true
-                                phaseone = false
-                                phaseTwo = false
-                                Toast.makeText(activity,"phase 3" ,Toast.LENGTH_SHORT).show()
-
-                            }
-                            timer--
-                            binding.Timer.text = timer.toString()
-                            if (timer == 0) {
-                                BreakLoop = true
-                                if (!GameEnded) {
-                                    GameEnd()
-                                    GameEnded = true
-                                }
-                                startActivity(Intent(activity, info::class.java))
-                                findNavController().popBackStack()
-                                cancelIt = true
-                                this.cancel()
-                            }
-                        }
-                    }
+                    gameTimer()
                 }
 
                 MakeItRain(view)
@@ -212,21 +185,25 @@ class the_game : Fragment() {
 
 
         GlobalScope.launch {
+
+
             while (true) {
-                if (tim1 == 0 && tim2 == 0 && tim3 == 0 && tim4 == 0) delayer = 300
+                if(!phaseThree)
+                delay(80)
+                else if (phaseThree){
+                }
+
+
                 //val num = ((0..100).random()) // generated random from 0 to 100 included
+                // is used to decide if it's special or not
                 val num = generateRandom()
                 val isSpecialAbility = ((0..100).random()) % 5 == 0
 
-                //Abilities
-                var isGolden = false
-                var isMagnet = false
-                var isSlow = false
-                var isMoreMoney = false
-                var isBigHit = false
 
-                if (timer < 2) continue
-                delay(delayer)
+
+                if (timer < 0) continue
+                //delay(delayer)
+
                 withContext(Dispatchers.Main) {
                     try {
 
@@ -240,213 +217,139 @@ class the_game : Fragment() {
 
 
                         val newStar = AppCompatImageView(requireActivity())
+
+                        //Abilities
+                        var isGolden = false
+                        var isMagnet = false
+                        var isSlow = false
+                        var isMoreMoney = false
+                        var isBigHit = false
+
+                        //using the random number generated before to decide what ability it is
                         if (isSpecialAbility) {
-                            if (num <= 25) {
+                            if (num <= 25) { //5%
                                 newStar.setImageResource(R.drawable.ic_golden_dollar)
                                 isGolden = true
-                            } else if (num == 35 || num == 45 || num == 50 || num == 65) {
+                            } //4%
+                            else if (num == 35 || num == 45 || num == 50 || num == 65) {
                                 newStar.setImageResource(R.drawable.ic_magnet)
                                 isMagnet = true
-                            } else if (num == 70 || num == 75 || num == 85 || num == 55 || num == 60) {
+                            } //5%
+                            else if ((num == 70 || num == 75 || num == 85 || num == 55 || num == 60)&& phaseThree) {
                                 newStar.setImageResource(R.drawable.ic_slow)
                                 isSlow = true
-                            } else if (num == 40 || num == 80 || num == 85 || num == 95) {
+                            }// 4%
+                            else if (num == 40 || num == 80 || num == 85 || num == 95) {
                                 newStar.setImageResource(R.drawable.ic_more_money)
                                 isMoreMoney = true
-                            } else if (num == 90 || num==30) {
+                            } //2%
+                            else if (num == 90 || num == 30) {
                                 newStar.setImageResource(R.drawable.ic_best)
                                 isBigHit = true
                             }
-                        } else {
+                        } else {//85%
                             newStar.setImageResource(R.drawable.ic_baseline_attach_money_24)
                         }
+
+
+                        val controlObject: ControlObject =
+                            returnControlVariables(isBigHitG, isSlowG, isMoreMoneyG)
+                        minSpeed = controlObject.minSpeed
+                        maxSpeed = controlObject.maxSpeed
+                        delayer = controlObject.delayer.toLong()
+
+
 
                         newStar.layoutParams = FrameLayout.LayoutParams(
                             FrameLayout.LayoutParams.WRAP_CONTENT,
                             FrameLayout.LayoutParams.WRAP_CONTENT
                         )
-                    container.addView(newStar)
-                    newStar.setPadding(hitBox, hitBox, hitBox, hitBox)
+                        container.addView(newStar)
+                        newStar.setPadding(hitBox, hitBox, hitBox, hitBox)
 
-                    newStar.translationX = Math.random().toFloat() *
-                            containerW - starW / 2
+                        newStar.translationX = Math.random().toFloat() *
+                                containerW - starW / 2
 
-                    val mover = ObjectAnimator.ofFloat(
-                        newStar, View.TRANSLATION_Y,
-                        -starH, containerH + starH
-                    )
-                    var numm: Float = 1f
-                    mover.interpolator = AccelerateInterpolator(numm)
+                        val mover = ObjectAnimator.ofFloat(
+                            newStar, View.TRANSLATION_Y,
+                            -starH, containerH + starH
+                        )
 
-                    val rotator = ObjectAnimator.ofFloat(
-                        newStar, View.ROTATION,
-                        (Math.random() * 1080).toFloat()
-                    )
-                    rotator.interpolator = LinearInterpolator()
+                        mover.interpolator = AccelerateInterpolator(1f)
 
-                    val set = AnimatorSet()
-                    set.playTogether(mover, rotator)
+                        val rotator = ObjectAnimator.ofFloat(
+                            newStar, View.ROTATION,
+                            (Math.random() * 1080).toFloat()
+                        )
+                        rotator.interpolator = LinearInterpolator()
 
-                    var speed: Long
-                    if (phaseone) {
+                        val set = AnimatorSet()
+                        set.playTogether(mover, rotator)
 
-                        delayer = 250
-                        speed = (Math.random() * 3400 + 3900).toLong()
-
-                        if (isBigHit || isMoreMoney || isSlow) {
-                            if (isSlow) {
-                                speed = (Math.random() * 5300 + 5700).toLong()
-                            }
-                            if (isMoreMoney) {
-                                delayer = 200
-                            }
-                            if (isBigHit) {
-                                delayer = 900
-                                speed = (Math.random() * 2600 + 3100).toLong()
-                            }
-                        }
+                        var speed: Long
+                        speed = (Math.random() * minSpeed + maxSpeed).toLong()
                         set.duration = speed
-                    } else if (phaseTwo) {
 
-                        delayer = 150
-                        speed = (Math.random() * 2600 + 2900).toLong()
-
-                        if (isBigHit || isMoreMoney || isSlow) {
-                            if (isSlow) {
-                                speed = (Math.random() * 3900 + 3999).toLong()
-                            }
-                            if (isMoreMoney) {
-                                delayer = 120
-                            }
-                            if (isBigHit) {
-                                delayer = 60
-                                speed = (Math.random() * 1800 + 2700).toLong()
-                            }
-                        }
-                        set.duration = speed
-                    } else if (phaseThree) {
-                        delayer = 80
-                        speed = (Math.random() * 1700 + 2200).toLong()
-
-                        if (isBigHit || isMoreMoney || isSlow) {
-                            if (isSlow) {
-                                speed = (Math.random() * 3800 + 4500).toLong()
-                            }
-                            if (isMoreMoney) {
-                                delayer = 50
-
-                            }
-                            if (isBigHit) {
-                                delayer = 20
-                                speed = (Math.random() * 1700 + 2500).toLong()
-                            }
-                        }
-                        set.duration = speed
-                    }
-
-
-                    set.addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            if (magn && newStar.visibility!=View.GONE && timer>0) {
-                                if (isGolden) {
-                                    if (sound) {
-                                        lifecycleScope.launch {
-                                            try {
-                                                if (bullet.isPlaying())
-                                                    bullet.seekTo(0)
-                                                bullet.start()
-                                            } catch (e: java.lang.Exception) {
-                                                e.printStackTrace()
-                                            }
-                                        }
-                                    }
-                                    score += GoldenLevel
-                                    isGolden = false
-                                    Constants.GoldenAmount++
-                                    Constants.GoldenMoney += GoldenLevel
+                        set.addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                if (magn && newStar.visibility != View.GONE && timer > 0) {
+                                    if (isGolden) {
+                                        playBulletSound()
+                                        score += GoldenLevel
+                                        Constants.GoldenAmount++
+                                        Constants.GoldenMoney += GoldenLevel
                                         Constants.MagnetMoney += GoldenLevel
-                                    } else
+                                        isGolden = false
+
+                                    } else {
                                         Constants.normalMoey++
-                                    Constants.MagnetMoney++
-                                    score++
-                                 try {
-                                     if(Constants.sound){
-                                         lifecycleScope.launch {
-                                             try {
-                                                 if (sword.isPlaying())
-                                                     sword.seekTo(0)
-//                                                    sword.release()
-//                                                    sword=MediaPlayer.create(activity,R.raw.sword)
-                                                 sword.start()
-                                             } catch (e: java.lang.Exception) {
-                                                 e.printStackTrace()
-                                             }
-                                         }
-                                     }
-                                     binding.txt.setTextColor(resources.getColor(R.color.Green))
-                                     binding.txt.text = score.toString()
-                                 }catch (E:Exception){}
+                                        Constants.MagnetMoney++
+                                        score++
+                                    }
+                                    try {
+                                        platSwordSound()
+                                        binding.txt.setTextColor(resources.getColor(R.color.Green))
+                                        binding.txt.text = score.toString()
+                                    } catch (E: Exception) {
+                                    }
                                 }
                                 container.removeView(newStar)
                             }
                         })
+
                         set.start()
 
                         newStar.setOnClickListener {
-
                             lifecycleScope.launch {
                                 try {
                                     withContext(Dispatchers.Main) {
                                         if (isSpecialAbility) {
                                             if (isGolden) {
 
-                                                if (sound) {
-                                                    lifecycleScope.launch {
-                                                        try {
-                                                            if (bullet.isPlaying())
-                                                                bullet.seekTo(0)
-                                                            bullet.start()
-                                                        } catch (e: java.lang.Exception) {
-                                                            e.printStackTrace()
-                                                        }
-                                                    }
-                                                }
+                                                playBulletSound()
 
+                                                score += GoldenLevel
+                                                Constants.GoldenMoney += GoldenLevel
+                                                Constants.GoldenAmount++
+                                                isGolden = false
+                                            } else if (isSlow) {
 
-                                            score += GoldenLevel
-                                            Constants.GoldenMoney += GoldenLevel
-                                            isGolden = false
-                                            Constants.GoldenAmount++
-
-                                        } else if (isSlow) {
-
-                                            if (sound) {
-                                                lifecycleScope.launch {
-                                                    try {
-                                                        if (gun.isPlaying())
-                                                            gun.seekTo(0)
-                                                        gun.start()
-                                                    } catch (e: java.lang.Exception) {
-                                                        e.printStackTrace()
-                                                    }
-                                                }
-                                            }
-
+                                                isSlowG = true
+                                                playGunSound()
                                                 Constants.SlowAmount++
+
+                                                //if the timer is on start it again
                                                 if (tim1 > 0) tim1 = slowLevel
+                                                //start timer
                                                 else {
                                                     GlobalScope.launch() {
-                                                        Timer1 = true
                                                         withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.slow.visibility =
-                                                                    View.VISIBLE
-                                                                binding.slowTimer.visibility =
-                                                                    View.VISIBLE
-                                                            } catch (E: Exception) {
-                                                            }
+                                                            showSlowMotionTimer()
                                                         }
+                                                        //setting the timer's value by level
                                                         tim1 = slowLevel
+
+                                                        // slow motion timer
                                                         while (tim1 > 0) {
                                                             withContext(Dispatchers.Main) {
                                                                 binding.slowTimer.text =
@@ -455,50 +358,29 @@ class the_game : Fragment() {
                                                             delay(1000)
                                                             tim1--
                                                         }
-                                                        withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.slowTimer.visibility =
-                                                                    View.GONE
-                                                                binding.slow.visibility = View.GONE
-                                                            } catch (E: Exception) {
-                                                            }
 
+                                                        withContext(Dispatchers.Main) {
+                                                            hideSlowMotionTimer()
                                                         }
-                                                        isSlow = false
-                                                        Timer1 = false
+                                                        // stopping the slow motion effect
+                                                        isSlowG = false
                                                     }
                                                 }
                                             } else if (isBigHit) {
 
-                                                if (sound) {
-                                                    lifecycleScope.launch {
-                                                        try {
-                                                            if (notification.isPlaying())
-                                                                notification.seekTo(0)
-                                                            notification.start()
-                                                        } catch (e: java.lang.Exception) {
-                                                            e.printStackTrace()
-                                                        }
-                                                    }
-                                                }
-
-
+                                                isBigHitG = true
+                                                playNotificationSound()
                                                 Constants.BigHitAmount++
-                                                if (tim2 > 0) {
-                                                    tim2 = bigHitLevel
-                                                } else {
-                                                    Timer2 = true
+
+                                                if (tim2 > 0) tim2 = bigHitLevel
+                                                else {
                                                     GlobalScope.launch() {
                                                         withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.bigHit.visibility =
-                                                                    View.VISIBLE
-                                                                binding.bigHitTimer.visibility =
-                                                                    View.VISIBLE
-                                                            } catch (E: Exception) {
-                                                            }
+                                                            showIsBigTimer()
                                                         }
+
                                                         tim2 = bigHitLevel
+
                                                         while (tim2 != 0) {
                                                             withContext(Dispatchers.Main) {
                                                                 binding.bigHitTimer.text =
@@ -507,50 +389,29 @@ class the_game : Fragment() {
                                                             delay(1000)
                                                             tim2--
                                                         }
-                                                        withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.bigHit.visibility =
-                                                                    View.GONE
-                                                                binding.bigHitTimer.visibility =
-                                                                    View.GONE
-                                                            } catch (E: Exception) {
-                                                            }
 
+                                                        withContext(Dispatchers.Main) {
+                                                            hideIsBigTimer()
                                                         }
-                                                        isBigHit = false
-                                                        Timer2 = false
+
+                                                        isBigHitG = false
                                                     }
                                                 }
                                             } else if (isMoreMoney) {
 
-                                                if(sound){
-                                                lifecycleScope.launch {
-                                                    try {
-                                                        if (beeb.isPlaying())
-                                                            beeb.seekTo(0)
-                                                        beeb.start()
-                                                    } catch (e: java.lang.Exception) {
-                                                        e.printStackTrace()
-                                                    }
-                                                }
-                                            }
-
+                                                isMoreMoneyG = true
+                                                startBeebSound()
                                                 Constants.MoreMoneyAmount++
+
                                                 if (tim3 > 0) tim3 = moreMoneyLevel
                                                 else {
-                                                    Timer3 = true
 
                                                     GlobalScope.launch() {
                                                         withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.moreMoney.visibility =
-                                                                    View.VISIBLE
-                                                                binding.moreMoneyTimer.visibility =
-                                                                    View.VISIBLE
-                                                            } catch (E: Exception) {
-                                                            }
+                                                            showMoreMoneyTimer()
                                                         }
                                                         tim3 = moreMoneyLevel
+
                                                         while (tim3 != 0) {
                                                             withContext(Dispatchers.Main) {
                                                                 binding.moreMoneyTimer.text =
@@ -560,46 +421,22 @@ class the_game : Fragment() {
                                                             tim3--
                                                         }
                                                         withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.moreMoney.visibility =
-                                                                    View.GONE
-                                                                binding.moreMoneyTimer.visibility =
-                                                                    View.GONE
-                                                            } catch (E: Exception) {
-                                                            }
+                                                            hideMoreMoneyTimer()
                                                         }
-                                                        Timer3 = false
+                                                        isMoreMoneyG = false
                                                     }
                                                 }
                                             } else if (isMagnet) {
 
-                                                GlobalScope.launch {
-                                                    try {
-                                                        if(sound) {
-                                                            if (ballwall.isPlaying())
-                                                                ballwall.seekTo(0)
-                                                            ballwall.start()
-                                                        }
-                                                    } catch (e: java.lang.Exception) {
-                                                        e.printStackTrace()
-                                                    }
-                                                }
-
-
+                                                startBallWallSound()
                                                 Constants.MagnetAmount++
+
                                                 if (tim4 > 0) tim4 = MagnetLevel
                                                 else {
-                                                    Timer4 = true
                                                     GlobalScope.launch() {
 
                                                         withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.magnet.visibility =
-                                                                    View.VISIBLE
-                                                                binding.magnetTimer.visibility =
-                                                                    View.VISIBLE
-                                                            } catch (E: Exception) {
-                                                            }
+                                                            showMagnetTimer()
                                                         }
                                                         magn = true
                                                         tim4 = MagnetLevel
@@ -612,33 +449,15 @@ class the_game : Fragment() {
                                                             tim4--
                                                         }
                                                         withContext(Dispatchers.Main) {
-                                                            try {
-                                                                binding.magnet.visibility =
-                                                                    View.GONE
-                                                                binding.magnetTimer.visibility =
-                                                                    View.GONE
-                                                            } catch (E: Exception) {
-                                                            }
-                                                            isMagnet = false
+                                                            hideMagnetTimer()
                                                         }
                                                         magn = false
-                                                            Timer4 = false
                                                     }
                                                 }
                                             }
                                         } else {
-
-                                            if(Constants.sound){
-                                            lifecycleScope.launch {
-                                                try {
-                                                    if (sword.isPlaying())
-                                                        sword.seekTo(0)
-                                                    sword.start()
-                                                } catch (e: java.lang.Exception) {
-                                                    e.printStackTrace()
-                                                }
-                                            }
-                                            }
+                                            //normal money
+                                            platSwordSound()
                                             Constants.normalMoey++
                                             score++
                                         }
@@ -652,19 +471,178 @@ class the_game : Fragment() {
                                 }
                             }
                         }
-                      }
-                    catch (e: Exception) {
-                      }
+                    } catch (e: Exception) {
+                    }
                 }
-
 
                 if (BreakLoop) {
                     break
-
                 }
-                delay(timeBetweenMoney)
+                delay(delayer)
+            }
+        }
+    }
 
+    private fun hideMagnetTimer() {
+        try {
+            binding.magnet.visibility =
+                View.GONE
+            binding.magnetTimer.visibility =
+                View.GONE
+        } catch (E: Exception) {
+        }
+    }
 
+    private fun showMagnetTimer() {
+        try {
+            binding.magnet.visibility =
+                View.VISIBLE
+            binding.magnetTimer.visibility =
+                View.VISIBLE
+        } catch (E: Exception) {
+        }
+    }
+
+    private fun startBallWallSound() {
+        GlobalScope.launch {
+            try {
+                if (sound) {
+                    if (ballwall.isPlaying())
+                        ballwall.seekTo(0)
+                    ballwall.start()
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun hideMoreMoneyTimer() {
+        try {
+            binding.moreMoney.visibility =
+                View.GONE
+            binding.moreMoneyTimer.visibility =
+                View.GONE
+        } catch (E: Exception) {
+        }
+    }
+
+    private fun showMoreMoneyTimer() {
+        try {
+            binding.moreMoney.visibility =
+                View.VISIBLE
+            binding.moreMoneyTimer.visibility =
+                View.VISIBLE
+        } catch (E: Exception) {
+        }
+    }
+
+    private fun hideIsBigTimer() {
+        try {
+            binding.bigHit.visibility =
+                View.GONE
+            binding.bigHitTimer.visibility =
+                View.GONE
+        } catch (E: Exception) {
+        }
+    }
+
+    private fun showIsBigTimer() {
+        try {
+            binding.bigHit.visibility =
+                View.VISIBLE
+            binding.bigHitTimer.visibility =
+                View.VISIBLE
+        } catch (E: Exception) {
+        }
+    }
+
+    private fun hideSlowMotionTimer() {
+        try {
+            binding.slowTimer.visibility =
+                View.GONE
+            binding.slow.visibility = View.GONE
+        } catch (E: Exception) {
+        }
+    }
+
+    private fun showSlowMotionTimer() {
+        try {
+            //   making timer visible
+            binding.slow.visibility =
+                View.VISIBLE
+            binding.slowTimer.visibility =
+                View.VISIBLE
+        } catch (E: Exception) {
+        }
+    }
+
+    private fun playNotificationSound() {
+        if (sound) {
+            lifecycleScope.launch {
+                try {
+                    if (notification.isPlaying())
+                        notification.seekTo(0)
+                    notification.start()
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun playGunSound() {
+        if (sound) {
+            lifecycleScope.launch {
+                try {
+                    if (gun.isPlaying())
+                        gun.seekTo(0)
+                    gun.start()
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun startBeebSound() {
+        if (sound) {
+            lifecycleScope.launch {
+                try {
+                    if (beeb.isPlaying())
+                        beeb.seekTo(0)
+                    beeb.start()
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun platSwordSound() {
+        if (sound) {
+            lifecycleScope.launch {
+                try {
+                    if (sword.isPlaying())
+                        sword.seekTo(0)
+                    sword.start()
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun playBulletSound() {
+        if (sound) {
+            lifecycleScope.launch {
+                try {
+                    if (bullet.isPlaying())
+                        bullet.seekTo(0)
+                    bullet.start()
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
@@ -701,7 +679,6 @@ class the_game : Fragment() {
         super.onDestroy()
     }
 
-
     // Implementing Fisher–Yates shuffle
     fun shuffleArray(ar: Array<Int>) {
         // If running on Java 6 or older, use `new Random()` on RHS here
@@ -720,13 +697,141 @@ class the_game : Fragment() {
     }
 
 
-private fun CreatMedeiaPlayers() {
-    ballwall = MediaPlayer.create(activity, R.raw.ballwall)
-    beeb = MediaPlayer.create(activity, R.raw.beeb)
-    bullet = MediaPlayer.create(activity, R.raw.bullet)
-    firec = MediaPlayer.create(activity, R.raw.firec)
-    gun = MediaPlayer.create(activity, R.raw.gun)
-    notification = MediaPlayer.create(activity, R.raw.notification)
-    sword = MediaPlayer.create(activity, R.raw.sword)
+    private fun CreatMedeiaPlayers() {
+        ballwall = MediaPlayer.create(activity, R.raw.ballwall)
+        beeb = MediaPlayer.create(activity, R.raw.beeb)
+        bullet = MediaPlayer.create(activity, R.raw.bullet)
+        firec = MediaPlayer.create(activity, R.raw.firec)
+        gun = MediaPlayer.create(activity, R.raw.gun)
+        notification = MediaPlayer.create(activity, R.raw.notification)
+        sword = MediaPlayer.create(activity, R.raw.sword)
+    }
+
+
+    private suspend fun returnControlVariables(
+        isBigHit: Boolean,
+        isSlow: Boolean,
+        isMoreMoney: Boolean
+    ): ControlObject {
+
+        // will be changed any way
+        var delayer = 300
+        var minSpeed = 3300
+        var maxSpeed = 3800
+
+        if (phaseone) {
+            delayer = 300
+            minSpeed = 3700
+            maxSpeed = 4100
+
+            if (isBigHit || isMoreMoney || isSlow) {
+                if (isSlow) {
+
+                    minSpeed = 5000
+                    maxSpeed = 5500
+                }
+                if (isMoreMoney) {
+                    delayer = 200
+                }
+                if (isBigHit) {
+                    delayer = 100
+                    if (!isSlow) {
+                        // speed = (Math.random() * 2600 + 3100).toLong()
+                        minSpeed = 2900
+                        maxSpeed = 3400
+                    }
+                }
+            }
+            return ControlObject(minSpeed, maxSpeed, delayer)
+        } else if (phaseTwo) {
+
+            delayer = 220
+            minSpeed = 2500
+            maxSpeed = 3000
+            // speed = (Math.random() * 2600 + 2900).toLong()
+
+            if (isBigHit || isMoreMoney || isSlow) {
+                if (isSlow) {
+                    minSpeed = 3500
+                    maxSpeed = 4000
+                }
+                if (isMoreMoney) {
+                    delayer = 170
+                }
+                if (isBigHit) {
+                    delayer = 100
+                    if (!isSlow) {
+                        minSpeed = 1800
+                        maxSpeed = 2700
+                    }
+                }
+            }
+            return ControlObject(minSpeed, maxSpeed, delayer)
+        } else if (phaseThree) {
+            delayer = 180
+            minSpeed = 1600
+            maxSpeed = 2200
+            if (isBigHit || isMoreMoney || isSlow) {
+                if (isSlow) {
+                    minSpeed = 2500
+                    maxSpeed = 3000
+                }
+                if (isMoreMoney) {
+                    delayer = 140
+
+                }
+                if (isBigHit) {
+                    delayer = 100
+                    if (!isSlow) {
+                        minSpeed = 2200
+                        maxSpeed = 2600
+                    }
+                }
+            }
+            return ControlObject(minSpeed, maxSpeed, delayer)
+        } else {
+            return ControlObject(minSpeed, maxSpeed, delayer)
+        }
+    }
+
+
+    private suspend fun gameTimer() {
+        repeat(time) {
+            delay(1000)
+            withContext(Dispatchers.Main) {
+                if (timer == 48) {
+                    phaseThree = false
+                    phaseone = false
+                    phaseTwo = true
+                    Toast.makeText(activity, "phase 2", Toast.LENGTH_SHORT).show()
+                }
+
+                if (timer == 30) {
+                    phaseThree = true
+                    phaseone = false
+                    phaseTwo = false
+                    Toast.makeText(activity, "phase 3", Toast.LENGTH_SHORT).show()
+
+                }
+                timer--
+                binding.Timer.text = timer.toString()
+                if (timer == 0) {
+                    BreakLoop = true
+                    if (!GameEnded) {
+                        GameEnd()
+                        GameEnded = true
+                    }
+                    startActivity(Intent(activity, info::class.java))
+                    findNavController().popBackStack()
+                    cancelIt = true
+                    this.cancel()
+                }
+            }
+        }
+    }
+
+
 }
+
+data class ControlObject(var minSpeed: Int, var maxSpeed: Int, var delayer: Int) {
 }

@@ -51,19 +51,19 @@ class home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    Log.d(TAG, adError?.toString().toString())
-                    mInterstitialAd = null
-                }
-
-                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    Log.d(TAG, "Ad was loaded")
-                    mInterstitialAd = interstitialAd
-                }
-            })
+//        var adRequest = AdRequest.Builder().build()
+//        InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
+//            object : InterstitialAdLoadCallback() {
+//                override fun onAdFailedToLoad(adError: LoadAdError) {
+//                    Log.d(TAG, adError?.toString().toString())
+//                    mInterstitialAd = null
+//                }
+//
+//                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+//                    Log.d(TAG, "Ad was loaded")
+//                    mInterstitialAd = interstitialAd
+//                }
+//            })
 
 
         soundModeClicked=MediaPlayer.create(activity,R.raw.mouse_clickmp3)
@@ -101,8 +101,8 @@ class home : Fragment() {
         }
 
         binding.ShopButton.setOnClickListener {
-            if (sound)
-            clickSound.start()
+            if (sound){
+            clickSound.start()}
             startActivity(Intent(activity, ShopActivity::class.java))
         }
 
