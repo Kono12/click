@@ -191,7 +191,7 @@ class the_game : Fragment() {
 
 
             while (true) {
-                if (isStop) continue
+                //if (isStop) continue
                 if(!phaseThree)
                 delay(80)
                 else if (phaseThree){
