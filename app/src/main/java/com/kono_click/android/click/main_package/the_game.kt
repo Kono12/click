@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -142,7 +143,7 @@ class the_game : Fragment() {
                 }
             })
 
-
+        showScore()
         CreatMedeiaPlayers()
         hideTimers()
         binding.Timer.text = time.toString()
@@ -166,6 +167,12 @@ class the_game : Fragment() {
             }
         }
 
+    }
+
+    private fun showScore() {
+        val bounce = AnimationUtils.loadAnimation(requireActivity(),R.anim.bounce)
+        binding.txt.visibility=View.VISIBLE
+        binding.txt.startAnimation(bounce)
     }
 
     private fun hideTimers() {
@@ -196,14 +203,10 @@ class the_game : Fragment() {
                 delay(80)
                 else if (phaseThree){
                 }
-
-
                 //val num = ((0..100).random()) // generated random from 0 to 100 included
                 // is used to decide if it's special or not
                 val num = generateRandom()
                 val isSpecialAbility = ((0..100).random()) % 5 == 0
-
-
 
                 if (timer < 0) continue
                 //delay(delayer)
@@ -263,7 +266,6 @@ class the_game : Fragment() {
                         delayer = controlObject.delayer.toLong()
 
 
-
                         newStar.layoutParams = FrameLayout.LayoutParams(
                             FrameLayout.LayoutParams.WRAP_CONTENT,
                             FrameLayout.LayoutParams.WRAP_CONTENT
@@ -296,7 +298,7 @@ class the_game : Fragment() {
 
                         set.addListener(object : AnimatorListenerAdapter() {
                             override fun onAnimationEnd(animation: Animator?) {
-                                if (magn && newStar.visibility != View.GONE && timer > 0) {
+                                if (magn && newStar.visibility != View.GONE && timer > 0 && !isStop) {
                                     if (isGolden) {
                                         playBulletSound()
                                         score += GoldenLevel
@@ -875,7 +877,11 @@ class the_game : Fragment() {
         super.onStart()
         isStop=false
     }
+
+
+
 }
+
 
 data class ControlObject(var minSpeed: Int, var maxSpeed: Int, var delayer: Int) {
 }

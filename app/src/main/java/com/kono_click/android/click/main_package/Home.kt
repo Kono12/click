@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.kono_click.android.click.Constants
 import com.kono_click.android.click.Constants.MagmetLevel
+import com.kono_click.android.click.Constants.animationSeen
 import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.Shop.ShopActivity
@@ -144,12 +145,14 @@ class home : Fragment() {
         binding.lowerView.startAnimation(rightToLeft)
 
         // Words
-        binding.upperText.visibility=View.VISIBLE
-        binding.upperText.startAnimation(fadeOut)
 
-        binding.LowerText.visibility=View.VISIBLE
-        binding.LowerText.startAnimation(fadeOut)
-
+        binding.upperText.visibility = View.VISIBLE
+        binding.LowerText.visibility = View.VISIBLE
+        if(!animationSeen) {
+            binding.upperText.startAnimation(fadeOut)
+            binding.LowerText.startAnimation(fadeOut)
+            animationSeen = true
+        }
 
     }
 

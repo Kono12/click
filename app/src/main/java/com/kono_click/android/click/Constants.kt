@@ -3,6 +3,8 @@ package com.kono_click.android.click
 object Constants {
 
     var sound=true
+    var animationSeen = false
+
 
     var HighScore : Int = 0
     var scoree : Int =0
