@@ -41,6 +41,7 @@ class the_game : Fragment() {
     private var mInterstitialAd: InterstitialAd? = null
     private var TAG = "Moha"
 
+    var isStop = false
     var cancelIt = false
     lateinit var sharedPreferencee: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
@@ -140,6 +141,8 @@ class the_game : Fragment() {
                     mInterstitialAd = interstitialAd
                 }
             })
+
+
         CreatMedeiaPlayers()
         hideTimers()
         binding.Timer.text = time.toString()
@@ -188,6 +191,7 @@ class the_game : Fragment() {
 
 
             while (true) {
+                if (isStop) continue
                 if(!phaseThree)
                 delay(80)
                 else if (phaseThree){
@@ -666,6 +670,7 @@ class the_game : Fragment() {
 
         var money = sharedPreferencee.getLong("UserMoney", 0)
         editor.putLong("UserMoney", money + score).commit()
+//        //ads
         try {
             if (mInterstitialAd != null) {
                 mInterstitialAd?.show(requireActivity())
@@ -676,6 +681,7 @@ class the_game : Fragment() {
 
     override fun onDestroy() {
         if (!GameEnded) GameEnd()
+
         super.onDestroy()
     }
 
@@ -796,24 +802,26 @@ class the_game : Fragment() {
 
 
     private suspend fun gameTimer() {
-        repeat(time) {
+        while (time>0){
             delay(1000)
             withContext(Dispatchers.Main) {
                 if (timer == 48) {
                     phaseThree = false
                     phaseone = false
                     phaseTwo = true
-                    Toast.makeText(activity, "phase 2", Toast.LENGTH_SHORT).show()
+                  //  Toast.makeText(activity, "phase 2", Toast.LENGTH_SHORT).show()
                 }
 
                 if (timer == 30) {
                     phaseThree = true
                     phaseone = false
                     phaseTwo = false
-                    Toast.makeText(activity, "phase 3", Toast.LENGTH_SHORT).show()
+                //    Toast.makeText(activity, "phase 3", Toast.LENGTH_SHORT).show()
 
                 }
-                timer--
+                if (!isStop){
+                    timer--
+                }
                 binding.Timer.text = timer.toString()
                 if (timer == 0) {
                     BreakLoop = true
@@ -827,10 +835,19 @@ class the_game : Fragment() {
                     this.cancel()
                 }
             }
+
         }
     }
 
+    override fun onStop() {
+        isStop=true
+        super.onStop()
+    }
 
+    override fun onStart() {
+        super.onStart()
+        isStop=false
+    }
 }
 
 data class ControlObject(var minSpeed: Int, var maxSpeed: Int, var delayer: Int) {

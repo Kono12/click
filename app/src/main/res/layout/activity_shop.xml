@@ -95,9 +95,6 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
 
-
-                            //magnet
-
                             <androidx.cardview.widget.CardView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
@@ -156,8 +153,6 @@
 
 
                             </androidx.cardview.widget.CardView>
-
-                            //gold
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="wrap_content"

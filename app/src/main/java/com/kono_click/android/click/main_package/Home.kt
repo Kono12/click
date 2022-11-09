@@ -5,26 +5,20 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.kono_click.android.click.Constants
-import com.kono_click.android.click.Constants.GoldLevel
 import com.kono_click.android.click.Constants.MagmetLevel
 import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.Shop.ShopActivity
 import com.kono_click.android.click.databinding.FragmentHomeBinding
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class home : Fragment() {
@@ -33,8 +27,15 @@ class home : Fragment() {
     private var TAG = "Moha"
     private var UserMoney: Long? = null
 
-    private lateinit var clickSound:MediaPlayer
-    private lateinit var soundModeClicked:MediaPlayer
+    private lateinit var rotate: Animation
+    private lateinit var bounce: Animation
+    private lateinit var fadeIn: Animation
+    private lateinit var fadeOut: Animation
+    private lateinit var leftToRight: Animation
+    private lateinit var rightToLeft : Animation
+
+    private lateinit var clickSound: MediaPlayer
+    private lateinit var soundModeClicked: MediaPlayer
 
     lateinit var sharedPreference: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
@@ -65,9 +66,10 @@ class home : Fragment() {
 //                }
 //            })
 
-
-        soundModeClicked=MediaPlayer.create(activity,R.raw.mouse_clickmp3)
-        clickSound=MediaPlayer.create(activity,R.raw.touch)
+        setAnimations()
+        startAnimations()
+        soundModeClicked = MediaPlayer.create(activity, R.raw.mouse_clickmp3)
+        clickSound = MediaPlayer.create(activity, R.raw.touch)
 
         sharedPreference = requireActivity().getSharedPreferences(
             getString(R.string.highscore),
@@ -90,12 +92,13 @@ class home : Fragment() {
             if (sound)
                 clickSound.start()
 
-            try {
-                if (mInterstitialAd != null) {
-                    //    mInterstitialAd?.show(requireActivity())
-                }
-            } catch (e: Exception) {
-            }
+//            try {
+//                if (mInterstitialAd != null) {
+//                        mInterstitialAd?.show(requireActivity())
+//                }
+//            } catch (e: Exception) {
+//            }
+
             Navigation.findNavController(requireActivity(), R.id.my_nav_host_fragment)
                 .navigate(R.id.action_home_to_the_game)
         }
@@ -115,36 +118,72 @@ class home : Fragment() {
             } else {
                 soundModeClicked.start()
                 Constants.sound = true
-                editor.putBoolean("sound",true).commit()
+                editor.putBoolean("sound", true).commit()
                 binding.SoundBtn.setImageResource(R.drawable.sound_on)
             }
         }
 
     }
 
-    private fun setSoundAsLastTime() {
-        var soundd = sharedPreference.getBoolean("sound", true)
-         if (soundd){
-             Constants.sound = true
-             binding.SoundBtn.setImageResource(R.drawable.sound_on)
-         }else{
+    private fun startAnimations() {
+        // buttons
+        binding.StartTest.visibility = View.VISIBLE
+        binding.StartTest.startAnimation(leftToRight)
 
-             Constants.sound = false
-             binding.SoundBtn.setImageResource(R.drawable.sound_off)
-         }
+        binding.ShopButton.visibility = View.VISIBLE
+        binding.ShopButton.startAnimation(rightToLeft)
+
+        binding.SoundBtn.visibility = View.VISIBLE
+        binding.SoundBtn.startAnimation(leftToRight)
+
+        // lines
+        binding.upperView.visibility=View.VISIBLE
+        binding.upperView.startAnimation(leftToRight)
+
+        binding.lowerView.visibility=View.VISIBLE
+        binding.lowerView.startAnimation(rightToLeft)
+
+        // Words
+        binding.upperText.visibility=View.VISIBLE
+        binding.upperText.startAnimation(fadeOut)
+
+        binding.LowerText.visibility=View.VISIBLE
+        binding.LowerText.startAnimation(fadeOut)
+
+
     }
 
+    private fun setSoundAsLastTime() {
+        var soundd = sharedPreference.getBoolean("sound", true)
+        if (soundd) {
+            Constants.sound = true
+            binding.SoundBtn.setImageResource(R.drawable.sound_on)
+        } else {
+
+            Constants.sound = false
+            binding.SoundBtn.setImageResource(R.drawable.sound_off)
+        }
+    }
+
+    private fun setAnimations() {
+        rotate = AnimationUtils.loadAnimation(requireActivity(), R.anim.rotate)
+        bounce = AnimationUtils.loadAnimation(requireActivity(), R.anim.bounce)
+        fadeIn = AnimationUtils.loadAnimation(requireActivity(), R.anim.fadein)
+        fadeOut = AnimationUtils.loadAnimation(requireActivity(), R.anim.fadeout)
+        leftToRight = AnimationUtils.loadAnimation(requireActivity(), R.anim.lefttoright)
+        rightToLeft = AnimationUtils.loadAnimation(requireActivity(), R.anim.righttoleft)
+
+    }
 
     private fun setVariables() {
-        var MagmetLevel1 = sharedPreference.getInt("Magnet",5)
+        var MagmetLevel1 = sharedPreference.getInt("Magnet", 5)
 
         if (MagmetLevel1 == 7) {
-            MagmetLevel=8
-        } else if (MagmetLevel1 == 8){
-            MagmetLevel=11
-        }
-        else if (MagmetLevel1 == 9){
-            MagmetLevel=15
+            MagmetLevel = 8
+        } else if (MagmetLevel1 == 8) {
+            MagmetLevel = 11
+        } else if (MagmetLevel1 == 9) {
+            MagmetLevel = 15
         }
 
         var GoldLevel1 = sharedPreference.getInt("Gold", 5)
