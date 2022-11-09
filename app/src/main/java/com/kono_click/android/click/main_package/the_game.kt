@@ -343,7 +343,12 @@ class the_game : Fragment() {
                                                 Constants.SlowAmount++
 
                                                 //if the timer is on start it again
-                                                if (tim1 > 0) tim1 = slowLevel
+                                                if (tim1 > 0) {tim1 = slowLevel
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.slowTimer.text =
+                                                            tim1.toString()
+                                                    }
+                                                }
                                                 //start timer
                                                 else {
                                                     GlobalScope.launch() {
@@ -360,6 +365,7 @@ class the_game : Fragment() {
                                                                     tim1.toString()
                                                             }
                                                             delay(1000)
+                                                            if(!isStop)
                                                             tim1--
                                                         }
 
@@ -376,7 +382,13 @@ class the_game : Fragment() {
                                                 playNotificationSound()
                                                 Constants.BigHitAmount++
 
-                                                if (tim2 > 0) tim2 = bigHitLevel
+                                                if (tim2 > 0){
+                                                    tim2 = bigHitLevel
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.bigHitTimer.text =
+                                                            tim2.toString()
+                                                    }
+                                                }
                                                 else {
                                                     GlobalScope.launch() {
                                                         withContext(Dispatchers.Main) {
@@ -391,6 +403,7 @@ class the_game : Fragment() {
                                                                     tim2.toString()
                                                             }
                                                             delay(1000)
+                                                            if(!isStop)
                                                             tim2--
                                                         }
 
@@ -407,7 +420,13 @@ class the_game : Fragment() {
                                                 startBeebSound()
                                                 Constants.MoreMoneyAmount++
 
-                                                if (tim3 > 0) tim3 = moreMoneyLevel
+                                                if (tim3 > 0) {
+                                                    tim3 = moreMoneyLevel
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.moreMoneyTimer.text =
+                                                            tim3.toString()
+                                                    }
+                                                }
                                                 else {
 
                                                     GlobalScope.launch() {
@@ -422,6 +441,7 @@ class the_game : Fragment() {
                                                                     tim3.toString()
                                                             }
                                                             delay(1000)
+                                                            if(!isStop)
                                                             tim3--
                                                         }
                                                         withContext(Dispatchers.Main) {
@@ -435,7 +455,13 @@ class the_game : Fragment() {
                                                 startBallWallSound()
                                                 Constants.MagnetAmount++
 
-                                                if (tim4 > 0) tim4 = MagnetLevel
+                                                if (tim4 > 0) {
+                                                    tim4 = MagnetLevel
+                                                    withContext(Dispatchers.Main) {
+                                                        binding.magnetTimer.text =
+                                                            tim4.toString()
+                                                    }
+                                                }
                                                 else {
                                                     GlobalScope.launch() {
 
@@ -450,6 +476,7 @@ class the_game : Fragment() {
                                                                     tim4.toString()
                                                             }
                                                             delay(1000)
+                                                            if(!isStop)
                                                             tim4--
                                                         }
                                                         withContext(Dispatchers.Main) {
