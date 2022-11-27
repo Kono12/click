@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/DarkGreen"
     tools:context=".main_package.home">
-
-    <TextView
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="48dp"
+    >    <TextView
         android:id="@+id/upperText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -178,5 +181,7 @@
             android:textSize="22sp"
             android:visibility="gone"
             tools:visibility="visible" />
+
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

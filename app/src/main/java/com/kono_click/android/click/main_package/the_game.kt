@@ -117,10 +117,7 @@ class the_game : Fragment() {
 
     var methods = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRunTestBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -367,8 +364,7 @@ class the_game : Fragment() {
                                                                     tim1.toString()
                                                             }
                                                             delay(1000)
-                                                            if(!isStop)
-                                                            tim1--
+                                                            if(!isStop) tim1--
                                                         }
 
                                                         withContext(Dispatchers.Main) {
@@ -405,8 +401,7 @@ class the_game : Fragment() {
                                                                     tim2.toString()
                                                             }
                                                             delay(1000)
-                                                            if(!isStop)
-                                                            tim2--
+                                                            if(!isStop) tim2--
                                                         }
 
                                                         withContext(Dispatchers.Main) {
@@ -714,7 +709,6 @@ class the_game : Fragment() {
         super.onDestroy()
     }
 
-    // Implementing Fisher–Yates shuffle
     fun shuffleArray(ar: Array<Int>) {
         // If running on Java 6 or older, use `new Random()` on RHS here
         try {
@@ -731,7 +725,6 @@ class the_game : Fragment() {
         }
     }
 
-
     private fun CreatMedeiaPlayers() {
         ballwall = MediaPlayer.create(activity, R.raw.ballwall)
         beeb = MediaPlayer.create(activity, R.raw.beeb)
@@ -742,12 +735,7 @@ class the_game : Fragment() {
         sword = MediaPlayer.create(activity, R.raw.sword)
     }
 
-
-    private suspend fun returnControlVariables(
-        isBigHit: Boolean,
-        isSlow: Boolean,
-        isMoreMoney: Boolean
-    ): ControlObject {
+    private suspend fun returnControlVariables(isBigHit: Boolean, isSlow: Boolean, isMoreMoney: Boolean): ControlObject {
 
         // will be changed any way
         var delayer = 300
@@ -829,7 +817,6 @@ class the_game : Fragment() {
         }
     }
 
-
     private suspend fun gameTimer() {
         while (time>0){
             delay(1000)
@@ -877,8 +864,6 @@ class the_game : Fragment() {
         super.onStart()
         isStop=false
     }
-
-
 
 }
 

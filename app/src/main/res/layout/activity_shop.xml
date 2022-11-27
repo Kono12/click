@@ -47,7 +47,6 @@
 
         <!--        Abilities-->
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -81,7 +80,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:backgroundTint="#105B3C"
+                    android:backgroundTint="#105B1E"
                     app:cardCornerRadius="15dp"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -373,20 +372,26 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
-                    android:backgroundTint="#105B3C"
+                    android:backgroundTint="#105B1E"
                     app:cardCornerRadius="15dp"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textSize="32sp"
-                        android:textColor="@color/Gold"
-                        android:text="Comming Soon"
-                        />
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        >
 
-                    <!--                todo: recyclerView-->
+                      <include
+                          android:id="@+id/addfive"
+                          layout="@layout/store_item"
+                          />
+
+
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 

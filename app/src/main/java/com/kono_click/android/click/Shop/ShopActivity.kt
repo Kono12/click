@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kono_click.android.click.Constants
@@ -37,6 +38,8 @@ class ShopActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
         bought = MediaPlayer.create(this, R.raw.bullet)
         maxlevel = MediaPlayer.create(this, R.raw.firec)
 
@@ -46,6 +49,7 @@ class ShopActivity : AppCompatActivity() {
         sharedPreference = getSharedPreferences(getString(R.string.highscore), Context.MODE_PRIVATE)
         editor = sharedPreference.edit()
 
+        setShopItems()
         setVariables()
         setLevels()
         setButtons()
@@ -93,10 +97,18 @@ class ShopActivity : AppCompatActivity() {
                 editor.putInt("More", ++MoreLevel).commit()
                 Constants.MoreMoneyLevel = MoreLevel
                 setVariables()
-                //todo
                 ResetScreenData()
             }
         }
+
+    }
+
+    private fun setShopItems() {
+        // add 10 to one game
+        binding.addfive.itemImage.setImageResource(R.drawable.ic_baseline_timer_10_24)
+        binding.addfive.itemName.text="add 10 S"
+        binding.addfive.itemButton.text="Buy 1"
+
 
     }
 
@@ -230,5 +242,18 @@ class ShopActivity : AppCompatActivity() {
         else if (level == 9) priceToReturn = 0
         return priceToReturn
     }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                 //   or View.SYSTEM_UI_FLAG_FULLSCREEN // remove this if you want title bar
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
+    }
+
 
 }

@@ -12,5 +12,6 @@
     <color name="Gold">#d4af37</color>
     <color name="Nocolor">#00D4AF37</color>
     <color name="DarkGreen">#0F402C</color>
+    <color name="BackGroundGreen">#002727</color>
 
 </resources>

@@ -2,6 +2,7 @@ package com.kono_click.android.click
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.kono_click.android.click.databinding.ActivityInfoBinding
 
 class info : AppCompatActivity() {
@@ -9,6 +10,8 @@ class info : AppCompatActivity() {
     private lateinit var binding: ActivityInfoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setDataAmount()
@@ -50,5 +53,17 @@ class info : AppCompatActivity() {
         binding.slowAmount.text=Constants.SlowAmount.toString()
         binding.moreMoneyAmount.text=Constants.MoreMoneyAmount.toString()
         binding.bigHitAmount.text=Constants.BigHitAmount.toString()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                 //   or View.SYSTEM_UI_FLAG_FULLSCREEN // remove this if you want title bar
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
     }
 }
