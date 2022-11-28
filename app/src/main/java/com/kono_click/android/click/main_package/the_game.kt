@@ -49,6 +49,9 @@ class the_game : Fragment() {
     private lateinit var binding: FragmentRunTestBinding
     var arr = Array(100, { i -> i + 1 })
 
+    // one time use item
+    var allGolden = false
+    var tenSec = false
 
     private lateinit var ballwall: MediaPlayer
     private lateinit var beeb: MediaPlayer
@@ -150,6 +153,8 @@ class the_game : Fragment() {
         )
         editor = sharedPreferencee.edit()
 
+        checkOneTimeUseItems()
+
         lifecycleScope.launch {
             //small delay before start
             delay((Math.random() * 250 + 150).toLong())
@@ -164,6 +169,23 @@ class the_game : Fragment() {
             }
         }
 
+    }
+
+    private fun checkOneTimeUseItems() {
+        if (Constants.AllGolden>0){
+            allGolden=true
+            var allG = sharedPreferencee.getLong("AllGolden",0)-1
+            editor.putLong("AllGolden",allG)
+            Constants.AllGolden=allG.toInt()
+        }
+        if (Constants.tenSec > 0){
+            tenSec = true
+            var tenS = sharedPreferencee.getLong("TenSec",0)-1
+            editor.putLong("TenSec",tenS)
+            Constants.tenSec=tenS.toInt()
+            timer+=10
+            time+=10
+        }
     }
 
     private fun showScore() {
@@ -202,8 +224,8 @@ class the_game : Fragment() {
                 }
                 //val num = ((0..100).random()) // generated random from 0 to 100 included
                 // is used to decide if it's special or not
-                val num = generateRandom()
-                val isSpecialAbility = ((0..100).random()) % 5 == 0
+                var num = if ( allGolden ) 25 else generateRandom()
+                val isSpecialAbility = if(allGolden)true else (0..100).random() % 5 == 0
 
                 if (timer < 0) continue
                 //delay(delayer)
@@ -229,9 +251,10 @@ class the_game : Fragment() {
                         var isMoreMoney = false
                         var isBigHit = false
 
+
                         //using the random number generated before to decide what ability it is
-                        if (isSpecialAbility) {
-                            if (num <= 25) { //5%
+                        if (isSpecialAbility || allGolden) {
+                            if (num <= 25 ) { //5%
                                 newStar.setImageResource(R.drawable.ic_golden_dollar)
                                 isGolden = true
                             } //4%
@@ -473,8 +496,7 @@ class the_game : Fragment() {
                                                                     tim4.toString()
                                                             }
                                                             delay(1000)
-                                                            if(!isStop)
-                                                            tim4--
+                                                            if(!isStop) tim4--
                                                         }
                                                         withContext(Dispatchers.Main) {
                                                             hideMagnetTimer()
@@ -821,7 +843,9 @@ class the_game : Fragment() {
         while (time>0){
             delay(1000)
             withContext(Dispatchers.Main) {
-                if (timer == 48) {
+                var changeOne = if (tenSec) 58 else 48
+                var changeTwo = if (tenSec) 40 else 30
+                if (timer == changeOne) {
                     phaseThree = false
                     phaseone = false
                     phaseTwo = true

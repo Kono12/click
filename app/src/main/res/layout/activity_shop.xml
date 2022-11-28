@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="56dp"
         android:text="Money : "
         android:textColor="@color/Green"
         android:textSize="18sp"
@@ -23,7 +23,8 @@
         android:id="@+id/userMoney"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="48dp"
         android:text="30 $"
         android:textColor="#D4CC37"
         android:textSize="24sp"
@@ -348,7 +349,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:text="Game Background"
+                android:text="One time use items"
                 android:textColor="@color/Gold"
                 android:textSize="28sp"
                 app:layout_constraintTop_toBottomOf="@id/goldCard" />
@@ -386,9 +387,16 @@
                         >
 
                       <include
-                          android:id="@+id/addfive"
+                          android:id="@+id/addTen"
                           layout="@layout/store_item"
                           />
+
+                      <include
+                          android:layout_marginLeft="12dp"
+                          android:id="@+id/AllGolden"
+                          layout="@layout/store_item"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent" />
 
 
                     </LinearLayout>

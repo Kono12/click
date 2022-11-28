@@ -50,6 +50,7 @@ class ShopActivity : AppCompatActivity() {
         editor = sharedPreference.edit()
 
         setShopItems()
+        setBuyItems()
         setVariables()
         setLevels()
         setButtons()
@@ -103,11 +104,59 @@ class ShopActivity : AppCompatActivity() {
 
     }
 
+    private fun setBuyItems() {
+        binding.AllGolden.itemButton.setOnClickListener {
+             buyOneTimeItem(1500,2)
+        }
+        binding.addTen.itemButton.setOnClickListener {
+            buyOneTimeItem(800,1)
+        }
+    }
+
+    private fun buyOneTimeItem(coast : Int , itemNumber : Int){
+        if (checkMoney(coast)){
+            if (sound) {
+                if (bought.isPlaying)
+                    bought.seekTo(0)
+                bought.start()
+            }
+            cutFromShared(coast)
+
+            if (itemNumber == 2){
+            var allGolden = sharedPreference.getLong("AllGolden",0)+1
+            editor.putLong("AllGolden", allGolden.toLong()).commit()
+                Constants.AllGolden=allGolden.toInt()
+            }else if (itemNumber == 1){
+                var tenSec = sharedPreference.getLong("TenSec",0)+1
+                editor.putLong("TenSec", tenSec.toLong()).commit()
+                Constants.tenSec=tenSec.toInt()
+            }
+            ResetScreenData()
+            setShopItems()
+        }else{
+            if (!toast2) {
+                Toast.makeText(this, "No Money", Toast.LENGTH_SHORT).show()
+                toast2 = true
+            }
+            if (sound) {
+                if (maxlevel.isPlaying)
+                    maxlevel.seekTo(0)
+                maxlevel.start()
+            }
+        }
+    }
     private fun setShopItems() {
-        // add 10 to one game
-        binding.addfive.itemImage.setImageResource(R.drawable.ic_baseline_timer_10_24)
-        binding.addfive.itemName.text="add 10 S"
-        binding.addfive.itemButton.text="Buy 1"
+        // add 10 to one use game
+        binding.addTen.itemImage.setImageResource(R.drawable.ic_baseline_timer_10_24)
+        binding.addTen.itemName.text="add 10 S"
+        binding.addTen.itemButton.text="800$"
+        binding.addTen.itemCount.text=sharedPreference.getLong("TenSec",0).toString()
+
+        // all golden for 10k
+        binding.AllGolden.itemImage.setImageResource(R.drawable.ic_baseline_monetization_on_24)
+        binding.AllGolden.itemName.text="All Golden"
+        binding.AllGolden.itemButton.text="1500$"
+        binding.AllGolden.itemCount.text=sharedPreference.getLong("AllGolden",0).toString()
 
 
     }
@@ -250,7 +299,7 @@ class ShopActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                 //   or View.SYSTEM_UI_FLAG_FULLSCREEN // remove this if you want title bar
+                //    or View.SYSTEM_UI_FLAG_FULLSCREEN // remove this if you want title bar
                     or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         }
     }

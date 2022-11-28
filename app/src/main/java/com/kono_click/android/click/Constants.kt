@@ -5,6 +5,9 @@ object Constants {
     var sound=true
     var animationSeen = false
 
+    // one time use items
+    var AllGolden = 0
+    var tenSec = 0
 
     var HighScore : Int = 0
     var scoree : Int =0

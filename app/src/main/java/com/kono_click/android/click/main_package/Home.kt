@@ -14,9 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.kono_click.android.click.Constants
+import com.kono_click.android.click.Constants.AllGolden
 import com.kono_click.android.click.Constants.MagmetLevel
 import com.kono_click.android.click.Constants.animationSeen
 import com.kono_click.android.click.Constants.sound
+import com.kono_click.android.click.Constants.tenSec
 import com.kono_click.android.click.R
 import com.kono_click.android.click.Shop.ShopActivity
 import com.kono_click.android.click.databinding.FragmentHomeBinding
@@ -179,6 +181,11 @@ class home : Fragment() {
     }
 
     private fun setVariables() {
+
+        AllGolden = sharedPreference.getLong("AllGolden",0).toInt()
+        tenSec = sharedPreference.getLong("TenSec",0).toInt()
+
+
         var MagmetLevel1 = sharedPreference.getInt("Magnet", 5)
 
         if (MagmetLevel1 == 7) {
