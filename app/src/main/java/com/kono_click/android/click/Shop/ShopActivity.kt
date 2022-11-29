@@ -49,7 +49,8 @@ class ShopActivity : AppCompatActivity() {
         sharedPreference = getSharedPreferences(getString(R.string.highscore), Context.MODE_PRIVATE)
         editor = sharedPreference.edit()
 
-        setShopItems()
+        setShopOntTimeUseItems()
+        setShopAbilityItems()
         setBuyItems()
         setVariables()
         setLevels()
@@ -57,7 +58,7 @@ class ShopActivity : AppCompatActivity() {
 
         binding.userMoney.text = Constants.UserMoney.toString() + " $"
 
-        binding.magnetButton.setOnClickListener {
+        binding.MagnetItem.itemButton.setOnClickListener {
             if(buy(MagnetLevel)) {
                 editor.putInt("Magnet", ++MagnetLevel).commit()
                 Constants.MagmetLevel = MagnetLevel
@@ -73,7 +74,7 @@ class ShopActivity : AppCompatActivity() {
             }
         }
 
-        binding.goldButton.setOnClickListener {
+        binding.GoldenItem.itemButton.setOnClickListener {
             if (buy(GoldLevel)) {
                 editor.putInt("Gold", ++GoldLevel).commit()
                 Constants.GoldLevel = GoldLevel
@@ -83,7 +84,7 @@ class ShopActivity : AppCompatActivity() {
             }
         }
 
-        binding.SlowButton.setOnClickListener {
+        binding.SlowItem.itemButton.setOnClickListener {
             if(buy(SlowLevel)) {
                 editor.putInt("Slow", ++SlowLevel).commit()
                 Constants.SlowMotionLevel = SlowLevel
@@ -93,7 +94,7 @@ class ShopActivity : AppCompatActivity() {
             }
         }
 
-        binding.MoreButton.setOnClickListener {
+        binding.MoreMoneyItem.itemButton.setOnClickListener {
             if(buy(MoreLevel)) {
                 editor.putInt("More", ++MoreLevel).commit()
                 Constants.MoreMoneyLevel = MoreLevel
@@ -132,7 +133,7 @@ class ShopActivity : AppCompatActivity() {
                 Constants.tenSec=tenSec.toInt()
             }
             ResetScreenData()
-            setShopItems()
+            setShopOntTimeUseItems()
         }else{
             if (!toast2) {
                 Toast.makeText(this, "No Money", Toast.LENGTH_SHORT).show()
@@ -145,7 +146,7 @@ class ShopActivity : AppCompatActivity() {
             }
         }
     }
-    private fun setShopItems() {
+    private fun setShopOntTimeUseItems() {
         // add 10 to one use game
         binding.addTen.itemImage.setImageResource(R.drawable.ic_baseline_timer_10_24)
         binding.addTen.itemName.text="add 10 S"
@@ -160,6 +161,26 @@ class ShopActivity : AppCompatActivity() {
 
 
     }
+
+    private fun setShopAbilityItems() {
+     //magnet
+        binding.MagnetItem.itemImage.setImageResource(R.drawable.ic_magnet2)
+        binding.MagnetItem.itemCount.visibility=View.GONE
+
+     //golden
+        binding.GoldenItem.itemImage.setImageResource(R.drawable.ic_golden_dollar)
+        binding.GoldenItem.itemCount.visibility=View.GONE
+
+        //slow
+
+        binding.SlowItem.itemImage.setImageResource(R.drawable.ic_slow)
+        binding.SlowItem.itemCount.visibility=View.GONE
+     //more money
+
+        binding.MoreMoneyItem.itemImage.setImageResource(R.drawable.ic_more_money)
+        binding.MoreMoneyItem.itemCount.visibility=View.GONE
+     }
+
 
     private fun ResetScreenData() {
         setButtons()
@@ -176,24 +197,24 @@ class ShopActivity : AppCompatActivity() {
 
     private fun setButtons() {
         if (MagnetLevel >= 9) {
-            binding.magnetButton.text = "Can't"
+            binding.MagnetItem.itemButton.text = "Can't"
         } else {
-            binding.magnetButton.text = getMoneyfromlevel(MagnetLevel).toString() + " $"
+            binding.MagnetItem.itemButton.text = getMoneyfromlevel(MagnetLevel).toString() + " $"
         }
         if (GoldLevel >= 9) {
-            binding.goldButton.text = "Can't"
+            binding.GoldenItem.itemButton.text = "Can't"
         } else {
-            binding.goldButton.text = getMoneyfromlevel(GoldLevel).toString() + " $"
+            binding.GoldenItem.itemButton.text = getMoneyfromlevel(GoldLevel).toString() + " $"
         }
         if (SlowLevel >= 9) {
-            binding.SlowButton.text = "Can't"
+            binding.SlowItem.itemButton.text = "Can't"
         } else {
-            binding.SlowButton.text = getMoneyfromlevel(SlowLevel).toString() + " $"
+            binding.SlowItem.itemButton.text = getMoneyfromlevel(SlowLevel).toString() + " $"
         }
         if (MoreLevel >= 9) {
-            binding.MoreButton.text = "Can't"
+            binding.MoreMoneyItem.itemButton.text = "Can't"
         } else {
-            binding.MoreButton.text = getMoneyfromlevel(MoreLevel).toString() + " $"
+            binding.MoreMoneyItem.itemButton.text = getMoneyfromlevel(MoreLevel).toString() + " $"
         }
     }
 
@@ -211,24 +232,24 @@ class ShopActivity : AppCompatActivity() {
 
     private fun setLevels() {
         if (MagnetLevel >= 9) {
-            binding.magnetName.text = "MAX"
+            binding.MagnetItem.itemName.text = "MAX"
         } else {
-            binding.magnetName.text = "Level " + (MagnetLevel - 4).toString()
+            binding.MagnetItem.itemName.text = "Level " + (MagnetLevel - 4).toString()
         }
         if (GoldLevel >= 9) {
-            binding.GoldName.text = "MAX"
+            binding.GoldenItem.itemName.text = "MAX"
         } else {
-            binding.GoldName.text = "Level " + (GoldLevel - 4).toString()
+            binding.GoldenItem.itemName.text = "Level " + (GoldLevel - 4).toString()
         }
         if (SlowLevel >= 9) {
-            binding.SlowName.text = "MAX"
+            binding.SlowItem.itemName.text = "MAX"
         } else {
-            binding.SlowName.text = "Level " + (SlowLevel - 4).toString()
+            binding.SlowItem.itemName.text = "Level " + (SlowLevel - 4).toString()
         }
         if (MoreLevel >= 9) {
-            binding.MoreName.text = "MAX"
+            binding.MoreMoneyItem.itemName.text = "MAX"
         } else {
-            binding.MoreName.text = "Level " + (MoreLevel - 4).toString()
+            binding.MoreMoneyItem.itemName.text = "Level " + (MoreLevel - 4).toString()
         }
     }
 
