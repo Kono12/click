@@ -852,7 +852,7 @@ class the_game : Fragment() {
                   //  Toast.makeText(activity, "phase 2", Toast.LENGTH_SHORT).show()
                 }
 
-                if (timer == 30) {
+                if (timer == changeTwo) {
                     phaseThree = true
                     phaseone = false
                     phaseTwo = false

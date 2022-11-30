@@ -107,10 +107,10 @@ class ShopActivity : AppCompatActivity() {
 
     private fun setBuyItems() {
         binding.AllGolden.itemButton.setOnClickListener {
-             buyOneTimeItem(1500,2)
+             buyOneTimeItem(2000,2)
         }
         binding.addTen.itemButton.setOnClickListener {
-            buyOneTimeItem(800,1)
+            buyOneTimeItem(600,1)
         }
     }
 
@@ -150,13 +150,13 @@ class ShopActivity : AppCompatActivity() {
         // add 10 to one use game
         binding.addTen.itemImage.setImageResource(R.drawable.ic_baseline_timer_10_24)
         binding.addTen.itemName.text="add 10 S"
-        binding.addTen.itemButton.text="800$"
+        binding.addTen.itemButton.text="600$"
         binding.addTen.itemCount.text=sharedPreference.getLong("TenSec",0).toString()
 
         // all golden for 10k
         binding.AllGolden.itemImage.setImageResource(R.drawable.ic_baseline_monetization_on_24)
         binding.AllGolden.itemName.text="All Golden"
-        binding.AllGolden.itemButton.text="1500$"
+        binding.AllGolden.itemButton.text="2000$"
         binding.AllGolden.itemCount.text=sharedPreference.getLong("AllGolden",0).toString()
 
 
