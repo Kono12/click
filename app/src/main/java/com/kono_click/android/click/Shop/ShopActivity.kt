@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -41,12 +42,13 @@ class ShopActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = ActivityShopBinding.inflate(layoutInflater)
+
         hideSystemUI()
 
         bought = MediaPlayer.create(this, R.raw.bullet)
         maxlevel = MediaPlayer.create(this, R.raw.firec)
 
-        binding = ActivityShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         sharedPreference = getSharedPreferences(getString(R.string.highscore), Context.MODE_PRIVATE)
@@ -320,16 +322,12 @@ class ShopActivity : AppCompatActivity() {
     }
 
     private fun hideSystemUI() {
+        val constraintLayout = findViewById<ConstraintLayout>(R.id.shopBackGround)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window,binding.shopBackGround).let { controller ->
+        WindowInsetsControllerCompat(window,constraintLayout).let { controller ->
             controller.hide(WindowInsetsCompat.Type.navigationBars())
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
-    }
-
-    private fun showSystemUI() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, binding.shopBackGround).show(WindowInsetsCompat.Type.systemBars())
     }
 
 

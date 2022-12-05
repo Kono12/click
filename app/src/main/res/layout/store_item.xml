@@ -13,6 +13,9 @@
         android:background="@color/DarkGreen"
         android:padding="2dp">
 
+
+
+
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="75dp"

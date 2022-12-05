@@ -3,6 +3,7 @@ package com.kono_click.android.click
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -14,9 +15,9 @@ class info : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = ActivityInfoBinding.inflate(layoutInflater)
         hideSystemUI()
 
-        binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setDataAmount()
         setDataMoney()
@@ -60,15 +61,12 @@ class info : AppCompatActivity() {
     }
 
     private fun hideSystemUI() {
+        val constraintLayout = findViewById<ConstraintLayout>(R.id.infoBackGround)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window,binding.infoBackGround).let { controller ->
+        WindowInsetsControllerCompat(window,constraintLayout).let { controller ->
             controller.hide(WindowInsetsCompat.Type.navigationBars())
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
 
-    private fun showSystemUI() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-        WindowInsetsControllerCompat(window, binding.infoBackGround).show(WindowInsetsCompat.Type.systemBars())
-    }
 }
