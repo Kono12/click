@@ -18,7 +18,6 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -144,17 +143,19 @@ class the_game : Fragment() {
                 }
             })
 
-        showScore()
-        CreatMedeiaPlayers()
-        hideTimers()
-        binding.Timer.text = time.toString()
         sharedPreferencee = requireActivity().getSharedPreferences(
             getString(R.string.highscore),
             Context.MODE_PRIVATE
         )
         editor = sharedPreferencee.edit()
 
+
+        showScore()
+        CreatMedeiaPlayers()
+        hideTimers()
         checkOneTimeUseItems()
+        binding.Timer.text = time.toString()
+
 
         lifecycleScope.launch {
             //small delay before start
@@ -173,19 +174,23 @@ class the_game : Fragment() {
     }
 
     private fun checkOneTimeUseItems() {
-        if (Constants.AllGolden>0){
-            allGolden=true
-            var allG = sharedPreferencee.getLong("AllGolden",0)-1
-            editor.putLong("AllGolden",allG)
-            Constants.AllGolden=allG.toInt()
+        if (Constants.AllGolden > 0 && Constants.isAllGolden) {
+            allGolden = true
+            var allG = sharedPreferencee.getLong("AllGolden", 0) - 1
+            editor.putLong("AllGolden", allG)
+                .putBoolean("UseGolden", false)
+                .commit()
+            Constants.AllGolden = allG.toInt()
         }
-        if (Constants.tenSec > 0){
+        if (Constants.tenSec > 0 && Constants.isTenSec) {
             tenSec = true
-            var tenS = sharedPreferencee.getLong("TenSec",0)-1
-            editor.putLong("TenSec",tenS)
-            Constants.tenSec=tenS.toInt()
-            timer+=10
-            time+=10
+            var tenS = sharedPreferencee.getLong("TenSec", 0) - 1
+            editor.putLong("TenSec", tenS)
+                .putBoolean("UseTenSec", false)
+                .commit()
+            Constants.tenSec = tenS.toInt()
+            timer += 10
+            time += 10
         }
     }
 

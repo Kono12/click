@@ -8,6 +8,8 @@ object Constants {
     // one time use items
     var AllGolden = 0
     var tenSec = 0
+    var isAllGolden= false
+    var isTenSec = false
 
     var HighScore : Int = 0
     var scoree : Int =0

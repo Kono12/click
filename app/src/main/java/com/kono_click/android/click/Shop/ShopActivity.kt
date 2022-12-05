@@ -229,9 +229,9 @@ class ShopActivity : AppCompatActivity() {
     private fun getMoneyfromlevel(level: Int):Int {
         var numtoreturn=0
         when(level){
-            5->numtoreturn=1000
-            6->numtoreturn=2500
-            7->numtoreturn=5000
+            5->numtoreturn=500
+            6->numtoreturn=1500
+            7->numtoreturn=4000
             8 -> numtoreturn = 10000
             9 -> 0
         }
@@ -313,9 +313,9 @@ class ShopActivity : AppCompatActivity() {
 
     private fun getCurrentUpgradeCoast(level: Int): Int {
         var priceToReturn = 0
-        if (level == 5) priceToReturn = 1000
-        else if (level == 6) priceToReturn = 2500
-        else if (level == 7) priceToReturn = 5000
+        if (level == 5) priceToReturn = 500
+        else if (level == 6) priceToReturn = 1500
+        else if (level == 7) priceToReturn = 4000
         else if (level == 8) priceToReturn = 10000
         else if (level == 9) priceToReturn = 0
         return priceToReturn

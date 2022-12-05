@@ -183,5 +183,50 @@
             tools:visibility="visible" />
 
     </FrameLayout>
+
+
+<TextView
+    android:id="@+id/AllGoldenSwitchText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="AllGolden"
+    app:layout_constraintBottom_toTopOf="@id/goldenSwitch"
+    android:textColor="@color/white"
+    app:layout_constraintLeft_toLeftOf="@id/goldenSwitch"
+    app:layout_constraintRight_toRightOf="@id/goldenSwitch"
+    android:layout_marginBottom="8dp"
+    />
+    <Switch
+        android:id="@+id/goldenSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="30dp"
+        android:thumb="@drawable/thumb"
+        android:track="@drawable/track"
+        />
+
+    <TextView
+        android:id="@+id/tenSecSwitchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add 10 Sec"
+        app:layout_constraintBottom_toTopOf="@id/tenSecSwitch"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@id/tenSecSwitch"
+        app:layout_constraintRight_toRightOf="@id/tenSecSwitch"
+        android:layout_marginBottom="8dp"
+        />
+    <Switch
+        android:id="@+id/tenSecSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="30dp"
+        android:thumb="@drawable/thumb"
+        android:track="@drawable/track"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

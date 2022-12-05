@@ -17,6 +17,8 @@ import com.kono_click.android.click.Constants
 import com.kono_click.android.click.Constants.AllGolden
 import com.kono_click.android.click.Constants.MagmetLevel
 import com.kono_click.android.click.Constants.animationSeen
+import com.kono_click.android.click.Constants.isAllGolden
+import com.kono_click.android.click.Constants.isTenSec
 import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.Constants.tenSec
 import com.kono_click.android.click.R
@@ -80,17 +82,25 @@ class home : Fragment() {
         )
         editor = sharedPreference.edit()
 
+        //editor.putLong("UserMoney", 90000).commit()
+
         UserMoney = sharedPreference.getLong("UserMoney", 0)
         binding.userMoney.text = UserMoney.toString() + " $"
         Constants.UserMoney = UserMoney as Long
 
         setVariables()
+        setSoundAsLastTime()
+        setOnClickListeners()
 
         var score = sharedPreference.getInt("high", 0)
 
         var txt = score.toString() + " $"
         binding.BestScore.text = txt
 
+
+    }
+
+    private fun setOnClickListeners() {
         binding.StartTest.setOnClickListener {
             if (sound)
                 clickSound.start()
@@ -107,16 +117,16 @@ class home : Fragment() {
         }
 
         binding.ShopButton.setOnClickListener {
-            if (sound){
-            clickSound.start()}
+            if (sound) {
+                clickSound.start()
+            }
             startActivity(Intent(activity, ShopActivity::class.java))
         }
 
-         setSoundAsLastTime()
         binding.SoundBtn.setOnClickListener {
             if (Constants.sound) {
                 Constants.sound = false
-                editor.putBoolean("sound",false).commit()
+                editor.putBoolean("sound", false).commit()
                 binding.SoundBtn.setImageResource(R.drawable.sound_off)
             } else {
                 soundModeClicked.start()
@@ -126,6 +136,14 @@ class home : Fragment() {
             }
         }
 
+        binding.tenSecSwitch.setOnCheckedChangeListener { compoundButton, state ->
+            editor.putBoolean("UseTenSec", state).commit()
+            isTenSec = state
+        }
+        binding.goldenSwitch.setOnCheckedChangeListener { compoundButton, state ->
+            editor.putBoolean("UseGolden", state).commit()
+            isTenSec = state
+        }
     }
 
     private fun startAnimations() {
@@ -182,9 +200,29 @@ class home : Fragment() {
 
     private fun setVariables() {
 
-        AllGolden = sharedPreference.getLong("AllGolden",0).toInt()
-        tenSec = sharedPreference.getLong("TenSec",0).toInt()
+        AllGolden = sharedPreference.getLong("AllGolden", 0).toInt()
+        tenSec = sharedPreference.getLong("TenSec", 0).toInt()
+        isAllGolden = sharedPreference.getBoolean("UseGolden", false)
+        isTenSec = sharedPreference.getBoolean("UseTenSec", false)
 
+        binding.tenSecSwitch.isChecked = isTenSec
+        binding.goldenSwitch.isChecked = isAllGolden
+
+        if (AllGolden == 0) {
+            binding.AllGoldenSwitchText.visibility = View.GONE
+            binding.goldenSwitch.visibility = View.GONE
+        } else {
+
+            binding.AllGoldenSwitchText.visibility = View.VISIBLE
+            binding.goldenSwitch.visibility = View.VISIBLE
+        }
+        if (tenSec == 0) {
+            binding.tenSecSwitchText.visibility = View.GONE
+            binding.tenSecSwitch.visibility = View.GONE
+        } else {
+            binding.tenSecSwitchText.visibility = View.VISIBLE
+            binding.tenSecSwitch.visibility = View.VISIBLE
+        }
 
         var MagmetLevel1 = sharedPreference.getInt("Magnet", 5)
 
@@ -212,6 +250,7 @@ class home : Fragment() {
 
     override fun onResume() {
 
+        setVariables()
 
         UserMoney = sharedPreference.getLong("UserMoney", 0)
         binding.userMoney.text = UserMoney.toString() + " $"
@@ -224,6 +263,7 @@ class home : Fragment() {
 
         super.onResume()
     }
+
 
 }
 
