@@ -3,6 +3,9 @@ package com.kono_click.android.click
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.kono_click.android.click.databinding.ActivityInfoBinding
 
 class info : AppCompatActivity() {
@@ -10,7 +13,8 @@ class info : AppCompatActivity() {
     private lateinit var binding: ActivityInfoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        hideSystemUI()
 
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,15 +59,16 @@ class info : AppCompatActivity() {
         binding.bigHitAmount.text=Constants.BigHitAmount.toString()
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                 //   or View.SYSTEM_UI_FLAG_FULLSCREEN // remove this if you want title bar
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window,binding.infoBackGround).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.navigationBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+    }
+
+    private fun showSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(window, binding.infoBackGround).show(WindowInsetsCompat.Type.systemBars())
     }
 }

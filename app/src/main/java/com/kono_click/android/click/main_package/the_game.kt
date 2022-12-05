@@ -20,6 +20,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -461,8 +462,7 @@ class the_game : Fragment() {
                                                                     tim3.toString()
                                                             }
                                                             delay(1000)
-                                                            if(!isStop)
-                                                            tim3--
+                                                            if(!isStop) tim3--
                                                         }
                                                         withContext(Dispatchers.Main) {
                                                             hideMoreMoneyTimer()
@@ -512,7 +512,7 @@ class the_game : Fragment() {
                                             score++
                                         }
 
-                                        binding.txt.setTextColor(resources.getColor(R.color.Green))
+                                        binding.txt.setTextColor(ContextCompat.getColor(requireActivity(), R.color.Green))
                                         binding.txt.text = score.toString()
                                         newStar.visibility = View.GONE
                                     }

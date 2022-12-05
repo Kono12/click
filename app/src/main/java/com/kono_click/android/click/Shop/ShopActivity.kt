@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.kono_click.android.click.Constants
 import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.R
@@ -38,7 +41,7 @@ class ShopActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        hideSystemUI()
 
         bought = MediaPlayer.create(this, R.raw.bullet)
         maxlevel = MediaPlayer.create(this, R.raw.firec)
@@ -104,6 +107,9 @@ class ShopActivity : AppCompatActivity() {
         }
 
     }
+
+
+
 
     private fun setBuyItems() {
         binding.AllGolden.itemButton.setOnClickListener {
@@ -313,16 +319,17 @@ class ShopActivity : AppCompatActivity() {
         return priceToReturn
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                //    or View.SYSTEM_UI_FLAG_FULLSCREEN // remove this if you want title bar
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+    private fun hideSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window,binding.shopBackGround).let { controller ->
+            controller.hide(WindowInsetsCompat.Type.navigationBars())
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+    }
+
+    private fun showSystemUI() {
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(window, binding.shopBackGround).show(WindowInsetsCompat.Type.systemBars())
     }
 
 
