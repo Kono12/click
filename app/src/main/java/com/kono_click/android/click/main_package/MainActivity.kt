@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         hideSystemUI()
         navController = this.findNavController(R.id.my_nav_host_fragment)
 
-       // NavigationUI.setupActionBarWithNavController(this, navController)
 
     }
     override fun onSupportNavigateUp(): Boolean {

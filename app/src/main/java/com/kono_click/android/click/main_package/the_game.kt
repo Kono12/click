@@ -118,7 +118,6 @@ class the_game : Fragment() {
 
     var magn = false
 
-    var methods = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRunTestBinding.inflate(layoutInflater)

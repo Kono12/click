@@ -82,7 +82,7 @@ class home : Fragment() {
         )
         editor = sharedPreference.edit()
 
-        //editor.putLong("UserMoney", 90000).commit()
+      //  editor.putLong("UserMoney", Long.MAX_VALUE).commit()
 
         UserMoney = sharedPreference.getLong("UserMoney", 0)
         binding.userMoney.text = UserMoney.toString() + " $"
