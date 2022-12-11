@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun showSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, true)
         WindowInsetsControllerCompat(window, constraintLayout).show(WindowInsetsCompat.Type.systemBars())
