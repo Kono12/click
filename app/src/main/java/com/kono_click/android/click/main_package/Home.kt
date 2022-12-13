@@ -212,7 +212,7 @@ class home : Fragment() {
             binding.AllGoldenSwitchText.visibility = View.GONE
             binding.goldenSwitch.visibility = View.GONE
         } else {
-
+            Constants.isAllGolden=true
             binding.AllGoldenSwitchText.visibility = View.VISIBLE
             binding.goldenSwitch.visibility = View.VISIBLE
         }
