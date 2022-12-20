@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.kono_click.android.click.Constants
+import com.kono_click.android.click.Constants.AllGolden
 import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.FragmentRunTestBinding
@@ -173,13 +175,14 @@ class the_game : Fragment() {
     }
 
     private fun checkOneTimeUseItems() {
-        if (Constants.AllGolden > 0 && Constants.isAllGolden) {
+     //   Toast.makeText(requireActivity(), AllGolden.toString(),Toast.LENGTH_SHORT).show()
+        if (AllGolden > 0 && Constants.isAllGolden) {
             allGolden = true
             var allG = sharedPreferencee.getLong("AllGolden", 0) - 1
             editor.putLong("AllGolden", allG)
                 .putBoolean("UseGolden", false)
                 .commit()
-            Constants.AllGolden = allG.toInt()
+            AllGolden = allG.toInt()
         }
         if (Constants.tenSec > 0 && Constants.isTenSec) {
             tenSec = true
@@ -719,7 +722,11 @@ class the_game : Fragment() {
         }
 
         var money = sharedPreferencee.getLong("UserMoney", 0)
+        if (money+score <= 999999)
         editor.putLong("UserMoney", money + score).commit()
+        else
+            editor.putLong("UserMoney", 999999).commit()
+
 //        //ads
         try {
             if (mInterstitialAd != null) {

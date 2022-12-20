@@ -2,6 +2,7 @@ package com.kono_click.android.click
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,7 +31,7 @@ class info : AppCompatActivity() {
             binding.recordimg.setImageResource(R.drawable.new_record)
 
         } else {
-            binding.recordimg.setImageResource(R.drawable.goodjob)
+            binding.recordimg.setImageResource(R.drawable.new_record)
 
         }
 
@@ -60,7 +61,7 @@ class info : AppCompatActivity() {
     }
 
     private fun hideSystemUI() {
-        val constraintLayout = findViewById<ConstraintLayout>(R.id.infoBackGround)
+        val constraintLayout = findViewById<ScrollView>(R.id.infoBackGround)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window,constraintLayout).let { controller ->
             controller.hide(WindowInsetsCompat.Type.navigationBars())
