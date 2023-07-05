@@ -183,7 +183,7 @@ class the_game : Fragment() {
             editor.putLong("AllGolden", allG)
                 .putBoolean("UseGolden", false)
                 .commit()
-            AllGolden = allG.toInt()
+            AllGolden = allG
         }
         if (Constants.tenSec > 0 && Constants.isTenSec) {
             tenSec = true
@@ -191,7 +191,7 @@ class the_game : Fragment() {
             editor.putLong("TenSec", tenS)
                 .putBoolean("UseTenSec", false)
                 .commit()
-            Constants.tenSec = tenS.toInt()
+            Constants.tenSec = tenS
             timer += 10
             time += 10
         }

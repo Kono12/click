@@ -139,12 +139,12 @@ class ShopActivity : AppCompatActivity() {
 
             if (itemNumber == 2){
             var allGolden = sharedPreference.getLong("AllGolden",0)+1
-            editor.putLong("AllGolden", allGolden.toLong()).commit()
-                Constants.AllGolden=allGolden.toInt()
+            editor.putLong("AllGolden", allGolden).commit()
+                Constants.AllGolden=allGolden
             }else if (itemNumber == 1){
                 var tenSec = sharedPreference.getLong("TenSec",0)+1
-                editor.putLong("TenSec", tenSec.toLong()).commit()
-                Constants.tenSec=tenSec.toInt()
+                editor.putLong("TenSec", tenSec).commit()
+                Constants.tenSec=tenSec
             }
             ResetScreenData()
             setShopOntTimeUseItems()

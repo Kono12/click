@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/DarkGreen"
     android:paddingTop="48dp"
-    tools:context=".presentation.fragmentHome.home">
+    tools:context=".presentation.fragmentHome.HomeFragment">
    <TextView
         android:id="@+id/upperText"
         android:layout_width="match_parent"
