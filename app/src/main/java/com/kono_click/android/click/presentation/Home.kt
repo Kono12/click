@@ -1,4 +1,4 @@
-package com.kono_click.android.click.main_package
+package com.kono_click.android.click.presentation
 
 import android.content.Context
 import android.content.Intent
@@ -22,7 +22,6 @@ import com.kono_click.android.click.Constants.isTenSec
 import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.Constants.tenSec
 import com.kono_click.android.click.R
-import com.kono_click.android.click.Shop.ShopActivity
 import com.kono_click.android.click.databinding.FragmentHomeBinding
 
 
@@ -49,7 +48,7 @@ class home : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }

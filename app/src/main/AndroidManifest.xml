@@ -27,16 +27,16 @@
             android:exported="false"
             android:label="Game Details"
             android:screenOrientation="portrait"
-            android:parentActivityName="com.kono_click.android.click.main_package.MainActivity" />
+            android:parentActivityName="com.kono_click.android.click.presentation.MainActivity" />
 
         <activity
-            android:name="com.kono_click.android.click.Shop.ShopActivity"
+            android:name="com.kono_click.android.click.presentation.ShopActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:label="Shop"
-            android:parentActivityName="com.kono_click.android.click.main_package.MainActivity" />
+            android:parentActivityName="com.kono_click.android.click.presentation.MainActivity" />
         <activity
-            android:name="com.kono_click.android.click.main_package.MainActivity"
+            android:name="com.kono_click.android.click.presentation.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>

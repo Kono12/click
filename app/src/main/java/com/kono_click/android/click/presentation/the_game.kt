@@ -1,4 +1,4 @@
-package com.kono_click.android.click.main_package
+package com.kono_click.android.click.presentation
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -18,7 +18,6 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment

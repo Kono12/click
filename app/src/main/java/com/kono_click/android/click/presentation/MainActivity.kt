@@ -1,4 +1,4 @@
-package com.kono_click.android.click.main_package
+package com.kono_click.android.click.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package com.kono_click.android.click.Shop
+package com.kono_click.android.click.presentation
 
 import android.content.Context
 import android.content.SharedPreferences
