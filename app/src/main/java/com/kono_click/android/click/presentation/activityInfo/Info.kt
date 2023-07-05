@@ -1,13 +1,14 @@
-package com.kono_click.android.click
+package com.kono_click.android.click.presentation.activityInfo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ScrollView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.ActivityInfoBinding
+import com.kono_click.android.click.utils.Constants
 
 class info : AppCompatActivity() {
 
@@ -43,21 +44,21 @@ class info : AppCompatActivity() {
 
 
     private fun setDataMoney() {
-        binding.normalMoney.text=Constants.normalMoey.toString() +" $"
-        binding.goldMoney.text=Constants.GoldenMoney.toString()+" $"
-        binding.magnetMoney.text=Constants.MagnetMoney.toString()+" $"
+        binding.normalMoney.text= Constants.normalMoey.toString() +" $"
+        binding.goldMoney.text= Constants.GoldenMoney.toString()+" $"
+        binding.magnetMoney.text= Constants.MagnetMoney.toString()+" $"
 //        binding.slowMoney.text=Constants.SlowMoney.toString()+" $"
 //        binding.moreMoneyMoney.text=Constants.moreMoneyMoney.toString()+" $"
 //        binding.bigHitMoney.text=Constants.BigHitMoney.toString()+" $"
     }
 
     private fun setDataAmount() {
-        binding.moneyAmount.text=Constants.normalMoey.toString()
-        binding.goldAmount.text=Constants.GoldenAmount.toString()
-        binding.magnetAmount.text=Constants.MagnetAmount.toString()
-        binding.slowAmount.text=Constants.SlowAmount.toString()
-        binding.moreMoneyAmount.text=Constants.MoreMoneyAmount.toString()
-        binding.bigHitAmount.text=Constants.BigHitAmount.toString()
+        binding.moneyAmount.text= Constants.normalMoey.toString()
+        binding.goldAmount.text= Constants.GoldenAmount.toString()
+        binding.magnetAmount.text= Constants.MagnetAmount.toString()
+        binding.slowAmount.text= Constants.SlowAmount.toString()
+        binding.moreMoneyAmount.text= Constants.MoreMoneyAmount.toString()
+        binding.bigHitAmount.text= Constants.BigHitAmount.toString()
     }
 
     private fun hideSystemUI() {

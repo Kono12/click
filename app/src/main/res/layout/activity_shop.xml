@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/shopBackGround"
     android:background="@color/DarkGreen"
-    tools:context=".Shop.ShopActivity">
+    tools:context=".presentation.activityShop.ShopActivity">
 
     <TextView
         android:id="@+id/money"

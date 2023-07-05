@@ -1,4 +1,4 @@
-package com.kono_click.android.click.main_package
+package com.kono_click.android.click.presentation.fragmentHome
 
 import android.content.Context
 import android.content.Intent
@@ -13,19 +13,20 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.kono_click.android.click.Constants
-import com.kono_click.android.click.Constants.AllGolden
-import com.kono_click.android.click.Constants.MagmetLevel
-import com.kono_click.android.click.Constants.animationSeen
-import com.kono_click.android.click.Constants.isAllGolden
-import com.kono_click.android.click.Constants.isTenSec
-import com.kono_click.android.click.Constants.sound
-import com.kono_click.android.click.Constants.tenSec
+import com.kono_click.android.click.utils.Constants
+import com.kono_click.android.click.utils.Constants.AllGolden
+import com.kono_click.android.click.utils.Constants.MagmetLevel
+import com.kono_click.android.click.utils.Constants.animationSeen
+import com.kono_click.android.click.utils.Constants.isAllGolden
+import com.kono_click.android.click.utils.Constants.isTenSec
+import com.kono_click.android.click.utils.Constants.sound
+import com.kono_click.android.click.utils.Constants.tenSec
 import com.kono_click.android.click.R
-import com.kono_click.android.click.Shop.ShopActivity
 import com.kono_click.android.click.databinding.FragmentHomeBinding
+import com.kono_click.android.click.presentation.activityShop.ShopActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class home : Fragment() {
 
     private var mInterstitialAd: InterstitialAd? = null
@@ -49,7 +50,7 @@ class home : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }

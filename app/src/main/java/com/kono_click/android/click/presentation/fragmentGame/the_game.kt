@@ -1,4 +1,4 @@
-package com.kono_click.android.click.main_package
+package com.kono_click.android.click.presentation.fragmentGame
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -18,7 +18,6 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -28,16 +27,18 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.kono_click.android.click.Constants
-import com.kono_click.android.click.Constants.AllGolden
-import com.kono_click.android.click.Constants.sound
+import com.kono_click.android.click.utils.Constants
+import com.kono_click.android.click.utils.Constants.AllGolden
+import com.kono_click.android.click.utils.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.FragmentRunTestBinding
-import com.kono_click.android.click.info
+import com.kono_click.android.click.presentation.activityInfo.info
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
+@AndroidEntryPoint
 class the_game : Fragment() {
 
 
@@ -325,7 +326,8 @@ class the_game : Fragment() {
                         set.duration = speed
 
                         set.addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
+
+                            override fun onAnimationEnd(animation: Animator) {
                                 if (magn && newStar.visibility != View.GONE && timer > 0 && !isStop) {
                                     if (isGolden) {
                                         playBulletSound()

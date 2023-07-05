@@ -1,4 +1,4 @@
-package com.kono_click.android.click
+package com.kono_click.android.click.utils
 
 object Constants {
 
@@ -39,16 +39,16 @@ object Constants {
     var MoreMoneyAmount=0
 
     fun resetData(){
-         normalMoey=0
-         GoldenMoney=0
-         MagnetMoney=0
+         normalMoey =0
+         GoldenMoney =0
+         MagnetMoney =0
          SlowMoney = 0
          BigHitMoney =0
-         moreMoneyMoney=0
-         MagnetAmount=0
+         moreMoneyMoney =0
+         MagnetAmount =0
          GoldenAmount =0
-         SlowAmount=0
-         BigHitAmount=0
-         MoreMoneyAmount=0
+         SlowAmount =0
+         BigHitAmount =0
+         MoreMoneyAmount =0
     }
 }
