@@ -24,7 +24,7 @@
             android:value="ca-app-pub-4031659564383807~2855492659" />
 
         <activity
-            android:name="com.kono_click.android.click.presentation.info"
+            android:name="com.kono_click.android.click.presentation.activityInfo.info"
             android:exported="false"
             android:label="Game Details"
             android:screenOrientation="portrait"

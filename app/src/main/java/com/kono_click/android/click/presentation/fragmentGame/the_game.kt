@@ -32,7 +32,7 @@ import com.kono_click.android.click.utils.Constants.AllGolden
 import com.kono_click.android.click.utils.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.FragmentRunTestBinding
-import com.kono_click.android.click.presentation.info
+import com.kono_click.android.click.presentation.activityInfo.info
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
