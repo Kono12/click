@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/DarkGreen"
+    android:paddingTop="48dp"
     tools:context=".presentation.fragmentHome.home">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="48dp"
-    >    <TextView
+   <TextView
         android:id="@+id/upperText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +31,7 @@
         android:text="Falls"
         android:textColor="#CDAF4A"
         android:textSize="57sp"
-        app:layout_constraintBottom_toBottomOf="@id/lowerView"
+        app:layout_constraintTop_toBottomOf="@id/upperText"
        android:layout_marginBottom="8dp"
         tools:layout_editor_absoluteX="0dp"
         android:visibility="gone"
@@ -61,8 +58,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="35dp"
         android:background="@color/Gold"
+        android:layout_marginTop="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/frame1"
+        app:layout_constraintTop_toBottomOf="@id/LowerText"
         tools:visibility="visible" />
 
     <TextView
@@ -229,4 +227,3 @@
         android:track="@drawable/track"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>

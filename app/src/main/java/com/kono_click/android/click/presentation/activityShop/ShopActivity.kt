@@ -55,7 +55,7 @@ class ShopActivity : AppCompatActivity() {
 
         sharedPreference = getSharedPreferences(getString(R.string.highscore), Context.MODE_PRIVATE)
         editor = sharedPreference.edit()
-
+        setOnClicks()
         setShopOntTimeUseItems()
         setShopAbilityItems()
         setBuyItems()
@@ -112,7 +112,11 @@ class ShopActivity : AppCompatActivity() {
 
     }
 
-
+    private fun setOnClicks() {
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
+    }
 
 
     private fun setBuyItems() {
