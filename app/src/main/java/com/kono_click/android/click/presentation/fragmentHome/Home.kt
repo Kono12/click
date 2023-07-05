@@ -1,9 +1,9 @@
 package com.kono_click.android.click.presentation.fragmentHome
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.kono_click.android.click.utils.Constants
 import com.kono_click.android.click.utils.Constants.AllGolden
-import com.kono_click.android.click.utils.Constants.MagmetLevel
 import com.kono_click.android.click.utils.Constants.animationSeen
 import com.kono_click.android.click.utils.Constants.isAllGolden
 import com.kono_click.android.click.utils.Constants.isTenSec
@@ -33,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var mInterstitialAd: InterstitialAd? = null
-    private var UserMoney: Long? = null
+    private var userMoney: Long? = null
     private var score: Int? = null
 
     private val viewModel: HomeViewModel by viewModels()
@@ -69,7 +68,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setViews() {
-        var txt = score.toString() + " $"
+        val txt = score.toString() + " $"
         binding.BestScore.text = txt
     }
 
@@ -90,24 +89,24 @@ class HomeFragment : Fragment() {
             triggerSoundMode()
         }
 
-        binding.tenSecSwitch.setOnCheckedChangeListener { compoundButton, state ->
+        binding.tenSecSwitch.setOnCheckedChangeListener { _, state ->
             viewModel.setIsTenSec(state)
             isTenSec = state
         }
-        binding.goldenSwitch.setOnCheckedChangeListener { compoundButton, state ->
+        binding.goldenSwitch.setOnCheckedChangeListener { _, state ->
             viewModel.setIsAllGolden(state)
             isTenSec = state
         }
     }
 
     private fun triggerSoundMode() {
-        if (Constants.sound) {
-            Constants.sound = false
+        if (sound) {
+            sound = false
             viewModel.setSound(false)
             binding.SoundBtn.setImageResource(R.drawable.sound_off)
         } else {
             soundModeClicked.start()
-            Constants.sound = true
+            sound = true
             viewModel.setSound(true)
             binding.SoundBtn.setImageResource(R.drawable.sound_on)
         }
@@ -124,7 +123,7 @@ class HomeFragment : Fragment() {
             if (mInterstitialAd != null) {
                 mInterstitialAd?.show(requireActivity())
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -161,13 +160,13 @@ class HomeFragment : Fragment() {
     private fun setSoundAsLastTime() {
         soundModeClicked = MediaPlayer.create(activity, R.raw.mouse_clickmp3)
         clickSound = MediaPlayer.create(activity, R.raw.touch)
-        var soundd = viewModel.getSound()
+        val soundd = viewModel.getSound()
         if (soundd) {
-            Constants.sound = true
+            sound = true
             binding.SoundBtn.setImageResource(R.drawable.sound_on)
         } else {
 
-            Constants.sound = false
+            sound = false
             binding.SoundBtn.setImageResource(R.drawable.sound_off)
         }
     }
@@ -181,10 +180,11 @@ class HomeFragment : Fragment() {
         rightToLeft = AnimationUtils.loadAnimation(requireActivity(), R.anim.righttoleft)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setVariables() {
-        UserMoney = viewModel.getUserMoney()
-        binding.userMoney.text = UserMoney.toString() + " $"
-        Constants.UserMoney = UserMoney as Long
+        userMoney = viewModel.getUserMoney()
+        binding.userMoney.text = "$userMoney $"
+        Constants.UserMoney = userMoney as Long
         score = viewModel.getHighScore()
 
         AllGolden = viewModel.getNumberOfAllGoldenTokens()
@@ -215,11 +215,11 @@ class HomeFragment : Fragment() {
             binding.tenSecSwitch.visibility = View.VISIBLE
         }
 
-        val magmetLevel1 = viewModel.getMagnetLevel()
-        viewModel.saveMagnetLevelToConstants(magmetLevel1)
+        val magnetLevel = viewModel.getMagnetLevel()
+        viewModel.saveMagnetLevelToConstants(magnetLevel)
 
-        val goldLevel1 = viewModel.getGoldLevel()
-        viewModel.saveGoldLevelToConstants(goldLevel1)
+        val goldLevel = viewModel.getGoldLevel()
+        viewModel.saveGoldLevelToConstants(goldLevel)
 
         Constants.SlowMotionLevel = viewModel.getSlowMotionLevel()
         Constants.MoreMoneyLevel = viewModel.getMoreMoneyLevel()
@@ -227,12 +227,12 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         setVariables()
-        var txt = score.toString() + " $"
+        val txt = score.toString() + " $"
         binding.BestScore.text = txt
         super.onResume()
     }
     private fun setupAdds() {
-        var adRequest = AdRequest.Builder().build()
+        val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
