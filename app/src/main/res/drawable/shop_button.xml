@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#FFFFFF"> <!-- Set the ripple color to white -->
 
-    <gradient
-        android:centerColor="#E5C250"
-        android:endColor="#B99622"
-        android:startColor="#947719" />
-    <stroke
-        android:width="2dp"
-        android:color="@color/white" />
-    <corners
-        android:radius="16dp"/>
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- Add this line for the white background -->
 
-
-</shape>
+            <gradient
+                android:centerColor="#E5C250"
+                android:endColor="#B99622"
+                android:startColor="#947719" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/white" />
+            <corners
+                android:radius="16dp" />
+        </shape>
+    </item>
+</ripple>
