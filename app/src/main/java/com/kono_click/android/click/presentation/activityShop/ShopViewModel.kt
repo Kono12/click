@@ -8,11 +8,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShopViewModel @Inject constructor(val repository: BaseRepository) : ViewModel() {
-
-
     fun getUserMoney() = repository.getUserMoney()
     fun setUserMoney(userMoney:Long){ repository.setUserMoney(userMoney)}
-    fun getSound() = repository.getSound()
     fun getNumberOfAllGoldenTokens() = repository.getNumberOfAllGoldenTokens()
     fun setNumberOfAllGoldenTokens(numberOfAllGoldenTokens:Long){ repository.setNumberOfAllGoldenTokens(numberOfAllGoldenTokens)}
     fun getNumberOfTenSecTokens() = repository.getNumberOfTenSecTokens()
@@ -36,6 +33,48 @@ class ShopViewModel @Inject constructor(val repository: BaseRepository) : ViewMo
             9 -> {
                 Constants.MagmetLevel = 15
             }
+        }
+    }
+    fun getCurrentUpgradeCoast(level: Int): Int {
+        var priceToReturn = 0
+        when (level) {
+            5 -> priceToReturn = 200
+            6 -> priceToReturn = 500
+            7 -> priceToReturn = 1200
+            8 -> priceToReturn = 3000
+            9 -> priceToReturn = 0
+        }
+        return priceToReturn
+    }
+    fun cutFromShared(nextUpgradeCoast: Int) {
+        var i = getUserMoney()
+        i -= nextUpgradeCoast
+        setUserMoney(i)
+        Constants.UserMoney = i
+    }
+     fun checkMoney(i: Int): Boolean = i <= Constants.UserMoney
+
+     fun getMoneyfromlevel(level: Int): Int {
+        var numtoreturn = 0
+        when (level) {
+            5 -> numtoreturn = 200
+            6 -> numtoreturn = 500
+            7 -> numtoreturn = 1200
+            8 -> numtoreturn = 3000
+            9 -> 0
+        }
+        return numtoreturn
+    }
+
+    fun buyOneTimeItem(itemNumber: Int) {
+        if (itemNumber == 2) {
+            val allGolden = getNumberOfAllGoldenTokens() + 1
+            setNumberOfAllGoldenTokens(allGolden)
+            Constants.AllGolden = allGolden
+        } else if (itemNumber == 1) {
+            val tenSec = getNumberOfTenSecTokens() + 1
+            setNumberOfTenSecTokens(tenSec)
+            Constants.tenSec = tenSec
         }
     }
 

@@ -109,24 +109,14 @@ class ShopActivity : AppCompatActivity() {
     }
 
     private fun buyOneTimeItem(coast: Int, itemNumber: Int) {
-        if (checkMoney(coast)) {
+        if (viewModel.checkMoney(coast)) {
             if (sound) {
                 if (bought.isPlaying)
                     bought.seekTo(0)
                 bought.start()
             }
-            cutFromShared(coast)
-
-            if (itemNumber == 2) {
-                val allGolden = viewModel.getNumberOfAllGoldenTokens() + 1
-                viewModel.setNumberOfAllGoldenTokens(allGolden)
-                Constants.AllGolden = allGolden
-            } else if (itemNumber == 1) {
-                val tenSec = viewModel.getNumberOfTenSecTokens() + 1
-                viewModel.setNumberOfTenSecTokens(tenSec)
-                Constants.tenSec = tenSec
-            }
-
+            viewModel.cutFromShared(coast)
+            viewModel.buyOneTimeItem(itemNumber)
             resetScreenData()
             setShopOntTimeUseItems()
 
@@ -195,37 +185,24 @@ class ShopActivity : AppCompatActivity() {
         if (magnetLevel >= 9) {
             binding.MagnetItem.itemButton.text = "Can't"
         } else {
-            binding.MagnetItem.itemButton.text = getMoneyfromlevel(magnetLevel).toString() + " $"
+            binding.MagnetItem.itemButton.text = viewModel.getMoneyfromlevel(magnetLevel).toString() + " $"
         }
         if (goldLevel >= 9) {
             binding.GoldenItem.itemButton.text = "Can't"
         } else {
-            binding.GoldenItem.itemButton.text = getMoneyfromlevel(goldLevel).toString() + " $"
+            binding.GoldenItem.itemButton.text = viewModel.getMoneyfromlevel(goldLevel).toString() + " $"
         }
         if (slowLevel >= 9) {
             binding.SlowItem.itemButton.text = "Can't"
         } else {
-            binding.SlowItem.itemButton.text = getMoneyfromlevel(slowLevel).toString() + " $"
+            binding.SlowItem.itemButton.text = viewModel.getMoneyfromlevel(slowLevel).toString() + " $"
         }
         if (moreLevel >= 9) {
             binding.MoreMoneyItem.itemButton.text = "Can't"
         } else {
-            binding.MoreMoneyItem.itemButton.text = getMoneyfromlevel(moreLevel).toString() + " $"
+            binding.MoreMoneyItem.itemButton.text = viewModel.getMoneyfromlevel(moreLevel).toString() + " $"
         }
     }
-
-    private fun getMoneyfromlevel(level: Int): Int {
-        var numtoreturn = 0
-        when (level) {
-            5 -> numtoreturn = 200
-            6 -> numtoreturn = 500
-            7 -> numtoreturn = 1200
-            8 -> numtoreturn = 3000
-            9 -> 0
-        }
-        return numtoreturn
-    }
-
     private fun setLevels() {
         if (magnetLevel >= 9) {
             binding.MagnetItem.itemName.text = "MAX"
@@ -248,8 +225,6 @@ class ShopActivity : AppCompatActivity() {
             binding.MoreMoneyItem.itemName.text = "Level " + (moreLevel - 4).toString()
         }
     }
-
-    private fun checkMoney(i: Int): Boolean = i <= Constants.UserMoney
     private fun buy(level: Int): Boolean {
         if (level >= 9) {
             if (!toast1) {
@@ -263,9 +238,9 @@ class ShopActivity : AppCompatActivity() {
             }
             return false
         } else {
-            val nextUpgradeCoast = getCurrentUpgradeCoast(level)
-            if (checkMoney(nextUpgradeCoast) && nextUpgradeCoast != 0) {
-                cutFromShared(nextUpgradeCoast)
+            val nextUpgradeCoast = viewModel.getCurrentUpgradeCoast(level)
+            if (viewModel.checkMoney(nextUpgradeCoast) && nextUpgradeCoast != 0) {
+                viewModel.cutFromShared(nextUpgradeCoast)
                 if (sound) {
                     if (bought.isPlaying)
                         bought.seekTo(0)
@@ -286,24 +261,6 @@ class ShopActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun cutFromShared(nextUpgradeCoast: Int) {
-        var i = viewModel.getUserMoney()
-        i -= nextUpgradeCoast
-        viewModel.setUserMoney(i)
-        Constants.UserMoney = i
-    }
-
-    private fun getCurrentUpgradeCoast(level: Int): Int {
-        var priceToReturn = 0
-        if (level == 5) priceToReturn = 200
-        else if (level == 6) priceToReturn = 500
-        else if (level == 7) priceToReturn = 1200
-        else if (level == 8) priceToReturn = 3000
-        else if (level == 9) priceToReturn = 0
-        return priceToReturn
-    }
-
     private fun hideSystemUI() {
         val constraintLayout = findViewById<ConstraintLayout>(R.id.shopBackGround)
         WindowCompat.setDecorFitsSystemWindows(window, false)

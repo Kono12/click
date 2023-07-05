@@ -23,7 +23,6 @@ class InfoActivity : AppCompatActivity() {
         Constants.resetData()
         setViews()
     }
-
     private fun setViews() {
         val score = Constants.scoree
         val highScore = Constants.HighScore
@@ -41,13 +40,11 @@ class InfoActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-
     private fun setDataMoney() {
         binding.normalMoney.text= Constants.normalMoey.toString() +" $"
         binding.goldMoney.text= Constants.GoldenMoney.toString()+" $"
         binding.magnetMoney.text= Constants.MagnetMoney.toString()+" $"
     }
-
     private fun setDataAmount() {
         binding.moneyAmount.text= Constants.normalMoey.toString()
         binding.goldAmount.text= Constants.GoldenAmount.toString()
@@ -56,7 +53,6 @@ class InfoActivity : AppCompatActivity() {
         binding.moreMoneyAmount.text= Constants.MoreMoneyAmount.toString()
         binding.bigHitAmount.text= Constants.BigHitAmount.toString()
     }
-
     private fun hideSystemUI() {
         val constraintLayout = findViewById<ScrollView>(R.id.infoBackGround)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -65,5 +61,4 @@ class InfoActivity : AppCompatActivity() {
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
-
 }
