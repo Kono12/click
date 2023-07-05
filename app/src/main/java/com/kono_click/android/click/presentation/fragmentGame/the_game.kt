@@ -32,7 +32,7 @@ import com.kono_click.android.click.utils.Constants.AllGolden
 import com.kono_click.android.click.utils.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.FragmentRunTestBinding
-import com.kono_click.android.click.presentation.activityInfo.info
+import com.kono_click.android.click.presentation.activityInfo.InfoActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
@@ -882,7 +882,7 @@ class the_game : Fragment() {
                         GameEnd()
                         GameEnded = true
                     }
-                    startActivity(Intent(activity, info::class.java))
+                    startActivity(Intent(activity, InfoActivity::class.java))
                     findNavController().popBackStack()
                     cancelIt = true
                     this.cancel()

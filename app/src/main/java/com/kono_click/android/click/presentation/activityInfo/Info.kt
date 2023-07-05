@@ -10,23 +10,24 @@ import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.ActivityInfoBinding
 import com.kono_click.android.click.utils.Constants
 
-class info : AppCompatActivity() {
+class InfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInfoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityInfoBinding.inflate(layoutInflater)
         hideSystemUI()
-
         setContentView(binding.root)
         setDataAmount()
         setDataMoney()
         Constants.resetData()
-        val score = Constants.scoree.toInt()
-        val highScore = Constants.HighScore.toInt()
+        setViews()
+    }
+
+    private fun setViews() {
+        val score = Constants.scoree
+        val highScore = Constants.HighScore
         binding.score.text=score.toString()+" $"
-        //  Toast.makeText(this,"score"+ Constants.scoree + " h "+ Constants.HighScore,Toast.LENGTH_SHORT).show()
 
         if (score > highScore) {
             binding.recordimg.setImageResource(R.drawable.new_record)
@@ -39,17 +40,12 @@ class info : AppCompatActivity() {
         binding.button.setOnClickListener {
             onBackPressed()
         }
-
     }
-
 
     private fun setDataMoney() {
         binding.normalMoney.text= Constants.normalMoey.toString() +" $"
         binding.goldMoney.text= Constants.GoldenMoney.toString()+" $"
         binding.magnetMoney.text= Constants.MagnetMoney.toString()+" $"
-//        binding.slowMoney.text=Constants.SlowMoney.toString()+" $"
-//        binding.moreMoneyMoney.text=Constants.moreMoneyMoney.toString()+" $"
-//        binding.bigHitMoney.text=Constants.BigHitMoney.toString()+" $"
     }
 
     private fun setDataAmount() {
