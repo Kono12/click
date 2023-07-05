@@ -82,6 +82,7 @@ class home : Fragment() {
         )
         editor = sharedPreference.edit()
 
+        //todo: hack
       //  editor.putLong("UserMoney", Long.MAX_VALUE).commit()
 
         UserMoney = sharedPreference.getLong("UserMoney", 0)
@@ -202,6 +203,7 @@ class home : Fragment() {
 
         AllGolden = sharedPreference.getLong("AllGolden", 0).toInt()
         tenSec = sharedPreference.getLong("TenSec", 0).toInt()
+
         isAllGolden = sharedPreference.getBoolean("UseGolden", false)
         isTenSec = sharedPreference.getBoolean("UseTenSec", false)
 
@@ -209,20 +211,24 @@ class home : Fragment() {
         binding.goldenSwitch.isChecked = isAllGolden
 
         if (AllGolden == 0) {
+            isAllGolden=false
             binding.AllGoldenSwitchText.visibility = View.GONE
             binding.goldenSwitch.visibility = View.GONE
         } else {
-            Constants.isAllGolden=true
+            isAllGolden=true
             binding.AllGoldenSwitchText.visibility = View.VISIBLE
             binding.goldenSwitch.visibility = View.VISIBLE
         }
         if (tenSec == 0) {
+            isTenSec=false
             binding.tenSecSwitchText.visibility = View.GONE
             binding.tenSecSwitch.visibility = View.GONE
         } else {
+            isTenSec=true
             binding.tenSecSwitchText.visibility = View.VISIBLE
             binding.tenSecSwitch.visibility = View.VISIBLE
         }
+
 
         var MagmetLevel1 = sharedPreference.getInt("Magnet", 5)
 
