@@ -9,8 +9,10 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.kono_click.android.click.R
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var navController : NavController
     lateinit var constraintLayout : ConstraintLayout

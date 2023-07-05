@@ -11,11 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.kono_click.android.click.Constants
-import com.kono_click.android.click.Constants.sound
+import com.kono_click.android.click.utils.Constants
+import com.kono_click.android.click.utils.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.ActivityShopBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShopActivity : AppCompatActivity() {
 
     var MagnetLevel: Int = 0

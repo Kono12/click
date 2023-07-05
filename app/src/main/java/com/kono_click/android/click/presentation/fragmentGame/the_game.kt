@@ -27,16 +27,18 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.kono_click.android.click.Constants
-import com.kono_click.android.click.Constants.AllGolden
-import com.kono_click.android.click.Constants.sound
+import com.kono_click.android.click.utils.Constants
+import com.kono_click.android.click.utils.Constants.AllGolden
+import com.kono_click.android.click.utils.Constants.sound
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.FragmentRunTestBinding
-import com.kono_click.android.click.info
+import com.kono_click.android.click.presentation.info
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
+@AndroidEntryPoint
 class the_game : Fragment() {
 
 
@@ -324,7 +326,8 @@ class the_game : Fragment() {
                         set.duration = speed
 
                         set.addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
+
+                            override fun onAnimationEnd(animation: Animator) {
                                 if (magn && newStar.visibility != View.GONE && timer > 0 && !isStop) {
                                     if (isGolden) {
                                         playBulletSound()

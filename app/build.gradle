@@ -1,15 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.kono_click.android.click"
-        minSdk 26
-        targetSdk 32
+        minSdk 24
+        targetSdk 33
         versionCode 6
         versionName "2.1.0"
 
@@ -17,11 +19,6 @@ android {
     }
 
     buildTypes {
-
-//        getByName("release") {
-//            isMinifyEnabled = true
-//            isShrinkResources = true
-//        }
 
         release {
             minifyEnabled true
@@ -37,7 +34,6 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures{
-        dataBinding true
         viewBinding true
     }
 }
@@ -57,4 +53,8 @@ dependencies {
 
     //ads dependencies
     implementation 'com.google.android.gms:play-services-ads:21.2.0'
+
+    // dagger hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
 }
