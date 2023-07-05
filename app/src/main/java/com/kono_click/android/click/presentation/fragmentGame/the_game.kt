@@ -1,4 +1,4 @@
-package com.kono_click.android.click.presentation
+package com.kono_click.android.click.presentation.fragmentGame
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

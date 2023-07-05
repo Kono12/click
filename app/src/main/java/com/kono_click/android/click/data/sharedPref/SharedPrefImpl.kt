@@ -25,8 +25,8 @@ class SharedPrefImpl(context: Context) {
 
     fun getSound() = sharedPreference.getBoolean("sound", true)
 
-    fun getAllGolden() = sharedPreference.getLong("AllGolden", 0).toInt()
-    fun getTenSec() = sharedPreference.getLong("TenSec", 0).toInt()
+    fun getAllGolden() = sharedPreference.getLong("AllGolden", 0)
+    fun getTenSec() = sharedPreference.getLong("TenSec", 0)
     fun getIsAllGolden() = sharedPreference.getBoolean("UseGolden", false)
     fun getIsTenSec() = sharedPreference.getBoolean("UseTenSec", false)
 

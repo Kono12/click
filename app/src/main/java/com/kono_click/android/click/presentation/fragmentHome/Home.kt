@@ -1,4 +1,4 @@
-package com.kono_click.android.click.presentation
+package com.kono_click.android.click.presentation.fragmentHome
 
 import android.content.Context
 import android.content.Intent
@@ -23,6 +23,7 @@ import com.kono_click.android.click.Constants.sound
 import com.kono_click.android.click.Constants.tenSec
 import com.kono_click.android.click.R
 import com.kono_click.android.click.databinding.FragmentHomeBinding
+import com.kono_click.android.click.presentation.activityShop.ShopActivity
 
 
 class home : Fragment() {
