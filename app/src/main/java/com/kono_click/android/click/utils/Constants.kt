@@ -6,8 +6,8 @@ object Constants {
     var animationSeen = false
 
     // one time use items
-    var AllGolden = 0
-    var tenSec = 0
+    var AllGolden = 0L
+    var tenSec = 0L
     var isAllGolden= false
     var isTenSec = false
 

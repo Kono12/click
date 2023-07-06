@@ -1,8 +1,7 @@
 package com.kono_click.android.click.presentation.fragmentHome
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +10,14 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.kono_click.android.click.utils.Constants
 import com.kono_click.android.click.utils.Constants.AllGolden
-import com.kono_click.android.click.utils.Constants.MagmetLevel
 import com.kono_click.android.click.utils.Constants.animationSeen
 import com.kono_click.android.click.utils.Constants.isAllGolden
 import com.kono_click.android.click.utils.Constants.isTenSec
@@ -27,24 +29,23 @@ import com.kono_click.android.click.presentation.activityShop.ShopActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class home : Fragment() {
+class HomeFragment : Fragment() {
 
     private var mInterstitialAd: InterstitialAd? = null
-    private var TAG = "Moha"
-    private var UserMoney: Long? = null
+    private var userMoney: Long? = null
+    private var score: Int? = null
 
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var rotate: Animation
     private lateinit var bounce: Animation
     private lateinit var fadeIn: Animation
     private lateinit var fadeOut: Animation
     private lateinit var leftToRight: Animation
-    private lateinit var rightToLeft : Animation
+    private lateinit var rightToLeft: Animation
 
     private lateinit var clickSound: MediaPlayer
     private lateinit var soundModeClicked: MediaPlayer
 
-    lateinit var sharedPreference: SharedPreferences
-    lateinit var editor: SharedPreferences.Editor
 
     private lateinit var binding: FragmentHomeBinding
     override fun onCreateView(
@@ -57,94 +58,72 @@ class home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        var adRequest = AdRequest.Builder().build()
-//        InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
-//            object : InterstitialAdLoadCallback() {
-//                override fun onAdFailedToLoad(adError: LoadAdError) {
-//                    Log.d(TAG, adError?.toString().toString())
-//                    mInterstitialAd = null
-//                }
-//
-//                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-//                    Log.d(TAG, "Ad was loaded")
-//                    mInterstitialAd = interstitialAd
-//                }
-//            })
-
+        //setupAdds()
         setAnimations()
         startAnimations()
-        soundModeClicked = MediaPlayer.create(activity, R.raw.mouse_clickmp3)
-        clickSound = MediaPlayer.create(activity, R.raw.touch)
-
-        sharedPreference = requireActivity().getSharedPreferences(
-            getString(R.string.highscore),
-            Context.MODE_PRIVATE
-        )
-        editor = sharedPreference.edit()
-
-        //todo: hack
-      //  editor.putLong("UserMoney", Long.MAX_VALUE).commit()
-
-        UserMoney = sharedPreference.getLong("UserMoney", 0)
-        binding.userMoney.text = UserMoney.toString() + " $"
-        Constants.UserMoney = UserMoney as Long
-
-        setVariables()
         setSoundAsLastTime()
+        setVariables()
         setOnClickListeners()
+        setViews()
+    }
 
-        var score = sharedPreference.getInt("high", 0)
-
-        var txt = score.toString() + " $"
+    private fun setViews() {
+        val txt = score.toString() + " $"
         binding.BestScore.text = txt
-
-
     }
 
     private fun setOnClickListeners() {
         binding.StartTest.setOnClickListener {
-            if (sound)
-                clickSound.start()
-
-//            try {
-//                if (mInterstitialAd != null) {
-//                        mInterstitialAd?.show(requireActivity())
-//                }
-//            } catch (e: Exception) {
-//            }
-
+            playClickSound()
+            //showAdd()
             Navigation.findNavController(requireActivity(), R.id.my_nav_host_fragment)
                 .navigate(R.id.action_home_to_the_game)
         }
 
         binding.ShopButton.setOnClickListener {
-            if (sound) {
-                clickSound.start()
-            }
+            playClickSound()
             startActivity(Intent(activity, ShopActivity::class.java))
         }
 
         binding.SoundBtn.setOnClickListener {
-            if (Constants.sound) {
-                Constants.sound = false
-                editor.putBoolean("sound", false).commit()
-                binding.SoundBtn.setImageResource(R.drawable.sound_off)
-            } else {
-                soundModeClicked.start()
-                Constants.sound = true
-                editor.putBoolean("sound", true).commit()
-                binding.SoundBtn.setImageResource(R.drawable.sound_on)
-            }
+            triggerSoundMode()
         }
 
-        binding.tenSecSwitch.setOnCheckedChangeListener { compoundButton, state ->
-            editor.putBoolean("UseTenSec", state).commit()
+        binding.tenSecSwitch.setOnCheckedChangeListener { _, state ->
+            viewModel.setIsTenSec(state)
             isTenSec = state
         }
-        binding.goldenSwitch.setOnCheckedChangeListener { compoundButton, state ->
-            editor.putBoolean("UseGolden", state).commit()
+        binding.goldenSwitch.setOnCheckedChangeListener { _, state ->
+            viewModel.setIsAllGolden(state)
             isTenSec = state
+        }
+    }
+
+    private fun triggerSoundMode() {
+        if (sound) {
+            sound = false
+            viewModel.setSound(false)
+            binding.SoundBtn.setImageResource(R.drawable.sound_off)
+        } else {
+            soundModeClicked.start()
+            sound = true
+            viewModel.setSound(true)
+            binding.SoundBtn.setImageResource(R.drawable.sound_on)
+        }
+    }
+
+    private fun playClickSound() {
+        if (sound) {
+            clickSound.start()
+        }
+    }
+
+    private fun showAdd() {
+        try {
+            if (mInterstitialAd != null) {
+                mInterstitialAd?.show(requireActivity())
+            }
+        } catch (_: Exception) {
         }
     }
 
@@ -160,17 +139,17 @@ class home : Fragment() {
         binding.SoundBtn.startAnimation(leftToRight)
 
         // lines
-        binding.upperView.visibility=View.VISIBLE
+        binding.upperView.visibility = View.VISIBLE
         binding.upperView.startAnimation(leftToRight)
 
-        binding.lowerView.visibility=View.VISIBLE
+        binding.lowerView.visibility = View.VISIBLE
         binding.lowerView.startAnimation(rightToLeft)
 
         // Words
 
         binding.upperText.visibility = View.VISIBLE
         binding.LowerText.visibility = View.VISIBLE
-        if(!animationSeen) {
+        if (!animationSeen) {
             binding.upperText.startAnimation(fadeOut)
             binding.LowerText.startAnimation(fadeOut)
             animationSeen = true
@@ -179,13 +158,15 @@ class home : Fragment() {
     }
 
     private fun setSoundAsLastTime() {
-        var soundd = sharedPreference.getBoolean("sound", true)
+        soundModeClicked = MediaPlayer.create(activity, R.raw.mouse_clickmp3)
+        clickSound = MediaPlayer.create(activity, R.raw.touch)
+        val soundd = viewModel.getSound()
         if (soundd) {
-            Constants.sound = true
+            sound = true
             binding.SoundBtn.setImageResource(R.drawable.sound_on)
         } else {
 
-            Constants.sound = false
+            sound = false
             binding.SoundBtn.setImageResource(R.drawable.sound_off)
         }
     }
@@ -197,82 +178,70 @@ class home : Fragment() {
         fadeOut = AnimationUtils.loadAnimation(requireActivity(), R.anim.fadeout)
         leftToRight = AnimationUtils.loadAnimation(requireActivity(), R.anim.lefttoright)
         rightToLeft = AnimationUtils.loadAnimation(requireActivity(), R.anim.righttoleft)
-
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setVariables() {
+        userMoney = viewModel.getUserMoney()
+        binding.userMoney.text = "$userMoney $"
+        Constants.UserMoney = userMoney as Long
+        score = viewModel.getHighScore()
 
-        AllGolden = sharedPreference.getLong("AllGolden", 0).toInt()
-        tenSec = sharedPreference.getLong("TenSec", 0).toInt()
+        AllGolden = viewModel.getNumberOfAllGoldenTokens()
+        tenSec = viewModel.getNumberOfTenSecTokens()
 
-        isAllGolden = sharedPreference.getBoolean("UseGolden", false)
-        isTenSec = sharedPreference.getBoolean("UseTenSec", false)
+        isAllGolden = viewModel.getIsAllGolden()
+        isTenSec = viewModel.getIsTenSec()
 
         binding.tenSecSwitch.isChecked = isTenSec
         binding.goldenSwitch.isChecked = isAllGolden
 
-        if (AllGolden == 0) {
-            isAllGolden=false
+        if (AllGolden == 0L) {
+            isAllGolden = false
             binding.AllGoldenSwitchText.visibility = View.GONE
             binding.goldenSwitch.visibility = View.GONE
         } else {
-            isAllGolden=true
+            isAllGolden = true
             binding.AllGoldenSwitchText.visibility = View.VISIBLE
             binding.goldenSwitch.visibility = View.VISIBLE
         }
-        if (tenSec == 0) {
-            isTenSec=false
+        if (tenSec == 0L) {
+            isTenSec = false
             binding.tenSecSwitchText.visibility = View.GONE
             binding.tenSecSwitch.visibility = View.GONE
         } else {
-            isTenSec=true
+            isTenSec = true
             binding.tenSecSwitchText.visibility = View.VISIBLE
             binding.tenSecSwitch.visibility = View.VISIBLE
         }
 
+        val magnetLevel = viewModel.getMagnetLevel()
+        viewModel.saveMagnetLevelToConstants(magnetLevel)
 
-        var MagmetLevel1 = sharedPreference.getInt("Magnet", 5)
+        val goldLevel = viewModel.getGoldLevel()
+        viewModel.saveGoldLevelToConstants(goldLevel)
 
-        if (MagmetLevel1 == 7) {
-            MagmetLevel = 8
-        } else if (MagmetLevel1 == 8) {
-            MagmetLevel = 11
-        } else if (MagmetLevel1 == 9) {
-            MagmetLevel = 15
-        }
-
-        var GoldLevel1 = sharedPreference.getInt("Gold", 5)
-        if (GoldLevel1 == 7) {
-            Constants.GoldLevel=8
-        } else if (GoldLevel1 == 8){
-            Constants.GoldLevel=11
-        }
-        else if (GoldLevel1 == 9){
-            Constants.GoldLevel=15
-        }
-
-        Constants.SlowMotionLevel = sharedPreference.getInt("Slow", 5)
-        Constants.MoreMoneyLevel = sharedPreference.getInt("More", 5)
+        Constants.SlowMotionLevel = viewModel.getSlowMotionLevel()
+        Constants.MoreMoneyLevel = viewModel.getMoreMoneyLevel()
     }
 
     override fun onResume() {
-
         setVariables()
-
-        UserMoney = sharedPreference.getLong("UserMoney", 0)
-        binding.userMoney.text = UserMoney.toString() + " $"
-        Constants.UserMoney = UserMoney as Long
-
-        var score = sharedPreference.getInt("high", 0)
-
-        var txt = score.toString() + " $"
+        val txt = score.toString() + " $"
         binding.BestScore.text = txt
-
         super.onResume()
     }
+    private fun setupAdds() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(requireActivity(), "ca-app-pub-4031659564383807/4979093119", adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mInterstitialAd = null
+                }
 
-
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    mInterstitialAd = interstitialAd
+                }
+            })
+    }
 }
-
-
-
