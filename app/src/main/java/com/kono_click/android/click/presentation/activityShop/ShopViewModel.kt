@@ -9,32 +9,56 @@ import javax.inject.Inject
 @HiltViewModel
 class ShopViewModel @Inject constructor(val repository: BaseRepository) : ViewModel() {
     fun getUserMoney() = repository.getUserMoney()
-    fun setUserMoney(userMoney:Long){ repository.setUserMoney(userMoney)}
+    fun setUserMoney(userMoney: Long) {
+        repository.setUserMoney(userMoney)
+    }
+
     fun getNumberOfAllGoldenTokens() = repository.getNumberOfAllGoldenTokens()
-    fun setNumberOfAllGoldenTokens(numberOfAllGoldenTokens:Long){ repository.setNumberOfAllGoldenTokens(numberOfAllGoldenTokens)}
+    fun setNumberOfAllGoldenTokens(numberOfAllGoldenTokens: Long) {
+        repository.setNumberOfAllGoldenTokens(numberOfAllGoldenTokens)
+    }
+
     fun getNumberOfTenSecTokens() = repository.getNumberOfTenSecTokens()
-    fun setNumberOfTenSecTokens(numberOfTenSecTokens:Long){ repository.setNumberOfTenSecTokens(numberOfTenSecTokens)}
+    fun setNumberOfTenSecTokens(numberOfTenSecTokens: Long) {
+        repository.setNumberOfTenSecTokens(numberOfTenSecTokens)
+    }
+
     fun getMagnetLevel() = repository.getMagnetLevel()
-    fun setMagnetLevel(magnetLevel:Int){ repository.setMagnetLevel(magnetLevel)}
+    fun setMagnetLevel(magnetLevel: Int) {
+        repository.setMagnetLevel(magnetLevel)
+    }
+
     fun getGoldLevel() = repository.getGoldLevel()
-    fun setGoldLevel(goldLevel:Int){ repository.setGoldLevel(goldLevel)}
+    fun setGoldLevel(goldLevel: Int) {
+        repository.setGoldLevel(goldLevel)
+    }
+
     fun getSlowMotionLevel() = repository.getSlowMotionLevel()
-    fun setSlowMotionLevel(slowMotionLevel:Int){ repository.setSlowMotionLevel(slowMotionLevel)}
+    fun setSlowMotionLevel(slowMotionLevel: Int) {
+        repository.setSlowMotionLevel(slowMotionLevel)
+    }
+
     fun getMoreMoneyLevel() = repository.getMoreMoneyLevel()
-    fun setMoreMoneyLevel(moreMoneyLevel:Int){ repository.setMoreMoneyLevel(moreMoneyLevel)}
+    fun setMoreMoneyLevel(moreMoneyLevel: Int) {
+        repository.setMoreMoneyLevel(moreMoneyLevel)
+    }
+
     fun saveMagnetLevelToConstants(magnetLevel: Int) {
         when (magnetLevel) {
             7 -> {
                 Constants.MagmetLevel = 8
             }
+
             8 -> {
                 Constants.MagmetLevel = 11
             }
+
             9 -> {
                 Constants.MagmetLevel = 15
             }
         }
     }
+
     fun getCurrentUpgradeCoast(level: Int): Int {
         var priceToReturn = 0
         when (level) {
@@ -46,15 +70,17 @@ class ShopViewModel @Inject constructor(val repository: BaseRepository) : ViewMo
         }
         return priceToReturn
     }
+
     fun cutFromShared(nextUpgradeCoast: Int) {
         var i = getUserMoney()
         i -= nextUpgradeCoast
         setUserMoney(i)
         Constants.UserMoney = i
     }
-     fun checkMoney(i: Int): Boolean = i <= Constants.UserMoney
 
-     fun getMoneyfromlevel(level: Int): Int {
+    fun checkMoney(i: Int): Boolean = i <= Constants.UserMoney
+
+    fun getMoneyfromlevel(level: Int): Int {
         var numtoreturn = 0
         when (level) {
             5 -> numtoreturn = 200

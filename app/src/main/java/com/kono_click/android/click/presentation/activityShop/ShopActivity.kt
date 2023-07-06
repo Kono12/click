@@ -185,24 +185,29 @@ class ShopActivity : AppCompatActivity() {
         if (magnetLevel >= 9) {
             binding.MagnetItem.itemButton.text = "Can't"
         } else {
-            binding.MagnetItem.itemButton.text = viewModel.getMoneyfromlevel(magnetLevel).toString() + " $"
+            binding.MagnetItem.itemButton.text =
+                viewModel.getMoneyfromlevel(magnetLevel).toString() + " $"
         }
         if (goldLevel >= 9) {
             binding.GoldenItem.itemButton.text = "Can't"
         } else {
-            binding.GoldenItem.itemButton.text = viewModel.getMoneyfromlevel(goldLevel).toString() + " $"
+            binding.GoldenItem.itemButton.text =
+                viewModel.getMoneyfromlevel(goldLevel).toString() + " $"
         }
         if (slowLevel >= 9) {
             binding.SlowItem.itemButton.text = "Can't"
         } else {
-            binding.SlowItem.itemButton.text = viewModel.getMoneyfromlevel(slowLevel).toString() + " $"
+            binding.SlowItem.itemButton.text =
+                viewModel.getMoneyfromlevel(slowLevel).toString() + " $"
         }
         if (moreLevel >= 9) {
             binding.MoreMoneyItem.itemButton.text = "Can't"
         } else {
-            binding.MoreMoneyItem.itemButton.text = viewModel.getMoneyfromlevel(moreLevel).toString() + " $"
+            binding.MoreMoneyItem.itemButton.text =
+                viewModel.getMoneyfromlevel(moreLevel).toString() + " $"
         }
     }
+
     private fun setLevels() {
         if (magnetLevel >= 9) {
             binding.MagnetItem.itemName.text = "MAX"
@@ -225,6 +230,7 @@ class ShopActivity : AppCompatActivity() {
             binding.MoreMoneyItem.itemName.text = "Level " + (moreLevel - 4).toString()
         }
     }
+
     private fun buy(level: Int): Boolean {
         if (level >= 9) {
             if (!toast1) {
@@ -261,11 +267,12 @@ class ShopActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun hideSystemUI() {
         val constraintLayout = findViewById<ConstraintLayout>(R.id.shopBackGround)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, constraintLayout).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.navigationBars())
+           // controller.hide(WindowInsetsCompat.Type.navigationBars())
             controller.systemBarsBehavior =
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
